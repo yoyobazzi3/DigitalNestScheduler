@@ -1,0 +1,176 @@
+/* Reset body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+  }
+
+  /* Prevent scrolling */
+body.no-scroll {
+    overflow: hidden;
+  }
+
+  .nav-container {
+    width: 100%;
+    overflow: hidden;
+  }
+
+/* Base container styles */
+.homepage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    min-height: calc(100vh - 60px); /* Adjust for NavBar height */
+    overflow: hidden;
+  }
+
+  /* Content container */
+  .content-container {
+    display: flex;
+    width: 90%;
+    margin: 20px 0;
+    gap: 20px;
+  }
+  
+  /* Left Section */
+  .projects {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #222;
+    padding: 1em;
+    border-radius: 10px;
+    height: 486px;
+    overflow-y: auto;
+  }
+  
+  .project-card1 {
+    background: #43C6AC;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #F8FFAE, #43C6AC);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #F8FFAE, #43C6AC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  .project-card2 {
+    background: #ff9966;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #ff5e62, #ff9966);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  .project-card3 {
+    background: #FC5C7D;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #6A82FB, #FC5C7D);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #6A82FB, #FC5C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  .project-card4 {
+    background: #373B44;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  .project-card5 {
+    background: #c31432;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  .project-card6 {
+    background: #40E0D0;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  
+  .project-card1:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+
+  .project-card2:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+  .project-card3:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+  .project-card4:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+  .project-card5:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+  .project-card6:hover {
+    transform: scale(1.05);
+    background-color: #555;
+  }
+  
+  /* Right Section */
+  .right-section {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .image-carousel {
+    background-color: #222;
+    width: 100%;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    color: #888; 
+  }
+  
+  .create-project-button {
+    background-color: #00bcd4;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .create-project-button:hover {
+    transform: scale(1.05);
+  }
