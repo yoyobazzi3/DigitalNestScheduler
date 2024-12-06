@@ -1,0 +1,46 @@
+/* Base navbar styles */
+.navbar {
+  display: flex;
+  justify-content: end;
+  padding: 10px 20px;
+  background-color: #191919;
+}
+
+
+
+.menu-items {
+  display: none;
+  flex-direction: row; /* Show items in a row */
+  gap: 20px; /* Add spacing between items */
+  background-color: transparent;
+  padding: 0;
+  transition: opacity 0.3s ease, display 0.3s ease;
+}
+
+.menu-items.row {
+  display: flex; /* Show the items as a row */
+}
+
+.menu-items li {
+  margin: 0;
+  list-style: none;
+}
+
+.menu-items a {
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  transition: color 0.3s;
+}
+
+.menu-items a:hover {
+  color: #00bcd4;
+}
+
+/* Hamburger icon */
+.hamburger-icon {
+  width: 2em;
+  height: auto;
+  cursor: pointer;
+  flex-direction: column;
+}

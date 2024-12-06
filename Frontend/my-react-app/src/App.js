@@ -1,9 +1,10 @@
 import './App.css';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
     <div className="App">
-      <p>This is placeholder text</p>
+      <HomePage />
     </div>
   );
 }
