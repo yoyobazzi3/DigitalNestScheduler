@@ -1,19 +1,17 @@
 /* Reset body and html */
+
+* {
+  scroll-behavior:auto;
+}
 html, body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow-x: hidden; /* Prevent horizontal scrolling */
-  }
-
-  /* Prevent scrolling */
-body.no-scroll {
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   .nav-container {
     width: 100%;
-    overflow: hidden;
   }
 
 /* Base container styles */
@@ -22,8 +20,6 @@ body.no-scroll {
     flex-direction: column;
     align-items: center;
     color: white;
-    min-height: calc(100vh - 60px); /* Adjust for NavBar height */
-    overflow: hidden;
   }
 
   /* Content container */
@@ -44,7 +40,13 @@ body.no-scroll {
     padding: 1em;
     border-radius: 10px;
     height: 486px;
-    overflow-y: auto;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .projects::-webkit-scrollbar {
+    display: none;
   }
   
   .project-card1 {
@@ -157,7 +159,7 @@ body.no-scroll {
     align-items: center;
     justify-content: center;
     border-radius: 8px;
-    color: #888; 
+    color: #888;
   }
   
   .create-project-button {

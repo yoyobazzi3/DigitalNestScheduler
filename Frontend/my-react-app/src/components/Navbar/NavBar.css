@@ -1,4 +1,8 @@
 /* Base navbar styles */
+
+/* * {
+  overflow: hidden;
+} */
 .navbar {
   display: flex;
   justify-content: end;
@@ -15,6 +19,7 @@
   background-color: transparent;
   padding: 0;
   transition: opacity 0.3s ease, display 0.3s ease;
+  
 }
 
 .menu-items.row {
@@ -43,4 +48,5 @@
   height: auto;
   cursor: pointer;
   flex-direction: column;
+  
 }
