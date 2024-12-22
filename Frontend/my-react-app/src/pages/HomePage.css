@@ -49,65 +49,17 @@ html, body {
     display: none;
   }
   
-  .project-card1 {
-    background: #43C6AC;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #F8FFAE, #43C6AC);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #F8FFAE, #43C6AC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-  }
-  .project-card2 {
-    background: #ff9966;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #ff5e62, #ff9966);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ff5e62, #ff9966); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-  }
-  .project-card3 {
-    background: #FC5C7D;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #6A82FB, #FC5C7D);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #6A82FB, #FC5C7D); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-  }
-  .project-card4 {
-    background: #373B44;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #4286f4, #373B44);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #4286f4, #373B44); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-  }
-  .project-card5 {
-    background: #c31432;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #240b36, #c31432);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #240b36, #c31432); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: transform 0.3s, background-color 0.3s;
-  }
+
+
+  .project-card1,
+  .project-card2,
+  .project-card3,
+  .project-card4,
+  .project-card5,
   .project-card6 {
-    background: #40E0D0;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #FF0080, #FF8C00, #40E0D0);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #FF0080, #FF8C00, #40E0D0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1); /* Keep your current gradient */
+    background-size: 400% 400%; /* Enable gradient animation */
+    animation: waveEffect 6s ease infinite; /* Add wave effect animation */
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -116,31 +68,43 @@ html, body {
     transition: transform 0.3s, background-color 0.3s;
   }
   
-  .project-card1:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
+/* Add staggered delays for a wave effect */
+.project-card1 {
+  animation-delay: 0s;
+}
 
-  .project-card2:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
-  .project-card3:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
-  .project-card4:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
-  .project-card5:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
-  .project-card6:hover {
-    transform: scale(1.05);
-    background-color: #555;
-  }
+.project-card2 {
+  animation-delay: 1s;
+}
+
+.project-card3 {
+  animation-delay: 0.2s;
+}
+
+.project-card4 {
+  animation-delay: 1.2s;
+}
+
+.project-card5 {
+  animation-delay: 0.5s;
+}
+
+.project-card6 {
+  animation-delay: 0.9s;
+}
+
+.project-card1:hover,
+.project-card2:hover,
+.project-card3:hover,
+.project-card4:hover,
+.project-card5:hover,
+.project-card6:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd); /* New gradient */
+  background-size: 400% 400%; /* Maintain animation compatibility */
+  animation-play-state: running; /* Ensure animation continues */
+  transition: background 0.5s ease, transform 0.3s ease; /* Smooth transition */
+}
   
   /* Right Section */
   .right-section {
@@ -175,4 +139,16 @@ html, body {
   
   .create-project-button:hover {
     transform: scale(1.05);
+  }
+
+  @keyframes waveEffect {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
   }
