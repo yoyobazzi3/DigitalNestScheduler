@@ -7,7 +7,7 @@ const Recommendations = () => {
     return (
         <div clasName="recommendations-container">
             <NavBar />
-            
+            <h2>You've reached the temporary Reccomendations Page!</h2>
         </div>
     )
 }
