@@ -54,7 +54,6 @@ const NavBar = () => {
           <ul ref={menuRef} className="menu-items row">
             <li><a href="#home">Home</a></li>
             <li><a href="#interns">Interns</a></li>
-            <li><a href="#schedule">Schedule</a></li>
           </ul>
         )}
       </div>

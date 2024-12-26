@@ -59,7 +59,7 @@ html, body {
   .project-card6 {
     background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1); /* Keep your current gradient */
     background-size: 400% 400%; /* Enable gradient animation */
-    animation: waveEffect 6s ease infinite; /* Add wave effect animation */
+    animation: waveEffect 4s ease infinite; /* Add wave effect animation */
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -116,12 +116,21 @@ html, body {
   }
   
   .image-carousel {
-    background-color: #222;
-    width: 100%;
     height: 520px;
     display: flex;
     align-items: center;
     justify-content: center;
+
+  }
+
+  .dynamic-component {
+    background-color: #222;
+    display: flex;
+    justify-content: center;
+    /* changed from center to stretched */
+    align-items: center;
+    width: 100%;
+    height: 520px;
     border-radius: 8px;
     color: #888;
   }

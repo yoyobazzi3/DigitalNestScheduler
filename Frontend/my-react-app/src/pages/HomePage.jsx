@@ -1,9 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+// import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar.jsx';
+import Projects from '../components/Projects/Projects.jsx';
+import Carousel from '../components/Carousel/ImgCarousel.jsx';
+import NewProject from '../components/NewProject/NewProject.jsx';
 import './HomePage.css';
 
 const HomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [showNewProject, setShowNewProject] = useState(false); // state to toggle components
+  // const navigate = useNavigate();
 
   useEffect(() => {
     // Add/remove 'no-scroll' class to body based on menu state
@@ -26,33 +32,18 @@ const HomePage = () => {
       </header>
       <div className="content-container">
         {/* Left Section */}
-        <div className="projects">
-          <div className="project-card1">
-            <h3>UCSC</h3>
-          </div>
-          <div className="project-card2">
-            <h3>DN-Site</h3>
-          </div>
-          <div className="project-card3">
-            <h3>TedX</h3>
-          </div>
-          <div className="project-card4">
-            <h3>Fruition</h3>
-          </div>
-          <div className="project-card5">
-            <h3>Martinelli's</h3>
-          </div>
-          <div className="project-card6">
-            <h3>Cabrillo College</h3>
-          </div>
-        </div>
-
+        <Projects />
         {/* Right Section */}
         <div className="right-section">
-          <div className="image-carousel">
-            <p>[IMG Carousel]</p>
+          <div className="dynamic-component">
+          {/* Conditionally render components */}
+          {showNewProject ? <NewProject /> : <Carousel />}
           </div>
-          <button className="create-project-button">Create Project</button>
+          <button
+              className="create-project-button"
+              onClick={() => setShowNewProject(true)}>
+              Create Project
+          </button>
         </div>
       </div>
     </div>
