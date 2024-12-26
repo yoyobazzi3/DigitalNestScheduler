@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+// import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 import hamburgerIcon from '../../assets/hamburger.png';
 
@@ -38,6 +40,18 @@ const NavBar = () => {
     };
   }, []);
 
+  // const navigateHome = useNavigate();
+  //   const handleClickHome = (event) => {
+  //     event.preventDefault();
+  //     navigateHome("/");
+  //   }
+
+    // const navigateInterns = useNavigate();
+    // const handleClickInterns = (event) => {
+    //   event.preventDefault();
+    //   navigateHome("/interns");
+    // }
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -52,10 +66,24 @@ const NavBar = () => {
 
         {isMenuOpen && (
           <ul ref={menuRef} className="menu-items row">
+            <li>
+              <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link to="/interns" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                Interns
+              </Link>
+            </li>
+          </ul>
+        )}
+        {/* {isMenuOpen && (
+          <ul ref={menuRef} className="menu-items row">
             <li><a href="#home">Home</a></li>
             <li><a href="#interns">Interns</a></li>
           </ul>
-        )}
+        )} */}
       </div>
     </nav>
   );
