@@ -1,13 +1,24 @@
-version: '3'
-services: 
-  db:
-    image: postgres
-    environment:
-      - POSTGRES_PASSWORD=password123
-      - POSTGRES_USER=user123
-      - POSTGRES_DB=db123
-
+version: '3.8'
+services:
   app:
-    image: my-node-app
-    ports: 
-      - "13000:3000"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_USER: user123
+      DB_PASSWORD: password123
+      DB_NAME: db123
+
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: user123
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: db123
+    ports:
+      - "5432:5432"

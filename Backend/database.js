@@ -1,10 +1,14 @@
-const {Pool} = require('pg')
-const pool = new Pool({
-    host: 'db',
-    port: 5432,
-    user: 'user123',
-    password: 'password123',
-    database: 'db123'
+const mysql = require('mysql2');
+
+
+const pool = mysql.createPool({
+    host: 'localhost',
+    user: 'root',
+    password: 'gilroy',
+    database:'BizzNestFLow',
 });
 
-module.exports = pool;
+
+const promisePool = pool.promise();
+
+module.exports = promisePool;
