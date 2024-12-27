@@ -23,4 +23,3 @@ pool.getConnection((err, connection) => {
   console.log('Connected to the MySQL database successfully!');
   connection.release(); 
 });
-module.exports = promisePool;
