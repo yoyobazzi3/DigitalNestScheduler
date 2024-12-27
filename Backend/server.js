@@ -1,11 +1,18 @@
-const express = require('express')
-const pool = require('./database')
-const port = 3000
-
-const app = express()
-app.use(express.json())
-app.use(cors());
+import express from 'express';
+import cors from 'cors'
+const app = express();
+import db from './database.js'
 
 
+app.use(express.json());
+app.use(cors())
 
-app.listen(port, () => console.log(`Server has started on port: ${port}`))
+// Your middleware and routes here
+app.get('/', (req, res) => {
+  res.send('Hello, world!');
+});
+
+const PORT = 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port http://localhost:${PORT}`);
+});
