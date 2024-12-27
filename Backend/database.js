@@ -10,6 +10,7 @@ const pool = mysql.createPool({
   port: process.env.DB_PORT,
 });
 
+
 const promisePool = pool.promise();
 
 export default promisePool;
@@ -22,3 +23,4 @@ pool.getConnection((err, connection) => {
   console.log('Connected to the MySQL database successfully!');
   connection.release(); 
 });
+module.exports = promisePool;
