@@ -1,4 +1,5 @@
 import baseCtrl from '../controllers/baseCtrl.js';
+import signupCtrl from '../controllers/signupCtrl.js';
 import newProjectCtrl from '../controllers/newProjectCtrl.js';
 import addProjectCtrl from '../controllers/addProjectCtrl.js';
 // TODO seperate newProject and addProject Controllers in NewProjectCtrl.js
@@ -8,11 +9,15 @@ const routes = (app) => {
   app.route('/basePage')
     .get(baseCtrl.basePage);
 
-  app.route('/newProject')
+    app.route('/signup')
+    .post(signupCtrl.signup);
+
+    app.route('/newProject')
     .get(newProjectCtrl.newProject)
     
   app.route('/addProject')
     .post(addProjectCtrl.addProject)
+
 
 
 };
