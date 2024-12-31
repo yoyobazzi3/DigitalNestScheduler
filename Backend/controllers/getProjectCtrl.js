@@ -5,11 +5,11 @@ import promisePool from '../config/database.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const newProjectCtrl = {
+const getProjectCtrl = {
   /**
    * Adds a new project to the database
    */
-  newProject: async (req, res) => {
+  getProject: async (req, res) => {
     try {
       // SELECT query
       const query = `
@@ -29,4 +29,4 @@ const newProjectCtrl = {
   },
 };
 
-export default newProjectCtrl;
+export default getProjectCtrl;
