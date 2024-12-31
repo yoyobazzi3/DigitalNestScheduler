@@ -1,0 +1,45 @@
+.Signup {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    background-color: white;
+}
+
+form {
+    height: auto; /* Adjust based on content */
+    width: 40%;
+    background-color: #00bcd4;
+    padding: 20px;
+    border-radius: 10px; /* Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+form .input {
+    height: 40px;
+    width: 400px;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 15px; /* Space between inputs */
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+form .input[type="password"] {
+    background-color: #e0e0e0; /* Example of type-specific styling */
+}
+
+button {
+    background-color: red;
+    color: white;
+    border: none;
+    height: 40px;
+    width: 100%;
+    border-radius: 8%;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #ff4d4d; /* Lighter red on hover */
+}
