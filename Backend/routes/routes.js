@@ -15,7 +15,7 @@ const routes = (app) => {
     app.route('/newProject')
     .get(newProjectCtrl.newProject)
     
-  app.route('/addProject')
+  app.route('/getProject')
     .post(getProjectCtrl.addProject)
 
 
