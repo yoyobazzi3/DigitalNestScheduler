@@ -3,6 +3,9 @@ import promisePool from "../config/database.js";
 const signupCtrl = {
   signup: async (req, res) => {
     try {
+
+      console.log("Received data:", req.body);
+      
       const { firstName, lastName, email, password } = req.body;
 
       // Check for missing fields
