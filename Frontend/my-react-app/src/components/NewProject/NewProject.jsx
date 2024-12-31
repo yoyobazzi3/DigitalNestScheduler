@@ -7,13 +7,13 @@ const NewProject = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [projectInfo, setProjectInfo] = useState('');
   const [department, setDepartment] = useState('');
-  const [skillInput, setSkillInput] = useState({ skillsInput: '', anotherInput: ''});
+  const [skillInput, setSkillInput] = useState({ frontend: '', backend: '', wordpress: '' });
+  const [statusMessage, setStatusMessage] = useState(''); // for displaying success or error messages
 
   // handlers for form fields
   const handleProjectTitleChange = (event) => setProjectTitle(event.target.value);
   const handleProjectInfoChange = (event) => setProjectInfo(event.target.value);
   const handleDepartmentChange = (event) => setDepartment(event.target.value);
-  // const handleSkillInputChange = (event) => setSkillInput(event.target.value);
 
 const handleSkillInputChange = (key, value) => {
     setSkillInput((prevInputs) => ({
@@ -26,14 +26,48 @@ const handleSkillInputChange = (key, value) => {
   const areFieldsFilled = projectTitle && projectInfo && department;
   
   const navigate = useNavigate();
-  const handleClick = (event) => {
+  // const handleClick = (event) => {
+  //   event.preventDefault();
+  //   navigate("/recommendations");
+  // }
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    navigate("/recommendations");
-  }
+
+    const projectData = {
+      projectTitle,
+      projectDescription: projectInfo,
+      departmentID: department,
+      skills: skillInput,
+    };
+
+    try {
+      const response = await fetch('http://localhost:3360/newProject', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(projectData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setStatusMessage('Project added successfully!');
+        console.log('Server Response: ', result);
+        navigate('recommendations');
+      } else {
+        const errorData = await response.json();
+        setStatusMessage(`Error: ${errorData.message}`);
+      }
+    } catch (error) {
+      console.error('Error adding project: ', error);
+      setStatusMessage('An Error occured while adding project');
+    }
+  };
 
   return (
     <div className="new-project-container">
-      <form>
+      <form onSubmit={handleSubmit}>
         {/* Add fields for project details */}
         <input 
             type="text" 
@@ -108,8 +142,10 @@ const handleSkillInputChange = (key, value) => {
           </div>
         )}
        <div className="submit-btn-div">
-        <button onClick={handleClick} type="submit" className="submit-btn">Submit</button>
+        <button /* onClick={handleClick}*/ type="submit" className="submit-btn">Submit</button>
         </div>
+        {/* Display success or error messages */}
+        {statusMessage && <p className="status-message">{statusMessage}</p>}
       </form>
     </div>
   );
