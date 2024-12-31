@@ -8,11 +8,10 @@ const routes = (app) => {
 
     app.route('/signup')
     .post(signupCtrl.signup);
-  app.route('/newProject')
+
+    app.route('/newProject')
     .get(newProjectCtrl.newProject)
     
-  app.route('/newProject')
-    .post(newProjectCtrl.addProject)
 
 
 };
