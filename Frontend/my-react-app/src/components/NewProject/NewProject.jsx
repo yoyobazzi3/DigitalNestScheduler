@@ -7,42 +7,60 @@ const NewProject = () => {
   const [projectTitle, setProjectTitle] = useState('');
   const [projectInfo, setProjectInfo] = useState('');
   const [department, setDepartment] = useState('');
-  const [skillInput, setSkillInput] = useState({ frontend: '', backend: '', wordpress: '' });
+  const [toolInputs, setToolInputs] = useState({});
   const [statusMessage, setStatusMessage] = useState(''); // for displaying success or error messages
 
+  const departmentTools = {
+    "Web Development": ["Frontend", "Backend", "Wordpress"],
+    "Design": ["Photoshop", "Illustrator", "Figma"],
+    "Film": ["Premiere Pro", "Camera Work"]
+  };
   // handlers for form fields
   const handleProjectTitleChange = (event) => setProjectTitle(event.target.value);
   const handleProjectInfoChange = (event) => setProjectInfo(event.target.value);
-  const handleDepartmentChange = (event) => setDepartment(event.target.value);
+  const handleDepartmentChange = (event) => {
+    setDepartment(event.target.value);
+    // Reset tool inputs when department changes
+    const selectedTools = departmentTools[event.target.value] || [];
+    setToolInputs(
+      selectedTools.reduce((acc, tool) => {
+        acc[tool] = ''; // Initialize all tools with empty difficulty values
+        return acc;
+      }, {})
+    );
+  };
 
-const handleSkillInputChange = (key, value) => {
-    setSkillInput((prevInputs) => ({
+const handleToolInputChange = (tool, value) => {
+    setToolInputs((prevInputs) => ({
         ...prevInputs,
-        [key]: value,
+        [tool]: value,
     }));
 };
-
-  //check if all previous fields are filled before displaying skill input
-  const areFieldsFilled = projectTitle && projectInfo && department;
   
   const navigate = useNavigate();
-  // const handleClick = (event) => {
-  //   event.preventDefault();
-  //   navigate("/recommendations");
-  // }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+  const tools = Object.entries(toolInputs).map(([toolName, difficulty]) => {
+    const toolID = Object.keys(departmentTools)
+      .flatMap((key) => departmentTools[key])
+      .indexOf(toolName);
+    return {
+      toolID: toolID >= 0 ? toolID : null, // Map toolName to its ID (based on order)
+      difficulty: parseFloat(difficulty),
+    };
+  });
+
     const projectData = {
       projectTitle,
       projectDescription: projectInfo,
-      departmentID: department,
-      skills: skillInput,
+      departmentID: Object.keys(departmentTools).indexOf(department),
+      tools,
     };
 
     try {
-      const response = await fetch('http://localhost:3360/newProject', {
+      const response = await fetch('http://localhost:5000/addProject', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -64,6 +82,9 @@ const handleSkillInputChange = (key, value) => {
       setStatusMessage('An Error occured while adding project');
     }
   };
+
+    //check if all previous fields are filled before displaying skill input
+    const areFieldsFilled = projectTitle && projectInfo && department;
 
   return (
     <div className="new-project-container">
@@ -90,7 +111,7 @@ const handleSkillInputChange = (key, value) => {
             value={department}
             onChange={handleDepartmentChange}
         >
-          <option value="" disabled selected>
+          <option value="" disabled>
             Department
           </option>
           <option value="Web Development">Web Development</option>
@@ -98,51 +119,30 @@ const handleSkillInputChange = (key, value) => {
           <option value="Film">Film</option>
         </select>
 
-        {/* Conditionally render skill input if all fields are filled */}
+        {/* Conditionally render tool input fields */}
         {areFieldsFilled && (
-          <div className="skill-input-container">
-
-            {/* Input sections */}
-            <div>
-              <h4>Frontend</h4>
-              <input
+          <div className="tool-input-container">
+            {Object.keys(toolInputs).map((tool) => (
+              <div key={tool}>
+                <h4>{tool}</h4>
+                <input
                   type="number"
-                  placeholder="OVR"
-                  step="any" //allows floating point numbers
-                  value={skillInput.frontend || ''} 
-                  onChange={(e) => handleSkillInputChange('frontend', e.target.value)}
+                  placeholder="Diff"
+                  step="any"
                   min="0"
                   max="3"
-              />
+                  value={toolInputs[tool]}
+                  onChange={(e) => handleToolInputChange(tool, e.target.value)}
+                />
               </div>
-              <div>
-              <h4>Backend</h4>
-              <input
-                  type="number"
-                  placeholder="OVR"
-                  step="any" //allows floating point numbers
-                  value={skillInput.backend || ''}
-                  onChange={(e) => handleSkillInputChange('backend', e.target.value)}
-                  min="0"
-                  max="3"
-              />
-              </div>
-              <div>
-              <h4>Wordpress</h4>
-              <input
-                  type="number"
-                  placeholder="OVR"
-                  step="any" //allows floating point numbers
-                  value={skillInput.wordpress || ''}
-                  onChange={(e) => handleSkillInputChange('wordpress', e.target.value)}
-                  min="0"
-                  max="3"
-              />
-              </div>
+            ))}
           </div>
         )}
-       <div className="submit-btn-div">
-        <button /* onClick={handleClick}*/ type="submit" className="submit-btn">Submit</button>
+
+        <div className="submit-btn-div">
+          <button type="submit" className="submit-btn">
+            Submit
+          </button>
         </div>
         {/* Display success or error messages */}
         {statusMessage && <p className="status-message">{statusMessage}</p>}
