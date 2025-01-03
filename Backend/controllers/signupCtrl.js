@@ -1,13 +1,23 @@
 import promisePool from "../config/database.js";
 import bcrypt from 'bcrypt'
-
+import { body, validationResult} from 'express-validator'
 
 const signupCtrl = {
-  signup: async (req, res) => {
-    try {
+  
+  signup: [
+    body('email').isEmail().withMessage('Invalid email address'),
+    body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters long'),
+  
+  
+    async (req, res) => {
+      const errors = validationResult(req);
+      if(!errors.isEmpty()){
+        return res.status(200).json({errors : "Does not meet requirements" })
+      }
 
       const { firstName, lastName, email, password } = req.body;
 
+    try {
       // Check for missing fields
       if (!firstName || !lastName || !email || !password) {
         return res.status(400).json({ error: "All fields are required" });
@@ -27,6 +37,7 @@ const signupCtrl = {
       return res.status(500).json({ error: "Could not insert data" });
     }
   },
+]
 };
 
 export default signupCtrl;
