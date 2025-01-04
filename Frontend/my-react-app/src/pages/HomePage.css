@@ -51,15 +51,15 @@ html, body {
   
 
 
-  .project-card1,
+  /* .project-card1,
   .project-card2,
   .project-card3,
   .project-card4,
   .project-card5,
   .project-card6 {
-    background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1); /* Keep your current gradient */
-    background-size: 400% 400%; /* Enable gradient animation */
-    animation: waveEffect 4s ease infinite; /* Add wave effect animation */
+    background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
+    background-size: 400% 400%;
+    animation: waveEffect 4s ease infinite;
     padding: 20px;
     border-radius: 8px;
     text-align: center;
@@ -68,7 +68,7 @@ html, body {
     transition: transform 0.3s, background-color 0.3s;
   }
   
-/* Add staggered delays for a wave effect */
+
 .project-card1 {
   animation-delay: 0s;
 }
@@ -100,10 +100,30 @@ html, body {
 .project-card5:hover,
 .project-card6:hover {
   transform: scale(1.05);
-  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd); /* New gradient */
-  background-size: 400% 400%; /* Maintain animation compatibility */
-  animation-play-state: running; /* Ensure animation continues */
-  transition: background 0.5s ease, transform 0.3s ease; /* Smooth transition */
+  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+  background-size: 400% 400%;
+  animation-play-state: running;
+  transition: background 0.5s ease, transform 0.3s ease; 
+} */
+
+.project-card {
+    background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
+    background-size: 400% 400%;
+    animation: waveEffect 4s ease infinite;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+
+.project-card:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+  background-size: 400% 400%;
+  animation-play-state: running;
+  transition: background 0.5s ease, transform 0.3s ease; 
 }
   
   /* Right Section */

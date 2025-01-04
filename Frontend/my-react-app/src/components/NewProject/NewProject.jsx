@@ -60,7 +60,7 @@ const handleToolInputChange = (tool, value) => {
     };
 
     try {
-      const response = await fetch('http://localhost:5000/addProject', {
+      const response = await fetch('http://localhost:3360/addProject', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

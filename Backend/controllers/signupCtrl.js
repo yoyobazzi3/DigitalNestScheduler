@@ -1,7 +1,6 @@
 import promisePool from "../config/database.js";
 import bcrypt from 'bcrypt'
 
-
 const signupCtrl = {
   signup: async (req, res) => {
     try {
