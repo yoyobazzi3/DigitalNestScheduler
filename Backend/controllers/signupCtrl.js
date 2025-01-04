@@ -2,6 +2,7 @@ import promisePool from "../config/database.js";
 import bcrypt from 'bcrypt'
 import { body, validationResult} from 'express-validator'
 
+
 const signupCtrl = {
   
   signup: [

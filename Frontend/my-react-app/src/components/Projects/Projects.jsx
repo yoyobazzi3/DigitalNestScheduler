@@ -1,28 +1,40 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 const Projects  = () => {
-    return (
-        <div className="projects">
-          <div className="project-card1">
-            <h3>UCSC</h3>
-          </div>
-          <div className="project-card2">
-            <h3>DN-Site</h3>
-          </div>
-          <div className="project-card3">
-            <h3>TedX</h3>
-          </div>
-          <div className="project-card4">
-            <h3>Fruition</h3>
-          </div>
-          <div className="project-card5">
-            <h3>Martinelli's</h3>
-          </div>
-          <div className="project-card6">
-            <h3>Cabrillo College</h3>
-          </div>
-        </div>
-    )
-}
+  const [projects, setProjects] = useState([]); // State for holding projects
+  
+  // Fetch projects from the backend
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('http://localhost:3360/getProjects');
+        if (response.ok) {
+          const data = await response.json();
+          const animation = data.map((project) => ({
+            ...project,
+            animationDelay: `${Math.random() * 2}s`, // random delay between 0 and 2 seconds
+          }));
+          setProjects(animation);
+        }
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      }
+    };
+    fetchProjects();
+  }, []);
 
-export default Projects;
+  return (
+    <div className="projects">
+      {projects.map((projects) => (
+        <div 
+          key={projects.projectID}
+          className="project-card"
+          style={{ animationDelay: projects.animationDelay }} 
+        >
+          <h3>{projects.projectTitle}</h3>
+          </div>
+      ))}
+    </div>
+  );
+};
+
+export default Projects
