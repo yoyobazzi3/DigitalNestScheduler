@@ -27,6 +27,17 @@ const Signup = () => {
       return;
     }
 
+    if(!email.includes('@digitalnest.org')){
+      alert('Please enter a valid email (@digitalnest.org)')
+      return;
+    }
+
+    if(password.length<8){
+      alert('Password must be 8 characters long');
+      return;
+    }
+
+    
     try {
         const response = await axios.post('http://localhost:3360/signup', {      
         firstName,
