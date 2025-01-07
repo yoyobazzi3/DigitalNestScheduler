@@ -11,7 +11,6 @@ const signupCtrl = {
   
   
     async (req, res) => {
-      res.json({ csrfToken: req.csrfToken() });
 
       const errors = validationResult(req);
       if(!errors.isEmpty()){
