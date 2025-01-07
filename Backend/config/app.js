@@ -4,6 +4,7 @@ import morgan from 'morgan'
 import routes from '../routes/routes.js'
 import cors from 'cors';
 import rateLimit from 'express-rate-limit'
+
 const app = express()
 
 const limiter = rateLimit({
@@ -20,7 +21,7 @@ app.use(morgan('dev'))
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({ extended: true }))
 app.use(cors())
-
+// app.use(csrfProtection);
 routes(app)
 
 export default app
