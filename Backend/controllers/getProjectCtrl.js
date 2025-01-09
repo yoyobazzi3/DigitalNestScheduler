@@ -15,8 +15,8 @@ const getProjectCtrl = {
 
     res.status(200).json(result);
   } catch (error) {
-    console.error('Error adding new project: ', error.message);
-    res.status(500).json({ message: 'Error adding new project' })
+    console.error('Error getting projects: ', error.message);
+    res.status(500).json({ message: 'Error getting projects' })
     }
   },
 };
