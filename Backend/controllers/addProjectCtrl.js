@@ -8,7 +8,7 @@ const addProjectCtrl = {
         const { projectTitle, projectDescription, departmentID, tools } = req.body;
   
         // Validate project data
-        if (!projectTitle || !projectDescription || departmentID === undefined || !Array.isArray(tools)) {
+        if (!projectTitle || !projectDescription || departmentID === null || departmentID === undefined || !Array.isArray(tools)) {
           return res.status(400).json({ message: 'Missing required fields or invalid tools format' });
         }
   
@@ -35,7 +35,7 @@ const addProjectCtrl = {
           const { toolID, difficulty } = tool;
   
           // Validate that toolID and difficulty are provided
-          if (toolID === undefined || difficulty === undefined) {
+          if (toolID === null || toolID === undefined || difficulty === null || difficulty === undefined) {
             return res.status(400).json({ message: 'Each tool must have a valid toolID and difficulty' });
           }
   
@@ -43,10 +43,12 @@ const addProjectCtrl = {
           await promisePool.execute(projectToolQuery, [projectID, toolID, difficulty]);
         }
   
+        console.log('Returning Response:', { projectID, departmentID });
         // Success response
         res.status(201).json({
           message: 'Project and tools added successfully!',
           projectID,
+          departmentID, 
         });
       } catch (error) {
         console.error('Error adding project with tools:', error.message);

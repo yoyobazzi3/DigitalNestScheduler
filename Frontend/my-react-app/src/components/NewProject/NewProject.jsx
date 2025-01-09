@@ -71,8 +71,9 @@ const handleToolInputChange = (tool, value) => {
       if (response.ok) {
         const result = await response.json();
         setStatusMessage('Project added successfully!');
-        console.log('Server Response: ', result);
-        navigate('recommendations');
+        console.log('Navigating to recommendations with:', result.projectID, result.departmentID);
+        // Note: This can cause cashing issues, not a huge deal, but investigation is needed if app becomes large enough in scale.
+        navigate(`recommendations?projectID=${result.projectID}&departmentID=${result.departmentID}`);
       } else {
         const errorData = await response.json();
         setStatusMessage(`Error: ${errorData.message}`);
