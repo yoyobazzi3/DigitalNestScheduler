@@ -1,0 +1,16 @@
+.project-info {
+    margin: 10px;
+  }
+
+  .delete-project {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+  }
+
+  .delete-project:hover {
+    background-color: rgb(216, 216, 216);
+    cursor: pointer;
+  }

@@ -84,7 +84,6 @@ const recommendationsCtrl = {
           };
           acc.push(intern);
         }
-      
         // Add the tool to the current intern if it exists
         if (
           intern &&
@@ -137,7 +136,7 @@ const recommendationsCtrl = {
           InternID: intern.InternID,
           firstName: intern.firstName,
           lastName: intern.lastName,
-          calculations: differences.filter(diff => diff !== null), // Exclude unmatched tools
+          calculations: differences.filter(diff => diff !== null),
         };
       });
 
