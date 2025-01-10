@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Signup.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -9,6 +8,7 @@ const Signup = () => {
     email: '',
     password: '',
     confirmPassword: '',
+    adminKey: '',
   });
 
   const handleChange = (e) => {
@@ -20,30 +20,30 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, password, confirmPassword } = formData;
+    const { firstName, lastName, email, password, confirmPassword, adminKey } = formData;
 
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
 
-    if(!email.includes('@digitalnest.org')){
-      alert('Please enter a valid email (@digitalnest.org)')
+    if (!email.includes('@digitalnest.org')) {
+      alert('Please enter a valid email (@digitalnest.org)');
       return;
     }
 
-    if(password.length<8){
-      alert('Password must be 8 characters long');
+    if (password.length < 8) {
+      alert('Password must be at least 8 characters long');
       return;
     }
 
-    
     try {
-        const response = await axios.post('http://localhost:3360/signup', {      
+      const response = await axios.post('http://localhost:3360/signup', {
         firstName,
         lastName,
         email,
         password,
+        adminKey,
       });
       alert(response.data.message);
     } catch (error) {
@@ -99,6 +99,15 @@ const Signup = () => {
           name='confirmPassword'
           placeholder='Re-enter your password'
           value={formData.confirmPassword}
+          onChange={handleChange}
+        />
+        <label>Admin Key</label>
+        <input
+          className='input'
+          type='password'
+          name='adminKey'
+          placeholder='Enter the admin key'
+          value={formData.adminKey}
           onChange={handleChange}
         />
         <button type='submit'>Submit</button>

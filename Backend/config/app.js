@@ -1,25 +1,16 @@
-import bodyparser from 'body-parser'
-import express from 'express'
-import morgan from 'morgan'
-import routes from '../routes/routes.js'
+import express from 'express';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
 import cors from 'cors';
-import rateLimit from 'express-rate-limit'
+import routes from '../routes/routes.js';
 
-const app = express()
+const app = express();
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    message: 'Too many requests from this IP, please try again later',
-  });
+app.use(cors());
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
+routes(app);
 
-app.use('/signup', limiter);
-app.use(morgan('dev'))
-app.use(bodyparser.json())
-app.use(bodyparser.urlencoded({ extended: true }))
-app.use(cors())
-// app.use(csrfProtection);
-routes(app)
-
-export default app
+export default app;
