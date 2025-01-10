@@ -10,6 +10,7 @@ const InternSignup = () => {
     confirmPassword: '',
     DepartmentID: '',
     location: '',
+    csrfToken: '', // CSRF token for protection
   });
 
   const handleChange = (e) => {
@@ -19,10 +20,19 @@ const InternSignup = () => {
     });
   };
 
+  const fetchCsrfToken = async () => {
+    try {
+      const response = await axios.get('http://localhost:3360/csrf-token', { withCredentials: true });
+      setFormData((prev) => ({ ...prev, csrfToken: response.data.csrfToken }));
+    } catch (error) {
+      console.error('Error fetching CSRF token:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, password, confirmPassword, DepartmentID, location } = formData;
+    const { firstName, lastName, email, password, confirmPassword, DepartmentID, location, csrfToken } = formData;
 
     // Frontend validation
     if (!firstName || !lastName || !email || !password || !confirmPassword || !DepartmentID || !location) {
@@ -46,20 +56,21 @@ const InternSignup = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3360/internSignup', {
-        firstName,
-        lastName,
-        email,
-        password,
-        DepartmentID,
-        location,
-      });
+      const response = await axios.post(
+        'http://localhost:3360/internSignup',
+        { firstName, lastName, email, password, DepartmentID, location, csrfToken },
+        { withCredentials: true }
+      );
       alert(response.data.message);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      console.error('Error submitting form:', error.response?.data || error.message);
       alert('Failed to register');
     }
   };
+
+  React.useEffect(() => {
+    fetchCsrfToken(); // Fetch CSRF token when the component mounts
+  }, []);
 
   return (
     <div>
