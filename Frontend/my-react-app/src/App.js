@@ -5,6 +5,7 @@ import NewProject from './components/NewProject/NewProject';
 import Recommendations from './pages/recommendations';
 import Interns from './pages/Interns';
 import Signup from './pages/Signup';
+import InternSignup from './pages/InternSignup';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Route path="/recommendations" element={<Recommendations />} />
         <Route path="/interns" element={<Interns />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/intern-signup" element={<InternSignup />} />
 
 
       </Routes>
