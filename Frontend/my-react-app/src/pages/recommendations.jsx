@@ -8,6 +8,17 @@ const Recommendations = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
 
+  const toolNameMap = {
+    0: 'Frontend',
+    1: 'Backend',
+    2: 'Wordpress',
+    3: 'Photoshop',
+    4: 'Illustrator',
+    5: 'Figma',
+    6: 'Premiere Pro',
+    7: 'Camera Work',
+  };
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const projectID = queryParams.get('projectID');
@@ -66,8 +77,8 @@ const Recommendations = () => {
           {data.projects[0]?.tools?.map((tool, index) => (
             <div key={index} className="tool-box">
                 {/* h4 should render actual tool name */}
-              <h4>{`Tool ${tool.toolID}`}</h4>
-              <div className="tool-boxes">{tool.difficulty}</div>
+              <h4>{toolNameMap[tool.toolID] || `Tool ${tool.toolID}`}</h4>
+              <div className="tool-boxes">{parseFloat(tool.difficulty.toFixed(2))}</div>
             </div>
           ))}
         </div>
@@ -78,9 +89,9 @@ const Recommendations = () => {
       </div>
 
     <div className="suggestions-container">
-      {/* <div className="row-1">row 1</div>
-      <div className="row-2">row 2</div>
-      <div className="row-3">row 3</div> */}
+      <div className="row-1"></div>
+      <div className="row-2"></div>
+      <div className="row-3"></div>
       </div>
     </div>
   );

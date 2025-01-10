@@ -55,7 +55,7 @@
     animation: waveEffect 4s ease infinite;
     border: none;
     border-radius: 10px;
-    font-size: 26px;
+    font-size: 28px;
     font-weight: bold;
     
   }
@@ -91,10 +91,24 @@
   .suggestions-container {
     background-color: #222;
     align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 100%;
     height: 65vh;
     border-radius: 10px;
     color: #888;
+  }
+
+  .row-1,
+  .row-2,
+  .row-3 {
+    align-items: center;
+    background-color: #191919;
+    margin: 25px;
+    width: 80%;
+    height: 95px;
+    border-radius: 10px;
   }
 
 

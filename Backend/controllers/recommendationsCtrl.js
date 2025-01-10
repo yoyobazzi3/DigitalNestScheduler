@@ -31,9 +31,9 @@ const recommendationsCtrl = {
         LEFT JOIN 
           bizznestflow2.projectTools pt ON p.projectID = pt.projectID
         LEFT JOIN 
-          bizznestflow2.skills s ON pt.toolID = s.toolID
-        LEFT JOIN 
           bizznestflow2.Interns i ON i.departmentID = p.departmentID
+        LEFT JOIN 
+          bizznestflow2.skills s ON s.toolID = pt.toolID AND s.InternID = i.InternID
         WHERE 
           p.projectID = ? AND p.departmentID = ?;
       `;
@@ -70,36 +70,80 @@ const recommendationsCtrl = {
       }, []);
 
       const internSkills = result.reduce((acc, row) => {
-        const intern = acc.find(i => i.InternID === row.InternID);
-
+        // Check if intern already exists in accumulator
+        let intern = acc.find(i => i.InternID === row.InternID);
+      
+        // If intern doesn't exist, create a new entry
         if (!intern && row.InternID !== null && row.InternID !== undefined) {
-          acc.push({
+          intern = {
             InternID: row.InternID,
             firstName: row.firstName,
             lastName: row.lastName,
             departmentID: row.departmentID,
-            tools: [],
-          });
+            tools: [], // Start with an empty tools array
+          };
+          acc.push(intern);
         }
-
-        const currentIntern = acc.find(i => i.InternID === row.InternID);
-
+      
+        // Add the tool to the current intern if it exists
         if (
-          currentIntern &&
+          intern &&
           row.skillToolID !== null &&
           row.skillToolID !== undefined &&
-          !currentIntern.tools.some(t => t.toolID === row.skillToolID)
+          !intern.tools.some(t => t.toolID === row.skillToolID)
         ) {
-          currentIntern.tools.push({
+          intern.tools.push({
             toolID: row.skillToolID,
-            skillLevel: parseFloat(row.skillLevel.toFixed(2)),
+            skillLevel: parseFloat(row.skillLevel.toFixed(2)), // Parse and round skillLevel
           });
         }
-
+      
         return acc;
       }, []);
+      console.log('Aggregated Intern Skills:', JSON.stringify(internSkills, null, 2));
 
-      res.status(200).json({ projects, internSkills });
+      // Calculations HERE: START
+
+      // Map interns t project tool difficulty
+      const skillDifferences = internSkills.map(intern => {
+        const differences = intern.tools.map(internTool => {
+          const matchingProjectTool = projects[0]?.tools.find(
+            projectTool => projectTool.toolID === internTool.toolID
+          );
+          if (matchingProjectTool) {
+            const d = matchingProjectTool.difficulty; // Project tool difficulty
+            const s = internTool.skillLevel; //intern skill level
+            const x = parseFloat((d - s).toFixed(2)); // difference (d - s)
+
+            // Calculate f(x) = xe^(-x^2)
+            const absoluteIncrease = parseFloat((x * Math.exp(-Math.pow(x, 2))).toFixed(4));
+
+            // Calculate (abs increase / skillLevel)
+            const percentIncrease = parseFloat(((absoluteIncrease / s) * 100).toFixed(1))
+
+            return {
+              toolID: internTool.toolID,
+              difficulty: d,
+              skillLevel: s,
+              difference: x,
+              absoluteIncrease,
+              percentIncrease
+            };
+          }
+          return null;
+        });
+
+        return {
+          InternID: intern.InternID,
+          firstName: intern.firstName,
+          lastName: intern.lastName,
+          calculations: differences.filter(diff => diff !== null), // Exclude unmatched tools
+        };
+      });
+
+      // Calculations HERE: END
+
+      res.status(200).json({ projects, internSkills, skillDifferences });
     } catch (error) {
       console.error('Error fetching recommendations:', error.message);
       res.status(500).json({ message: 'Error fetching recommendations' });
@@ -109,100 +153,3 @@ const recommendationsCtrl = {
 
 export default recommendationsCtrl;
 
-// import promisePool from '../config/database.js';
-
-// const recommendationsCtrl = {
-//   getRecommendations: async (req, res) => {
-//     try {
-//       const query = `
-//         SELECT 
-//           p.projectID,
-//           p.projectTitle,
-//           p.departmentID,
-//           pt.toolID AS projectToolID,
-//           pt.difficulty,
-//           i.InternID,
-//           i.firstName,
-//           i.lastName,
-//           s.toolID AS skillToolID,
-//           s.skillLevel
-//         FROM 
-//           bizznestflow2.projects p
-//         LEFT JOIN 
-//           bizznestflow2.projectTools pt ON p.projectID = pt.projectID
-//         LEFT JOIN 
-//           bizznestflow2.skills s ON pt.toolID = s.toolID
-//         LEFT JOIN 
-//           bizznestflow2.Interns i ON i.InternID = s.InternID;
-//       `;
-
-//       const [result] = await promisePool.execute(query);
-
-//       // Aggregate into projects array
-//       const projects = result.reduce((acc, row) => {
-//         const project = acc.find(p => p.projectID === row.projectID);
-
-//         if (!project) {
-//           acc.push({
-//             projectID: row.projectID,
-//             projectTitle: row.projectTitle,
-//             departmentID: row.departmentID,
-//             tools: [],
-//           });
-//         }
-
-//         const currentProject = acc.find(p => p.projectID === row.projectID);
-
-//         if (row.projectToolID != null && row.projectToolID !== undefined &&
-//            !currentProject.tools.some(t => t.toolID === row.projectToolID)) {
-//           currentProject.tools.push({
-//             toolID: row.projectToolID,
-//             difficulty: row.difficulty, // Format difficulty level to precision 2
-//           });
-//         }
-
-//         return acc;
-//       }, []);
-
-//       // Aggregate into internSkills array
-//       const internSkills = result.reduce((acc, row) => {
-//         const intern = acc.find(i => i.InternID === row.InternID);
-      
-//         if (!intern && row.InternID !== null && row.InternID !== undefined) {
-//           acc.push({
-//             InternID: row.InternID,
-//             firstName: row.firstName,
-//             lastName: row.lastName,
-//             departmentID: row.departmentID, // Include departmentID if it’s part of the result
-//             tools: [],
-//           });
-//         }
-      
-//         const currentIntern = acc.find(i => i.InternID === row.InternID);
-      
-//         // Add tools under the current intern
-//         if (
-//           currentIntern &&
-//           row.skillToolID !== null &&
-//           row.skillToolID !== undefined &&
-//           !currentIntern.tools.some(t => t.toolID === row.skillToolID)
-//         ) {
-//           currentIntern.tools.push({
-//             toolID: row.skillToolID,
-//             skillLevel: parseFloat(row.skillLevel.toFixed(2)), // Format skill level to precision
-//           });
-//         }
-      
-//         return acc;
-//       }, []);
-
-//       // Send structured response
-//       res.status(200).json({ projects, internSkills });
-//     } catch (error) {
-//       console.error('Error fetching recommendations:', error.message);
-//       res.status(500).json({ message: 'Error fetching recommendations' });
-//     }
-//   },
-// };
-
-// export default recommendationsCtrl;
