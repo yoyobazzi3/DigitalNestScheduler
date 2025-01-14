@@ -93,6 +93,9 @@
     padding: 10px;
     border-radius: 10px;
     color: #888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .row-1,
@@ -104,18 +107,34 @@
     background-color: #191919;
     margin: 15px 0;
     width: 100%;
+    max-width: 100%;
     border-radius: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: max-content;
+    padding: 5px 10px 5px 10px;
+    
   }
 
   .row-tablets {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
+    justify-content: flex-start; /* Center the row when it shrinks */
     gap: 20px;
+    overflow-x: auto;
     width: 100%;
+    max-width: 100%;
+    scrollbar-width: thin;
   }
+
+  .row-tablets::-webkit-scrollbar-thumb {
+    background-color: #888; /* Customize scrollbar thumb */
+    border-radius: 10px; /* Make scrollbar thumb rounded */
+  }
+  
+  .row-tablets::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker color on hover */
+  }
+
   .tablet {
     background-color: #282c34;
     color: white;
@@ -143,7 +162,7 @@
     font-weight: bold;
   }
 
-  .tablet-button {
+  .assign-button {
     background-color: #4caf50;
     color: white;
     border: none;
@@ -155,7 +174,7 @@
     font-weight: bold;
   }
   
-  .tablet-button:hover {
+  .assign-button:hover {
     background-color: #45a049;
   }
 
