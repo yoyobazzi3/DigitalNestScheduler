@@ -92,7 +92,7 @@ const Recommendations = () => {
                 <div key={idx} className="tablet">
                   <div className="tablet-name">{intern.name}</div>
                   <div className="tablet-percent">{`${intern.percentIncrease}%`}</div>
-                  <button className="tablet-button">Assign</button>
+                  <button className="assign-button">Assign</button>
                 </div>
               ))}
             </div>
