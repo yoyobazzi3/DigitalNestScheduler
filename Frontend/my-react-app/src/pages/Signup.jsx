@@ -76,8 +76,8 @@ const Signup = () => {
       <div className="Signup">
       <div className="Signup-container">
         <div className="tabs">
-          <button className="tab active">Login</button>
-          <button className="tab">Sign up</button>
+          <button className="tab">Login</button>
+          <button className="tab active">Sign up</button>
         </div>
         <form onSubmit={handleSubmit} className="Signup-form">
           <div className='nameContainer'>
