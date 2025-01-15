@@ -71,66 +71,70 @@ const Signup = () => {
   }, []);
 
   return (
-    <div className="Signup">
-      <form onSubmit={handleSubmit} className="Signup-form">
-        <h1>Signup</h1>
-        <label>First Name</label>
-        <input
-          className="input"
-          type="text"
-          name="firstName"
-          placeholder="Enter your first name"
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-        <label>Last Name</label>
-        <input
-          className="input"
-          type="text"
-          name="lastName"
-          placeholder="Enter your last name"
-          value={formData.lastName}
-          onChange={handleChange}
-        />
-        <label>Email</label>
-        <input
-          className="input"
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-        <label>Password</label>
-        <input
-          className="input"
-          type="password"
-          name="password"
-          placeholder="Enter your password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <label>Confirm Password</label>
-        <input
-          className="input"
-          type="password"
-          name="confirmPassword"
-          placeholder="Re-enter your password"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        <label>Admin Key</label>
-        <input
-          className="input"
-          type="password"
-          name="adminKey"
-          placeholder="Enter the admin key"
-          value={formData.adminKey}
-          onChange={handleChange}
-        />
-        <button type="submit">Submit</button>
-      </form>
+    <div className='SignupWrapper'>
+      <div className='Waves'></div>
+      <div className="Signup">
+      <div className="Signup-container">
+        <div className="tabs">
+          <button className="tab active">Login</button>
+          <button className="tab">Sign up</button>
+        </div>
+        <form onSubmit={handleSubmit} className="Signup-form">
+          <div className='nameContainer'>
+            <input
+              className='firstName'
+              type="text"
+              name="firstName"
+              placeholder="First Name"
+              value={formData.firstName}
+              onChange={handleChange}
+            />
+            <input
+            className='lastName'
+              type="text"
+              name="lastName"
+              placeholder="Last Name"
+              value={formData.lastName}
+              onChange={handleChange}
+            />
+          </div>   
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+          <div className="passwordContainer">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+            />
+          </div>
+          <input
+            type="password"
+            name="adminKey"
+            placeholder="Admin Key?"
+            value={formData.adminKey}
+            onChange={handleChange}
+          />
+          <button type="submit">Sign up</button>
+        </form>
+        </div>
+      </div>
+      <div className='Circle'></div>
     </div>
+    
   );
 };
 
