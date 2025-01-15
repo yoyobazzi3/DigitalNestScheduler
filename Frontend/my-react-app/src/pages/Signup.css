@@ -1,0 +1,121 @@
+.SignupWrapper {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #000000;
+    overflow: hidden;
+  }
+
+  form{
+    gap: 0;
+  }
+  
+  .Signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .Signup-container {
+    background: #D9D9D9;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 400px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    z-index: 99;
+  }
+
+  .nameContainer, .passwordContainer{
+    display: flex;
+    gap: 10px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+  
+  .tab {
+    flex: 1;
+    padding: 10px;
+    font-size: 23px;
+    border: none;
+    cursor: pointer;
+    color: #000000;
+    transition: all 0.3s ease;
+    background-color: white;
+  }
+  
+  .tab.active {
+    background: linear-gradient(90deg, #a732e6, #bc36c8);
+    color: white;
+    border-radius: 1.5vw;
+  }
+
+  .Signup-form input {
+    display: block;
+    width: 92%;
+    padding: 12px 15px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 1.5vw;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .Signup-form input:focus {
+    border-color: #009688;
+    background-color: #ffffff;
+    outline: none;
+  }
+  
+  .Signup-form button {
+    background: linear-gradient(270deg, #a732e6, #bc36c8);
+    border-radius: 5vw;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 23px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+  }
+  
+  .Signup-form button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  }
+  .Waves {
+    background-image: url(../assets/waves.png);
+    width: 100%;
+    height: 50vh; 
+    position: absolute;
+    top: 0;
+    background-size: 100% 100%;
+    background-repeat: no-repeat; 
+    background-position: center; 
+}
+.Circle {
+    background-image: url(../assets/Ellipse.png);
+    width: 100%; 
+    height: 50vh;
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    background-repeat: no-repeat; 
+    background-size: contain; 
+}
