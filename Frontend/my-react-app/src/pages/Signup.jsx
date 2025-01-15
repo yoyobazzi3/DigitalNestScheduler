@@ -85,6 +85,7 @@ const Signup = () => {
             type="email"
             name="email"
             placeholder="Email"
+            className='emailInput'
             value={formData.email}
             onChange={handleChange}
           />
@@ -93,12 +94,14 @@ const Signup = () => {
               type="password"
               name="password"
               placeholder="Password"
+              className='passwordInput'
               value={formData.password}
               onChange={handleChange}
             />
             <input
               type="password"
               name="confirmPassword"
+              className='confirmPasswordInput'
               placeholder="Confirm Password"
               value={formData.confirmPassword}
               onChange={handleChange}
@@ -108,6 +111,7 @@ const Signup = () => {
             type="password"
             name="adminKey"
             placeholder="Admin Key?"
+            className='adminKeyInput'
             value={formData.adminKey}
             onChange={handleChange}
           />

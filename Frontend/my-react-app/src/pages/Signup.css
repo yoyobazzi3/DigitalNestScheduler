@@ -10,7 +10,7 @@
     overflow: hidden;
   }
 
-  form{
+  .Signup-form{
     gap: 0;
   }
   
@@ -62,7 +62,11 @@
     border-radius: 1.5vw;
   }
 
-  .Signup-form input {
+  .firstName, .lastName{
+    border-radius: 1.5vw;
+  }
+
+  .Signup-form .passwordInput, .confirmPasswordInput, .adminKeyInput, .emailInput {
     display: block;
     width: 92%;
     padding: 12px 15px;
