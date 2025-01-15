@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Signup.css';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +9,6 @@ const Signup = () => {
     password: '',
     confirmPassword: '',
     adminKey: '',
-    csrfToken: '', // CSRF token for protection
   });
 
   const handleChange = (e) => {
@@ -20,18 +18,9 @@ const Signup = () => {
     });
   };
 
-  const fetchCsrfToken = async () => {
-    try {
-      const response = await axios.get('http://localhost:3360/csrf-token', { withCredentials: true });
-      setFormData((prev) => ({ ...prev, csrfToken: response.data.csrfToken }));
-    } catch (error) {
-      console.error('Error fetching CSRF token:', error);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { firstName, lastName, email, password, confirmPassword, adminKey, csrfToken } = formData;
+    const { firstName, lastName, email, password, confirmPassword, adminKey } = formData;
 
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -48,27 +37,20 @@ const Signup = () => {
       return;
     }
 
-    if (!adminKey) {
-      alert('Admin key is required to create an admin account');
-      return;
-    }
-
     try {
-      const response = await axios.post(
-        'http://localhost:3360/signup',
-        { firstName, lastName, email, password, adminKey, csrfToken },
-        { withCredentials: true }
-      );
+      const response = await axios.post('http://localhost:3360/signup', {
+        firstName,
+        lastName,
+        email,
+        password,
+        adminKey,
+      });
       alert(response.data.message);
     } catch (error) {
-      console.error('Error submitting form:', error.response?.data || error.message);
+      console.error('Error submitting form:', error);
       alert('Failed to register');
     }
   };
-
-  React.useEffect(() => {
-    fetchCsrfToken(); // Fetch CSRF token when the component mounts
-  }, []);
 
   return (
     <div className='SignupWrapper'>
@@ -133,8 +115,7 @@ const Signup = () => {
         </div>
       </div>
       <div className='Circle'></div>
-    </div>
-    
+    </div> 
   );
 };
 

@@ -7,7 +7,7 @@ const Interns = () => {
   const [filteredInterns, setFilteredInterns] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3360/getinterns') 
+    fetch('http://localhost:3360/getInterns') 
       .then((response) => response.json())
       .then((data) => {
         setInterns(data);  // Save the full list of interns

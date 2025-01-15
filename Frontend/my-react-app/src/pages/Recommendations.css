@@ -90,27 +90,93 @@
 
   .suggestions-container {
     background-color: #222;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-    height: 65vh;
+    padding: 10px;
     border-radius: 10px;
     color: #888;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .row-1,
   .row-2,
   .row-3 {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     background-color: #191919;
-    margin: 25px;
-    width: 80%;
-    height: 95px;
+    margin: 15px 0;
+    width: 100%;
+    max-width: 100%;
     border-radius: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    width: max-content;
+    padding: 5px 10px 5px 10px;
+    
   }
 
+  .row-tablets {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Center the row when it shrinks */
+    gap: 20px;
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100%;
+    scrollbar-width: thin;
+  }
+
+  .row-tablets::-webkit-scrollbar-thumb {
+    background-color: #888; /* Customize scrollbar thumb */
+    border-radius: 10px; /* Make scrollbar thumb rounded */
+  }
+  
+  .row-tablets::-webkit-scrollbar-thumb:hover {
+    background-color: #555; /* Darker color on hover */
+  }
+
+  .tablet {
+    background-color: #282c34;
+    color: white;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 80px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .tablet-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .tablet-percent {
+    color: #4caf50;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .assign-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-top: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .assign-button:hover {
+    background-color: #45a049;
+  }
 
   @keyframes waveEffect {
     0% {

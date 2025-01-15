@@ -31,7 +31,7 @@ const recommendationsCtrl = {
         LEFT JOIN 
           bizznestflow2.projectTools pt ON p.projectID = pt.projectID
         LEFT JOIN 
-          bizznestflow2.Interns i ON i.departmentID = p.departmentID
+          bizznestflow2.interns i ON i.departmentID = p.departmentID
         LEFT JOIN 
           bizznestflow2.skills s ON s.toolID = pt.toolID AND s.InternID = i.InternID
         WHERE 
@@ -84,7 +84,6 @@ const recommendationsCtrl = {
           };
           acc.push(intern);
         }
-      
         // Add the tool to the current intern if it exists
         if (
           intern &&
@@ -137,7 +136,7 @@ const recommendationsCtrl = {
           InternID: intern.InternID,
           firstName: intern.firstName,
           lastName: intern.lastName,
-          calculations: differences.filter(diff => diff !== null), // Exclude unmatched tools
+          calculations: differences.filter(diff => diff !== null),
         };
       });
 
@@ -152,4 +151,3 @@ const recommendationsCtrl = {
 };
 
 export default recommendationsCtrl;
-
