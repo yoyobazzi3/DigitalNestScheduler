@@ -58,6 +58,17 @@ const Recommendations = () => {
     });
   });
 
+  const toolNames = {
+    0: "Frontend",
+    1: "Backend",
+    2: "Wordpress",
+    3: "Photoshop",
+    4: "Illustrator",
+    5: "Figma",
+    6: "Premiere Pro",
+    7: "Camera Work"
+  }
+
   return (
     <div className="recommendations-container">
       <NavBar />
@@ -86,7 +97,9 @@ const Recommendations = () => {
 
       <div className="suggestions-container">
         {data.projects[0]?.tools?.map((tool, index) => (
-          <div key={index} className={`row-${index + 1}`}>
+          <div key={index} className={`tool-row-${index + 1}`}>
+              <h3 className="tool-header">{toolNames[tool.toolID] || 'Unknown Tool'}</h3>
+              <div className="tablet-rows">
             <div className="row-tablets">
               {groupedInterns[tool.toolID]?.map((intern, idx) => (
                 <div key={idx} className="tablet">
@@ -95,6 +108,7 @@ const Recommendations = () => {
                   <button className="assign-button">Assign</button>
                 </div>
               ))}
+              </div>
             </div>
           </div>
         ))}
