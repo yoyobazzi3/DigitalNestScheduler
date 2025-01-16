@@ -1,0 +1,32 @@
+import axios from 'axios';
+
+export const saveToken = (token) => {
+  localStorage.setItem('token', token);
+};
+
+export const getToken = () => {
+  return localStorage.getItem('token');
+};
+
+export const removeToken = () => {
+  localStorage.removeItem('token');
+};
+
+export const getProtectedData = async () => {
+  const token = getToken();
+  if (token) {
+    try {
+      const response = await axios.get('http://localhost:3360/protected-route', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error accessing protected route:', error);
+      throw new Error('Failed to access protected route');
+    }
+  } else {
+    throw new Error('No token found, please log in');
+  }
+};
