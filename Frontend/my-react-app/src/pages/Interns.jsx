@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/Navbar/NavBar';
 import SearchBar from '../components/SearchBar/SearchBar';
-
+import edit from '../assets/edit.svg';
+import del from '../assets/delete.svg';
+import profile from '../assets/profile.svg';
+import './Interns.css';
 const Interns = () => {
   const [interns, setInterns] = useState([]);
   const [filteredInterns, setFilteredInterns] = useState([]);
@@ -31,23 +34,38 @@ const Interns = () => {
   
 
   return (
-    <div>
+    <div className="container">
       <NavBar />
-      <SearchBar onSearch={handleSearch} />
-      <h2>Test Interns: </h2>
-      <ul>
-        {filteredInterns.length > 0 ? (
-          filteredInterns.map((intern) => (
-            <li key={intern.InternID}>
-              {intern.firstName} {intern.lastName}
-            </li>
-          ))
-        ) : (
-          <p>No interns found</p>
-        )}
-      </ul>
+      <div className="content">
+        <div className="search-bar-wrapper">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+        <div className="interns-wrapper">
+          <h2>Interns:</h2>
+          <ul>
+            {filteredInterns.length > 0 ? (
+              filteredInterns.map((intern) => (
+                <li key={intern.InternID}>
+                <img src={profile} alt="profile" className="profile" />
+                <span className="name">
+                  {intern.firstName} {intern.lastName}
+                </span>
+                <div className="icon-container">
+                  <img src={edit} alt="edit" className="edit" />
+                  <img src={del} alt="delete" className="delete" />
+                </div>
+              </li>
+              
+              ))
+            ) : (
+              <p>No interns found</p>
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   );
-};
-
-export default Interns;
+  };
+  
+  export default Interns;
+  
