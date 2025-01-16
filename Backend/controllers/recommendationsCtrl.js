@@ -40,7 +40,7 @@ const recommendationsCtrl = {
 
       const [result] = await promisePool.execute(query, [projectID, departmentID]);
 
-      // Aggregate data (same as before)
+      // Aggregate data 
       const projects = result.reduce((acc, row) => {
         const project = acc.find(p => p.projectID === row.projectID);
 
