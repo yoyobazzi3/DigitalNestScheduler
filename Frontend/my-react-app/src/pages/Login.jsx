@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import './Login.css'; 
 import { useNavigate } from 'react-router-dom';
 
@@ -12,13 +13,32 @@ const Login = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if the token already exists in localStorage
     const token = localStorage.getItem('token');
+  
     if (token) {
-      // If a token exists, redirect to the dashboard or a protected route
-      navigate('/');
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // Convert to seconds
+  
+        if (decodedToken.exp < currentTime) {
+          console.log('Token expired. Redirecting to login...');
+          localStorage.removeItem('token');
+          navigate('/login');
+        } else {
+          console.log('Token is valid. Redirecting to homepage...');
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Invalid token. Redirecting to login...');
+        localStorage.removeItem('token');
+        navigate('/login');
+      }
+    } else {
+      console.log('No token found. Redirecting to login...');
+      navigate('/login');
     }
   }, [navigate]);
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -39,8 +59,6 @@ const Login = () => {
 
       // Store the token in localStorage
       localStorage.setItem('token', response.data.token);
-
-      alert('Login successful!');
       console.log('JWT Token:', response.data.token);
 
       // Redirect to this route
