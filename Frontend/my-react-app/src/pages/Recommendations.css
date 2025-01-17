@@ -88,6 +88,10 @@
     padding: 10px;
   }
 
+  .recommendations-header {
+    font-size: 17px;
+  }
+
   .suggestions-container {
     background-color: #222;
     padding: 10px;
@@ -130,7 +134,6 @@
   }
 
   .tablet {
-    background-color: #282c34;
     color: white;
     border-radius: 8px;
     padding: 10px;
@@ -143,6 +146,13 @@
     height: 80px;
     font-size: 14px;
     text-align: center;
+    transition: background 0.8s ease;
+  }
+  /* Blue #00BCD4 */
+
+  .tablet:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
   }
   
   .tablet-name {
@@ -151,14 +161,14 @@
   }
   
   .tablet-percent {
-    color: #4caf50;
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
   }
 
   .assign-button {
-    background-color: #4caf50;
-    color: white;
+    background-color: #ffffff;
+    color: #000000;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -169,7 +179,8 @@
   }
   
   .assign-button:hover {
-    background-color: #45a049;
+    background-color: #0e7ef5;
+    color: #fff;
   }
 
   @keyframes waveEffect {
