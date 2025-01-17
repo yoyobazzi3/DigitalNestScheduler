@@ -58,6 +58,10 @@ const Recommendations = () => {
     });
   });
 
+  Object.keys(groupedInterns).forEach(toolID => {
+    groupedInterns[toolID].sort((a, b) => b.percentIncrease - a.percentIncrease);
+  })
+
   const toolNames = {
     0: "Frontend",
     1: "Backend",
@@ -69,6 +73,18 @@ const Recommendations = () => {
     7: "Camera Work"
   }
 
+  
+
+  const getBackgroundGradient = (percentIncrease) => {
+    if (percentIncrease >= 20) {
+      return 'linear-gradient(to bottom,rgb(56, 142, 100), #25FFC1)'; // Green gradient
+    }
+    if (percentIncrease > 0) {
+      return 'linear-gradient(to bottom,rgb(255, 118, 59),rgb(251, 179, 45))'; // Yellow gradient
+    }
+    return 'linear-gradient(to bottom, #d32f2f, #EF2BD2)'; // Red gradient
+  };
+
   return (
     <div className="recommendations-container">
       <NavBar />
@@ -79,7 +95,7 @@ const Recommendations = () => {
         <div className="difficulty">
           {data.projects[0]?.tools?.map((tool, index) => (
             <div key={index} className="tool-box">
-              <h4>{`Tool ${tool.toolID}`}</h4>
+              <h4>{`${toolNames[tool.toolID]}`}</h4>
               <div className="tool-boxes">{parseFloat(tool.difficulty.toFixed(2))}</div>
             </div>
           ))}
@@ -94,6 +110,9 @@ const Recommendations = () => {
           </div>
         </div>
       </div>
+      <div className="recommendations-header">
+        <h2>Recommended for Optimized Learning</h2>
+      </div>
 
       <div className="suggestions-container">
         {data.projects[0]?.tools?.map((tool, index) => (
@@ -102,7 +121,11 @@ const Recommendations = () => {
               <div className="tablet-rows">
             <div className="row-tablets">
               {groupedInterns[tool.toolID]?.map((intern, idx) => (
-                <div key={idx} className="tablet">
+                <div 
+                  key={idx} 
+                  className="tablet"
+                  style={{ background: getBackgroundGradient(intern.percentIncrease) }}
+                  >
                   <div className="tablet-name">{intern.name}</div>
                   <div className="tablet-percent">{`${intern.percentIncrease}%`}</div>
                   <button className="assign-button">Assign</button>
