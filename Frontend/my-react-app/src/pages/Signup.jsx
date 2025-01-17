@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Signup.css';
 
@@ -53,13 +54,15 @@ const Signup = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className='SignupWrapper'>
       <div className='Waves'></div>
       <div className="Signup">
       <div className="Signup-container">
         <div className="tabs">
-          <button className="tab">Login</button>
+          <button className="tab" onClick={()=>navigate('/login')}>Login</button>
           <button className="tab active">Sign up</button>
         </div>
         <form onSubmit={handleSubmit} className="Signup-form">

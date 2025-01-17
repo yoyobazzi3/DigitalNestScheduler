@@ -76,7 +76,7 @@ const Login = () => {
         <div className="Login-container">
           <div className="tabs">
             <button className="tab active">Login</button>
-            <button className="tab">Sign up</button>
+            <button className="tab" onClick={()=>navigate('/signup')}>Sign up</button>
           </div>
           <form onSubmit={handleSubmit} className="Login-form">
             <input
