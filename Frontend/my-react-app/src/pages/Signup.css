@@ -3,7 +3,8 @@
     font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    /*justify-content: center;*/
+    padding-top: 20vh;
     align-items: center;
     height: 100vh;
     background-color: #000000;
@@ -63,10 +64,10 @@
   }
 
   .firstName, .lastName{
-    border-radius: 1.5vw;
+    border-radius: 1.5vw !important;
   }
 
-  .Signup-form .passwordInput, .confirmPasswordInput, .adminKeyInput, .emailInput {
+  .Signup-form .passwordInput, .confirmPasswordInput, .adminKeyInput, .emailInput, .firstName, .lastName {
     display: block;
     width: 92%;
     padding: 12px 15px;
