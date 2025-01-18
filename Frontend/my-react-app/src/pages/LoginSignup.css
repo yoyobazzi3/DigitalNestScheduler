@@ -1,0 +1,162 @@
+.LoginSignupWrapper {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: #000000;
+  overflow: hidden;
+  padding-top: 20vh;
+}
+
+.LoginSignup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.LoginSignup-container {
+  background: #D9D9D9;
+  border-radius: 15px;
+  padding: 30px 40px;
+  width: 400px;
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  z-index: 99;
+}
+
+.tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  font-size: 23px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  color: #000000;
+  transition: all 0.3s ease;
+  z-index: 2;
+  background-color: transparent;
+}
+
+.tab.active {
+  color: white;
+  font-weight: bold;
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, #a732e6, #bc36c8);
+  border-radius: 20px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1;
+}
+
+.slider.login {
+  transform: translateX(0);
+}
+
+.slider.signup {
+  transform: translateX(100%);
+}
+
+.LoginSignup-form {
+  gap: 25px;
+}
+
+.nameContainer, .passwordContainer{
+  display: flex;
+  gap: 15px;
+}
+
+.LoginEmail, .LoginPassword, .signupEmail, .adminKeyInput{
+  display: block;
+  width: 92%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 1.5vw;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.signupFirstName, .signupLastName, .signupPasswordInput, .signupConfirmPasswordInput{
+  border-radius: 1.5vw !important;
+}
+
+.signupFirstName, .signupLastName, .signupConfirmPasswordInput, .signupPasswordInput{
+  padding: 0px 15px !important;
+}
+
+.signupFirstName, .signupLastName{
+  height: 5vh;
+}
+
+.signupPasswordInput, .signupConfirmPasswordInput{
+  width: 400px;
+  border: none;
+  padding: 3px 13px;
+  height: 4.5vh;
+  font-size: 16px;
+}
+
+.LoginSignup-form input:focus {
+  border-color: #009688;
+  background-color: #ffffff;
+  outline: none;
+}
+
+.LoginSignup-form button {
+  background: linear-gradient(270deg, #a732e6, #bc36c8);
+  border-radius: 5vw;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 23px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 40%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.Waves {
+  background-image: url('../assets/LoginWave.png');
+  width: 100%;
+  height: 50vh; 
+  position: absolute;
+  top: 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat; 
+  background-position: center; 
+}
+
+.Circle {
+  position: absolute;
+  bottom: 0vw;
+  right: 0vw;
+  width: 100%;
+  height: 50vh;
+  background-image: url('../assets/LoginCircle.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: bottom right;
+  z-index: 10;
+}
