@@ -1,13 +1,12 @@
 .LoginSignupWrapper {
-  margin: 0;
-  font-family: 'Arial', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  background-color: #000000;
-  overflow: hidden;
-  padding-top: 20vh;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .LoginSignup {
@@ -18,13 +17,18 @@
 }
 
 .LoginSignup-container {
-  background: #D9D9D9;
-  border-radius: 15px;
-  padding: 30px 40px;
-  width: 400px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
-  text-align: center;
-  z-index: 99;
+    background: #D9D9D9;
+    border-radius: 15px;
+    padding: 30px 40px;
+    width: 415px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    z-index: 99;
+    min-height: 49vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: height 0.3s ease-in-out;
 }
 
 .tabs {
@@ -137,6 +141,25 @@
   align-self: center;
 }
 
+.ForgotPasswordContainer {
+  text-align: center;
+  margin-top: -10px;
+  margin-bottom: 15px; 
+}
+
+.ForgotPassword {
+  font-size: 14px;
+  color: #a732e6;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.ForgotPassword:hover {
+  color: #bc36c8;
+}
+
+
 .Waves {
   background-image: url('../assets/LoginWave.png');
   width: 100%;
@@ -146,17 +169,40 @@
   background-size: 100% 100%;
   background-repeat: no-repeat; 
   background-position: center; 
+  transform-origin: center; /* Ensure it flips smoothly from the center */
+  transition: transform 0.5s ease-in-out; /* Smooth transition */
+}
+
+.Waves.mirrored {
+  transform: scaleX(-1); /* Mirrored effect for signup state */
 }
 
 .Circle {
   position: absolute;
-  bottom: 0vw;
-  right: 0vw;
-  width: 100%;
-  height: 50vh;
-  background-image: url('../assets/LoginCircle.png');
+  width: 50%; /* Adjust based on how large you want the circle */
+  height: 50%; /* Adjust height similarly */
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: bottom right;
+  transition: all 0.5s ease-in-out; /* For smooth fading and movement */
   z-index: 10;
 }
+
+.Circle.login {
+  background-image: url('../assets/completeCircle.png'); /* Ensure the path is correct */
+  bottom: 0%;
+  right: 0%; /* Default for most screens */
+  width: 20%;
+  height: 40%;
+  position: absolute;
+  background-repeat: no-repeat;
+  background-size: contain;
+  transition: all 0.5s ease-in-out; /* Smooth transition */
+  z-index: 10;
+}
+
+.Circle.signup {
+  background-image: url('../assets/signupCircle.png'); /* Ensure path is correct */
+  bottom: 0;
+  left: 0; /* Positioned to the bottom-left corner */
+}
+

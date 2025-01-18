@@ -43,7 +43,7 @@ const LoginSignup = () => {
       const response = await axios.post('http://localhost:3360/login', loginData);
       localStorage.setItem('token', response.data.token);
       alert('Login successful!');
-      navigate('/');
+      navigate('/Home');
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Failed to log in. Please check your credentials.');
@@ -87,105 +87,114 @@ const LoginSignup = () => {
 
   return (
     <div className="LoginSignupWrapper">
-        <div className='Waves'></div>
-      <div className="LoginSignup">
-        <div className="LoginSignup-container">
-          <div className="tabs">
-            <button
-              className={`tab ${isLogin ? 'active' : ''}`}
-              onClick={() => setIsLogin(true)}
-            >
-              Login
-            </button>
-            <button
-              className={`tab ${!isLogin ? 'active' : ''}`}
-              onClick={() => setIsLogin(false)}
-            >
-              Sign up
-            </button>
-            <div className={`slider ${isLogin ? 'login' : 'signup'}`}></div>
-          </div>
-          {isLogin ? (
-            <form onSubmit={handleLogin} className="LoginSignup-form">
+    <div className={`Waves ${isLogin ? '' : 'mirrored'}`}></div>
+    <div className="LoginSignup">
+      <div className="LoginSignup-container">
+        <div className="tabs">
+          <button
+            className={`tab ${isLogin ? 'active' : ''}`}
+            onClick={() => setIsLogin(true)}
+          >
+            Login
+          </button>
+          <button
+            className={`tab ${!isLogin ? 'active' : ''}`}
+            onClick={() => setIsLogin(false)}
+          >
+            Sign up
+          </button>
+          <div className={`slider ${isLogin ? 'login' : 'signup'}`}></div>
+        </div>
+        {isLogin ? (
+          <form onSubmit={handleLogin} className="LoginSignup-form">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="LoginEmail"
+              value={loginData.email}
+              onChange={handleLoginChange}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="LoginPassword"
+              value={loginData.password}
+              onChange={handleLoginChange}
+            />
+            <div className="ForgotPasswordContainer">
+              <span 
+                className="ForgotPassword" 
+                onClick={() => navigate('/forgot-password')}
+              >
+                Forgot Password?
+              </span>
+            </div>
+            <button type="submit">Log in</button>
+          </form>
+        ) : (
+          <form onSubmit={handleSignup} className="LoginSignup-form">
+            <div className="nameContainer">
               <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="LoginEmail"
-                value={loginData.email}
-                onChange={handleLoginChange}
+                className="signupFirstName"
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                value={signupData.firstName}
+                onChange={handleSignupChange}
               />
+              <input
+                className="signupLastName"
+                type="text"
+                name="lastName"
+                placeholder="Last Name"
+                value={signupData.lastName}
+                onChange={handleSignupChange}
+              />
+            </div>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="signupEmail"
+              value={signupData.email}
+              onChange={handleSignupChange}
+            />
+            <div className="passwordContainer">
               <input
                 type="password"
                 name="password"
                 placeholder="Password"
-                className="LoginPassword"
-                value={loginData.password}
-                onChange={handleLoginChange}
-              />
-              <button type="submit">Log in</button>
-            </form>
-          ) : (
-            <form onSubmit={handleSignup} className="LoginSignup-form">
-              <div className="nameContainer">
-                <input
-                  className="signupFirstName"
-                  type="text"
-                  name="firstName"
-                  placeholder="First Name"
-                  value={signupData.firstName}
-                  onChange={handleSignupChange}
-                />
-                <input
-                  className="signupLastName"
-                  type="text"
-                  name="lastName"
-                  placeholder="Last Name"
-                  value={signupData.lastName}
-                  onChange={handleSignupChange}
-                />
-              </div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                className="signupEmail"
-                value={signupData.email}
+                className="signupPasswordInput"
+                value={signupData.password}
                 onChange={handleSignupChange}
               />
-              <div className="passwordContainer">
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="signupPasswordInput"
-                  value={signupData.password}
-                  onChange={handleSignupChange}
-                />
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  placeholder="Confirm Password"
-                  className="signupConfirmPasswordInput"
-                  value={signupData.confirmPassword}
-                  onChange={handleSignupChange}
-                />
-              </div>
               <input
                 type="password"
-                name="adminKey"
-                placeholder="Admin Key?"
-                className="adminKeyInput"
-                value={signupData.adminKey}
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                className="signupConfirmPasswordInput"
+                value={signupData.confirmPassword}
                 onChange={handleSignupChange}
               />
-              <button type="submit">Sign up</button>
-            </form>
-          )}
-        </div>
-        <div className='Circle'></div>
+            </div>
+            <input
+              type="password"
+              name="adminKey"
+              placeholder="Admin Key?"
+              className="adminKeyInput"
+              value={signupData.adminKey}
+              onChange={handleSignupChange}
+            />
+            <button type="submit">Sign up</button>
+          </form>
+        )}
       </div>
+      {/* Updated Circle */}
+      <div className={`Circle ${isLogin ? 'login' : 'signup'}`} />
     </div>
+  </div>
   );
 };
 
