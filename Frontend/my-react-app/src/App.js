@@ -20,7 +20,6 @@ function App() {
 
         {/* Protected Routes */}
         <Route path="/" element={ <ProtectedRoute> <HomePage /> </ProtectedRoute> } />
-        <Route path="/home" element={ <ProtectedRoute> <HomePage /> </ProtectedRoute> } />
         <Route path="/new-project" element={ <ProtectedRoute> <NewProject /> </ProtectedRoute> }/>
         <Route path="/recommendations" element={ <ProtectedRoute> <Recommendations /> </ProtectedRoute> }/>
         <Route path="/interns" element={ <ProtectedRoute> <Interns /> </ProtectedRoute> }/>

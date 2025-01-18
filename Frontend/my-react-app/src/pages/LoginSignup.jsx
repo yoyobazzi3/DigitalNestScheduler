@@ -43,7 +43,7 @@ const LoginSignup = () => {
       const response = await axios.post('http://localhost:3360/login', loginData);
       localStorage.setItem('token', response.data.token);
       alert('Login successful!');
-      navigate('/Home');
+      navigate('/');
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Failed to log in. Please check your credentials.');
