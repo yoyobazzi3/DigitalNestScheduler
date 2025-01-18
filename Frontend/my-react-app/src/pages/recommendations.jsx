@@ -136,6 +136,19 @@ const Recommendations = () => {
           </div>
         ))}
       </div>
+
+      <div className="buttons-container">
+        <div className="switch-button">
+          <label class="switch">
+            <input type="checkbox"></input>
+            <span class="slider round"></span>
+          </label>
+          <p>Toggle to Potential Leaders</p>
+        </div>
+      <div className="submit-button">
+        <button className="submit">Submit</button>
+      </div>
+      </div>
     </div>
   );
 };
