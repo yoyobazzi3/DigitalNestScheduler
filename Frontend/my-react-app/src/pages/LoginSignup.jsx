@@ -87,7 +87,7 @@ const LoginSignup = () => {
 
   return (
     <div className="LoginSignupWrapper">
-    <div className={`Waves ${isLogin ? '' : 'mirrored'}`}></div>
+    <div className={`Waves ${isLogin ? 'signup' : 'login'}`} />
     <div className="LoginSignup">
       <div className="LoginSignup-container">
         <div className="tabs">
