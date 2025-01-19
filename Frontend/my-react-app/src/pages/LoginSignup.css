@@ -205,14 +205,14 @@
 }
 
 .Circle.login {
-  background-image: url('../assets/completeCircle.png'); 
+  background-image: url('../assets/LoginCircle.png'); 
   bottom: 0%;
   right: 0%; 
-  width: 20%;
-  height: 40%;
+  width: 33.5%;
+  height: 50%;
   position: absolute;
   background-repeat: no-repeat;
-  background-size: contain;
+  background-size: 100%;
   transition: all 0.5s ease-in-out;
   z-index: 10;
 }
