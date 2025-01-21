@@ -1,0 +1,56 @@
+.filtering-wrapper {
+    flex: 1;
+    max-width: 300px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+    background-color: #1e1e1e; /* Background color to differentiate the border */
+    height: 470px; /* Fixed height for consistency */
+}
+
+.filtering-wrapper h3 {
+    text-align: center;
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.filtering-wrapper label {
+    display: block;
+    margin-bottom: 30px; /* Space below the label */
+    font-weight: bold;
+    color: white;
+}
+
+.filtering-wrapper select {
+    width: 100%; /* Full width dropdown */
+    padding: 10px;
+    border: 1px solid #ccc; /* Single border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: white; /* White background */
+    font-size: 1rem; /* Standard font size */
+    margin-bottom: 40px; /* Space between dropdowns */
+    color: black; /* Dark text */
+    transition: border-color 0.3s ease;
+}
+
+.filtering-wrapper select:focus {
+    border-color: black; /* Highlight border on focus */
+    outline: none; /* Remove default focus outline */
+}
+
+.filtering-wrapper button {
+    width: 100%; /* Full width button */
+    padding: 12px;
+    border: none; /* Remove border */
+    border-radius: 5px; /* Rounded corners */
+    background: linear-gradient(270deg, #a732e6, #bc36c8); /* Gradient background */
+    color: #fff; /* White text */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtering-wrapper button:hover {
+    background-color: #8e2bb5; /* Darker gradient on hover */
+}

@@ -1,59 +1,99 @@
+.big-container{
+  background: #191919;
+}
+
 .container {
-    display: flex;
-    flex-direction: column;
-  }
-  
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+  height: 100vh; /* Full viewport height */
+  background-color: #191919; /* Dark background for the entire page */
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 30px; /* Space between filtering box and interns list */
+  width: 90%; /* Adjust width for larger screens */
+  max-width: 1200px; /* Limit maximum width */
+
+}
+
+.search-bar-wrapper {
+  margin-bottom: 50px;
+}
+
+
+.interns-wrapper {
+  flex: 2; /* Take more space for interns list */
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #1e1e1e; /* Dark grey background for interns list */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  height: 470px; /* Limit height for scrolling */
+  overflow-y: scroll; /* Add vertical scrolling if content exceeds height */
+}
+
+.interns-wrapper ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.interns-wrapper ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 25px;
+  font-weight: bold;
+  margin: 10px 0;
+  height: 25px;
+  border-radius: 25px;
+  padding: 15px;
+  background-color: #2b2b2b; /* Slightly lighter background for list items */
+  color: white;
+}
+
+.interns-wrapper ul li img.profile {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.interns-wrapper ul li span.name {
+  flex: 1;
+  text-align: center;
+  color: white;
+}
+
+.interns-wrapper ul li .icon-container {
+  display: flex;
+  gap: 10px;
+}
+
+.interns-wrapper ul li img.edit,
+.interns-wrapper ul li img.delete {
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
   .content {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers content horizontally */
-    gap: 20px; /* Adds spacing between SearchBar and interns list */
-    margin-top: 20px; /* Adds space below the NavBar */
+    flex-direction: column; /* Stack filtering and interns list vertically */
+    align-items: center;
   }
-  
-  .search-bar-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+
+  .filtering-wrapper {
+    max-width: 100%;
+    margin-bottom: 20px; /* Add spacing below filtering box */
   }
-  
-  .interns-wrapper ul {
-    list-style-type: none;
-    padding: 0;
+
+  .interns-wrapper {
+    max-width: 100%;
   }
-  
-  .interns-wrapper ul li {
-    display: flex;
-    align-items: center; /* Centers items vertically */
-    justify-content: space-between; /* Distributes items horizontally */
-    margin: 10px 0;
-    border: 2px solid #f0f0f0;
-    border-radius: 25px;
-    height: 50px; /* Adjust for larger content */
-    width: 400px;
-    padding: 0 10px; /* Adds padding for spacing */
-  }
-  
-  .profile {
-    height: 30px; /* Adjust size of the profile picture */
-    width: 30px;
-    border-radius: 50%; /* Makes it circular */
-  }
-  
-  .name {
-    flex: 1; /* Allows the name to take up available space */
-    text-align: center; /* Centers the name */
-  }
-  
-  .icon-container {
-    display: flex;
-    gap: 10px; /* Space between the edit and delete icons */
-  }
-  
-  .edit,
-  .delete {
-    height: 20px; /* Adjust icon size */
-    width: 20px;
-    cursor: pointer;
-  }
-  
+}
