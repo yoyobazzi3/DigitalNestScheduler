@@ -1,3 +1,15 @@
+.internSignupLogo{
+    width: 100px;
+    rotate: 170deg;
+}
+
+.internLogoSignUp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #a732e6;
+}
+
 .Intern-signup-form {
     margin: 0 auto;
     padding: 30px 40px;
@@ -30,9 +42,9 @@
   }
 
   .internSignupTitle{
-    color: black;
+    color: #a732e6;
     text-align: center;
-    text-decoration: underline;
+    margin-top: -8px;
   }
 
   .internNameContainer, .internPasswordContainer{
@@ -61,10 +73,6 @@
     display: flex;
     justify-content: center;
     align-self: center;
-  }
-  
-  .Intern-signup-form button:hover {
-    background-color: #45a049;
   }
 
   .internWaves{

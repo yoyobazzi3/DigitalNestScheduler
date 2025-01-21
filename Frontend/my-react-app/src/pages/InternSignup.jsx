@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Logo from '../assets/Logo.png';
 import './InternSignup.css';
 
 const InternSignup = () => {
@@ -66,7 +67,11 @@ const InternSignup = () => {
     <div className='internSignupWrapper'>
       <div className="internWaves"/>
       <form onSubmit={handleSubmit} className="Intern-signup-form">
-        <h1 className='internSignupTitle'>Intern Signup</h1>
+        <div className="internLogoSignUp">
+          <h1>Bizznest Flow</h1>
+          <img src={Logo} alt='Logo' className='internSignupLogo'/>
+        </div>
+        <h2 className='internSignupTitle'>Intern Signup</h2>
         <div className="internNameContainer">
           <input
             className='internFirstName'
