@@ -60,7 +60,7 @@
   font-weight: bold;
 }
 
-.slider {
+.sliderTab {
   position: absolute;
   top: 0;
   left: 0;
@@ -72,11 +72,11 @@
   z-index: 1;
 }
 
-.slider.login {
+.sliderTab.login {
   transform: translateX(0);
 }
 
-.slider.signup {
+.sliderTab.signup {
   transform: translateX(100%);
 }
 
@@ -147,7 +147,7 @@
   margin-bottom: 15px; 
 }
 
-.ForgotPassword {
+.ForgotPassword, .internSignup {
   font-size: 14px;
   color: #a732e6;
   cursor: pointer;

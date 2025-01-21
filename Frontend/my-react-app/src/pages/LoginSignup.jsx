@@ -103,7 +103,7 @@ const LoginSignup = () => {
           >
             Sign up
           </button>
-          <div className={`slider ${isLogin ? 'login' : 'signup'}`}></div>
+          <div className={`sliderTab ${isLogin ? 'login' : 'signup'}`}></div>
         </div>
         {isLogin ? (
           <form onSubmit={handleLogin} className="LoginSignup-form">
@@ -123,15 +123,13 @@ const LoginSignup = () => {
               value={loginData.password}
               onChange={handleLoginChange}
             />
-            <div className="ForgotPasswordContainer">
-              <span 
+            <button type="submit">Log in</button>
+            <span 
                 className="ForgotPassword" 
                 onClick={() => navigate('/forgot-password')}
               >
                 Forgot Password?
               </span>
-            </div>
-            <button type="submit">Log in</button>
           </form>
         ) : (
           <form onSubmit={handleSignup} className="LoginSignup-form">
@@ -188,6 +186,12 @@ const LoginSignup = () => {
               onChange={handleSignupChange}
             />
             <button type="submit">Sign up</button>
+            <span 
+                className="internSignup" 
+                onClick={() => navigate('/internSignUp')}
+              >
+                Are you an Intern?
+              </span>
           </form>
         )}
       </div>
