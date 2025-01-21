@@ -129,12 +129,14 @@ body::-webkit-scrollbar-thumb:hover {
     border-radius: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     padding: 5px 10px 5px 10px;
+    overflow-y: hidden;
   }
 
   .row-tablets {
     display: flex;
     gap: 20px;
     overflow-x: auto;
+    overflow-y: hidden;
     scroll-behavior: smooth;
   }
 
@@ -160,17 +162,18 @@ body::-webkit-scrollbar-thumb:hover {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 120px;
+    width: 130px; /* Set a fixed width */
+    min-width: 130px;
     height: 80px;
     font-size: 14px;
     text-align: center;
     overflow-y: hidden;
+    overflow-x: hidden;
     transition: background 0.8s ease;
     animation: fadeInSlideUp 0.6s ease-in-out;
     animation-fill-mode: both; /* Ensures the final state is maintained */
     opacity: 0; /* Default hidden */
   }
-
 
 
   .tablet:hover {
@@ -190,8 +193,8 @@ body::-webkit-scrollbar-thumb:hover {
   }
 
   .assign-button {
-    background-color: #ffffff;
-    color: #000000;
+    background-color: #444;
+    color:  #ffffff;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -202,8 +205,8 @@ body::-webkit-scrollbar-thumb:hover {
   }
   
   .assign-button:hover {
-    background-color: #00bcd4;
-    color: #fff;
+    background-color: #ffffff;
+    color:  #000000;
   }
 
 
