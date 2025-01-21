@@ -6,6 +6,7 @@ import recommendationsCtrl from '../controllers/recommendationsCtrl.js';
 import deleteProjectCtrl from '../controllers/deleteProjectCtrl.js';
 import internSignUpCtrl from '../controllers/internSignUpCtrl.js';
 import getInternsCtrl from '../controllers/getInternsCtrl.js';
+import loginCtrl from '../controllers/LogInCtrl.js';
 
 
 const routes = (app) => {
@@ -14,6 +15,9 @@ const routes = (app) => {
 
     app.route('/signup')
      .post(signupCtrl.signup);
+
+    app.route('/login')
+     .post(loginCtrl.login);
 
     app.route('/getProjects') 
     .get(getProjectCtrl.getProjects)

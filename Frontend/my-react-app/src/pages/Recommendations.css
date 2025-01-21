@@ -1,9 +1,15 @@
-/* .recommendations-container {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    background-color: #f0f0f0;
-  } */
-  
+body::-webkit-scrollbar {
+  height: 6px;
+  background: #222;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: #444;
+  border-radius: 3px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #4d4d4d;
+}  
 .recommendations-container {
     margin: 0 20px 0 20px;
 }
@@ -88,6 +94,10 @@
     padding: 10px;
   }
 
+  .recommendations-header {
+    font-size: 17px;
+  }
+
   .suggestions-container {
     background-color: #222;
     padding: 10px;
@@ -98,45 +108,52 @@
     align-items: center;
   }
 
-  .row-1,
-  .row-2,
-  .row-3 {
+  .tool-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 20px 0 10px; /* Adds space around the header */
+    text-align: center; /* Centers the header */
+    color: #fff;
+  }
+
+
+
+  .tablet-rows {
+    margin-bottom: 20px; 
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #191919;
     margin: 15px 0;
-    width: 100%;
-    max-width: 100%;
+    width: 90vw;
     border-radius: 10px;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-    width: max-content;
     padding: 5px 10px 5px 10px;
-    
+    overflow-y: hidden;
   }
 
   .row-tablets {
     display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Center the row when it shrinks */
     gap: 20px;
     overflow-x: auto;
-    width: 100%;
-    max-width: 100%;
-    scrollbar-width: thin;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+  }
+
+  .row-tablets::-webkit-scrollbar {
+    height: 6px;
+    background: #222;
   }
 
   .row-tablets::-webkit-scrollbar-thumb {
-    background-color: #888; /* Customize scrollbar thumb */
-    border-radius: 10px; /* Make scrollbar thumb rounded */
+    background-color: black;
+    border-radius: 2px;
   }
-  
   .row-tablets::-webkit-scrollbar-thumb:hover {
-    background-color: #555; /* Darker color on hover */
+    background-color: #444;
   }
 
   .tablet {
-    background-color: #282c34;
     color: white;
     border-radius: 8px;
     padding: 10px;
@@ -145,10 +162,23 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 120px;
+    width: 130px; /* Set a fixed width */
+    min-width: 130px;
     height: 80px;
     font-size: 14px;
     text-align: center;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    transition: background 0.8s ease;
+    animation: fadeInSlideUp 0.6s ease-in-out;
+    animation-fill-mode: both; /* Ensures the final state is maintained */
+    opacity: 0; /* Default hidden */
+  }
+
+
+  .tablet:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
   }
   
   .tablet-name {
@@ -157,14 +187,14 @@
   }
   
   .tablet-percent {
-    color: #4caf50;
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
   }
 
   .assign-button {
-    background-color: #4caf50;
-    color: white;
+    background-color: #444;
+    color:  #ffffff;
     border: none;
     border-radius: 5px;
     padding: 5px 10px;
@@ -175,8 +205,107 @@
   }
   
   .assign-button:hover {
-    background-color: #45a049;
+    background-color: #ffffff;
+    color:  #000000;
   }
+
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 25px 0 25px 0;
+}
+/* .switch-button p {
+  display: flex;
+} */
+  /* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: #43c6a1;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #25FFC1;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #25FFC1;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.submit-button {
+  display: flex; /* Ensures the flex property is applied */
+  justify-content: flex-end; /* Aligns the button to the right */
+  margin-right: 0; /* Optional: Adds some space from the right edge */
+}
+
+.submit {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background: linear-gradient(to bottom right, #ef2b8d, #b102f6, #55fff6);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  cursor: pointer;
+  background-size: 400% 400%;
+  animation: waveEffect 3.3s ease infinite;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+.submit:hover {
+  transform: scale(1.05);
+}
 
   @keyframes waveEffect {
     0% {
@@ -189,3 +318,18 @@
       background-position: 0% 50%;
     }
   }
+
+/* Fade and slide animation */
+@keyframes fadeInSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+  

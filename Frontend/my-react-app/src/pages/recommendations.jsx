@@ -6,6 +6,9 @@ import './Recommendations.css';
 const Recommendations = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [groupedInterns, setGroupedInterns] = useState({});
+  const [isAscending, setIsAscending] = useState(false); // Track toggle state
+  const [animationKey, setAnimationKey] = useState(0);
   const location = useLocation();
 
   useEffect(() => {
@@ -29,6 +32,7 @@ const Recommendations = () => {
 
         if (response.ok) {
           setData(result);
+          groupAndSortInterns(result, false); // Initialize with descending order
         } else {
           setError(result.message || 'Error fetching recommendations');
         }
@@ -40,23 +44,75 @@ const Recommendations = () => {
     fetchRecommendations();
   }, [location.search]);
 
-  if (error) return <p>{error}</p>;
-  if (!data) return <p>Loading recommendations...</p>;
+  const groupAndSortInterns = (data, ascending) => {
+    const grouped = {};
 
-  // Group interns by tools using skillDifferences
-  const groupedInterns = {};
-  data.skillDifferences.forEach(intern => {
-    intern.calculations.forEach(calc => {
-      const toolID = calc.toolID;
-      if (!groupedInterns[toolID]) {
-        groupedInterns[toolID] = [];
-      }
-      groupedInterns[toolID].push({
-        name: `${intern.firstName} ${intern.lastName}`,
-        percentIncrease: calc.percentIncrease,
+    data.skillDifferences.forEach(intern => {
+      intern.calculations.forEach(calc => {
+        const toolID = calc.toolID;
+        if (!grouped[toolID]) {
+          grouped[toolID] = [];
+        }
+        grouped[toolID].push({
+          name: `${intern.firstName} ${intern.lastName}`,
+          percentIncrease: calc.percentIncrease,
+        });
       });
     });
-  });
+
+    // Sort each group
+    Object.keys(grouped).forEach(toolID => {
+      grouped[toolID].sort((a, b) =>
+        ascending
+          ? a.percentIncrease - b.percentIncrease
+          : b.percentIncrease - a.percentIncrease
+      );
+    });
+
+    setGroupedInterns(grouped);
+  };
+
+  const toggleOrder = () => {
+    const newOrder = !isAscending; // Toggle state
+    setIsAscending(newOrder);
+    groupAndSortInterns(data, newOrder);
+    // Increment animationKey to trigger re-render and re-animation
+    setAnimationKey((prevKey) => prevKey + 1);
+  };
+
+  const toolNames = {
+    0: "Frontend",
+    1: "Backend",
+    2: "Wordpress",
+    3: "Photoshop",
+    4: "Illustrator",
+    5: "Figma",
+    6: "Premiere Pro",
+    7: "Camera Work"
+  };
+
+  const getBackgroundGradient = (percentIncrease) => {
+    if (percentIncrease >= 20) {
+      return 'linear-gradient(to bottom, #356086, #25FFC1)'; // Green gradient
+    }
+    if (percentIncrease > 0) {
+      return 'linear-gradient(to bottom,rgb(206, 91, 42),rgb(251, 179, 45))'; // Yellow gradient
+    }
+    return 'linear-gradient(to bottom,rgb(174, 40, 40), #EF2BD2)'; // Red gradient
+  };
+
+  const getBackgroundGradientForLeaders = (percentIncrease) => {
+    if (percentIncrease <= 0) {
+      return 'linear-gradient(to bottom, #356086, #25FFC1)'; // Green gradient
+    }
+    if (percentIncrease < 20 && percentIncrease > 0) {
+      return 'linear-gradient(to bottom,rgb(206, 91, 42),rgb(251, 179, 45))'; // Yellow gradient
+    }
+    return 'linear-gradient(to bottom,rgb(174, 40, 40), #EF2BD2)'; // Red gradient
+  };
+
+  if (error) return <p>{error}</p>;
+  if (!data) return <p>Loading recommendations...</p>;
 
   return (
     <div className="recommendations-container">
@@ -68,7 +124,7 @@ const Recommendations = () => {
         <div className="difficulty">
           {data.projects[0]?.tools?.map((tool, index) => (
             <div key={index} className="tool-box">
-              <h4>{`Tool ${tool.toolID}`}</h4>
+              <h4>{`${toolNames[tool.toolID]}`}</h4>
               <div className="tool-boxes">{parseFloat(tool.difficulty.toFixed(2))}</div>
             </div>
           ))}
@@ -83,21 +139,63 @@ const Recommendations = () => {
           </div>
         </div>
       </div>
+      <div className="recommendations-header">
+  <h2>
+    Recommended for{' '}
+    <span style={{ color: '#25FFC1' }}>
+      {isAscending ? 'Project Leadership' : 'Optimized Learning'}
+    </span>
+  </h2>
+</div>
 
       <div className="suggestions-container">
         {data.projects[0]?.tools?.map((tool, index) => (
-          <div key={index} className={`row-${index + 1}`}>
-            <div className="row-tablets">
-              {groupedInterns[tool.toolID]?.map((intern, idx) => (
-                <div key={idx} className="tablet">
-                  <div className="tablet-name">{intern.name}</div>
-                  <div className="tablet-percent">{`${intern.percentIncrease}%`}</div>
-                  <button className="assign-button">Assign</button>
-                </div>
-              ))}
+          <div key={index} className={`tool-row-${index + 1}`}>
+            <h3 className="tool-header">{toolNames[tool.toolID] || 'Unknown Tool'}</h3>
+            <div className="tablet-rows">
+              <div className="row-tablets">
+                {groupedInterns[tool.toolID]?.map((intern, idx) => (
+                  <div 
+                  key={`${animationKey}-${idx}`}
+                    className="tablet"
+                    style={{ 
+                      background: isAscending
+                      ? getBackgroundGradientForLeaders(intern.percentIncrease)
+                      : getBackgroundGradient(intern.percentIncrease),
+                      animationDelay: `${idx * 0.05}s`, // Stagger animations
+                     }}
+                  >
+                    <div className="tablet-name">{intern.name}</div>
+                    <div className="tablet-percent">
+                        {isAscending 
+                          ? `${-(intern.percentIncrease)}%` // Convert signs for leadership view
+                          : `${(intern.percentIncrease)}%` // Convert signs for optimized learning view
+                        }
+                      </div>
+                    <button className="assign-button">Assign</button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="buttons-container">
+        <div className="switch-button">
+          <label className="switch">
+            <input 
+              type="checkbox"
+              checked={isAscending}
+              onChange={toggleOrder}
+            />
+            <span className="slider round"></span>
+          </label>
+          <p>Toggle to Potential Leaders</p>
+        </div>
+        <div className="submit-button">
+          <button className="submit">Submit</button>
+        </div>
       </div>
     </div>
   );
