@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './InternSignup.css';
 
 const InternSignup = () => {
   const [formData, setFormData] = useState({
@@ -62,57 +63,60 @@ const InternSignup = () => {
   };
 
   return (
-    <div>
-      <h2>Intern Signup Page</h2>
+    <div className='internSignupWrapper'>
+      <div className="internWaves"/>
       <form onSubmit={handleSubmit} className="Intern-signup-form">
-        <label>First Name</label>
+        <h1 className='internSignupTitle'>Intern Signup</h1>
+        <div className="internNameContainer">
+          <input
+            className='internFirstName'
+            type="text"
+            placeholder="Enter your first name"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+          <input
+            className='internLastName'
+            type="text"
+            placeholder="Enter your last name"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
         <input
-          type="text"
-          placeholder="Enter your first name"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-        />
-        <label>Last Name</label>
-        <input
-          type="text"
-          placeholder="Enter your last name"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-        />
-        <label>Email</label>
-        <input
+          className='internEmail'
           type="email"
           placeholder="Enter your email"
           name="email"
           value={formData.email}
           onChange={handleChange}
         />
-        <label>Password</label>
-        <input
-          type="password"
-          placeholder="Enter your password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-        <label>Confirm Password</label>
-        <input
-          type="password"
-          placeholder="Re-enter your password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
-        <label>Department</label>
+        <div className="internPasswordContainer">
+          <input
+            className='internPassword'
+            type="password"
+            placeholder="Enter your password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <input
+            className='internConfirmPassword'
+            type="password"
+            placeholder="Re-enter your password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+        </div>
         <select name="DepartmentID" value={formData.DepartmentID} onChange={handleChange}>
           <option value="">Select a department</option>
           <option value="0">Web Development</option>
           <option value="1">Design</option>
           <option value="2">Video</option>
         </select>
-        <label>Location</label>
         <select name="location" value={formData.location} onChange={handleChange}>
           <option value="">Select a location</option>
           <option value="Salinas">Salinas</option>
@@ -121,8 +125,9 @@ const InternSignup = () => {
           <option value="Stockton">Stockton</option>
           <option value="Modesto">Modesto</option>
         </select>
-        <button type="submit">Submit</button>
+        <button className='internSignupBttn' type="submit" >Signup</button>
       </form>
+      <div className='internCircle'/>
     </div>
   );
 };
