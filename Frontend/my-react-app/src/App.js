@@ -9,6 +9,7 @@ import InternSignup from './pages/InternSignup';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoutes/ProtectedRoutes';
 import LoginSignup from './pages/LoginSignup';
+import Thankyou from './pages/Thankyou';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/loginsignup" element={<LoginSignup />} />
         <Route path="/login" element={<Navigate to="/loginsignup" />} />
         <Route path='/internsignup' element={<InternSignup />} />
+        <Route path='/thankyou' element={<Thankyou />} />
 
         {/* Protected Routes */}
         <Route path="/" element={ <ProtectedRoute> <HomePage /> </ProtectedRoute> } />
