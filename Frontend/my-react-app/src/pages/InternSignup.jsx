@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Logo from '../assets/Logo.png';
 import './InternSignup.css';
@@ -13,6 +14,8 @@ const InternSignup = () => {
     DepartmentID: '',
     location: '',
   });
+
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -56,7 +59,9 @@ const InternSignup = () => {
         DepartmentID,
         location,
       });
+
       alert(response.data.message);
+      navigate('/thankyou');
     } catch (error) {
       console.error('Error submitting form:', error);
       alert('Failed to register');
@@ -130,7 +135,7 @@ const InternSignup = () => {
           <option value="Stockton">Stockton</option>
           <option value="Modesto">Modesto</option>
         </select>
-        <button className='internSignupBttn' type="submit" >Signup</button>
+        <button className='internSignupBttn' type="submit">Signup</button>
       </form>
       <div className='internCircle'/>
     </div>
