@@ -1,7 +1,7 @@
 import React from 'react';
 import './ImgCarousel.css'; // Assuming styles are stored here
 
-const App = () => {
+const  Carousel = () => {
   return (
     <div className="rectangle-container">
       <div className="row">
@@ -23,4 +23,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Carousel;
