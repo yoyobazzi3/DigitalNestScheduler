@@ -45,16 +45,7 @@ input[type="number"] {
 }
 
 
-@keyframes easeIn {
-    0% {
-        opacity: 0;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+
 
 .submit-btn-div {
   display: flex;
@@ -63,7 +54,7 @@ input[type="number"] {
 
 
 .submit-btn {
-    background: linear-gradient(to bottom right, #ef2b8d, #b102f6, #55fff6);
+    background-color:#00bcd4;
     width: 6em;
     border: none;
     border-radius: 8px;
@@ -72,9 +63,6 @@ input[type="number"] {
     font-size: 1.2rem;
     font-weight: bold;
     cursor: pointer;
-    background-size: 400% 400%;
-    animation: waveEffect 3.3s ease infinite;
-    transition: transform 0.3s, background-color 0.3s;
 }
 
 .submit-btn:hover {
@@ -85,6 +73,7 @@ h4 {
     font-size: small;
     text-align: center;
     margin-left: -5px;
+    color: #fff;
 }
 
 
@@ -100,7 +89,16 @@ h4 {
       background-position: 0% 50%;
     }
   }
-
+  @keyframes easeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 
   /* TODO */
   /* under 786px: the top 3 fields dont line up with submit button */
