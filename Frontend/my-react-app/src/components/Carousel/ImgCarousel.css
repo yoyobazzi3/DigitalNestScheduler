@@ -1,0 +1,46 @@
+/* Container for all rectangles */
+.rectangle-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    gap: 20px; /* Space between rows */
+  }
+  
+  /* Row containing the two smaller rectangles */
+  .row {
+    display: flex;
+    width: 100%; /* Adjust width if needed */
+    justify-content: center;
+    gap: 20px; /* Space between rectangles */
+  }
+  
+  /* Common rectangle styles */
+  .rectangle {
+    background-color: #ffffffb4; /* Change to desired color */
+    border: none;
+    border-radius: 8px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Small rectangles (e.g., for tablets) */
+  .rectangle-small {
+    width: 300px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Large rectangle spans the width of the two small ones */
+  .rectangle-large {
+    width: calc(300px * 2 + 20px); /* Match combined width of two small rectangles */
+    height: 200px; /* Adjust as needed */
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
