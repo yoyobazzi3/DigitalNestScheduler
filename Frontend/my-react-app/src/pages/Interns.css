@@ -7,8 +7,8 @@
   align-items: center;
   flex-direction: column;
   padding: 20px;
-  height: 100vh; /* Full viewport height */
-  background-color: #191919; /* Dark background for the entire page */
+  height: 100vh;
+  background-color: #191919;
 }
 
 .content {
@@ -16,9 +16,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px; /* Space between filtering box and interns list */
-  width: 90%; /* Adjust width for larger screens */
-  max-width: 1200px; /* Limit maximum width */
+  gap: 30px;
+  width: 90%;
+  max-width: 1200px;
 
 }
 
@@ -28,13 +28,27 @@
 
 
 .interns-wrapper {
-  flex: 2; /* Take more space for interns list */
+  flex: 2;
   padding: 20px;
   border-radius: 10px;
-  background-color: #1e1e1e; /* Dark grey background for interns list */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
-  height: 470px; /* Limit height for scrolling */
-  overflow-y: scroll; /* Add vertical scrolling if content exceeds height */
+  background-color: #1e1e1e;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  height: 470px;
+  display: flex;
+  flex-direction: column;
+}
+
+.interns-wrapper h2 {
+  margin-bottom: 10px;
+  color: white;
+  font-size: 28px;
+  text-align: center;
+}
+
+.intern-container {
+  flex: 1;
+  overflow-y: scroll; /* Makes the list scrollable */
+  padding: 0 10px; /* Optional: Add padding inside the scroll area */
 }
 
 .interns-wrapper ul {
@@ -49,12 +63,19 @@
   justify-content: space-between;
   font-size: 25px;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 10px 5px;
+  width:95%;
   height: 25px;
   border-radius: 25px;
   padding: 15px;
-  background-color: #2b2b2b; /* Slightly lighter background for list items */
+  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
   color: white;
+}
+
+.interns-wrapper ul li:hover {
+  transform: scale(1.03);
+  background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
+  transition: background 0.5s ease, transform 0.3s ease;
 }
 
 .interns-wrapper ul li img.profile {
@@ -72,6 +93,11 @@
 .interns-wrapper ul li .icon-container {
   display: flex;
   gap: 10px;
+
+}
+.interns-wrapper ul li img.profile{
+  filter: brightness(0) invert(1); /* Makes the image white */
+
 }
 
 .interns-wrapper ul li img.edit,
@@ -79,8 +105,8 @@
   height: 25px;
   width: 25px;
   cursor: pointer;
+  filter: brightness(0) invert(1); /* Makes the image white */
 }
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .content {

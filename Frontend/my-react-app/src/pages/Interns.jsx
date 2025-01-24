@@ -46,27 +46,34 @@ const Interns = () => {
                     </div>
                     <Filtering/>
                 </div>
-                <div className="interns-wrapper">
 
-                    <h2>Interns:</h2>
-                    <ul>
-                        {filteredInterns.length > 0 ? (
-                            filteredInterns.map((intern) => (
-                                <li key={intern.InternID}>
-                                    <img src={profile} alt="proFfile" className="profile" />
-                                    <span className="name">
-                    {intern.firstName} {intern.lastName}
-                  </span>
-                                    <div className="icon-container">
-                                        <img src={edit} alt="edit" className="edit" onClick={() => navigate(`/editIntern/${intern.InternID}`)}/>
-                                        <img src={del} alt="delete" className="delete" />
-                                    </div>
-                                </li>
-                            ))
-                        ) : (
-                            <p>No interns found</p>
-                        )}
-                    </ul>
+                <div className="interns-wrapper">
+                    <h2>Interns:</h2> {/* Keep this outside the scrollable area */}
+                    <div className="intern-container"> {/* New container for scrolling */}
+                        <ul>
+                            {filteredInterns.length > 0 ? (
+                                filteredInterns.map((intern) => (
+                                    <li key={intern.InternID}>
+                                        <img src={profile} alt="profile" className="profile"/>
+                                        <span className="name">
+              {intern.firstName} {intern.lastName}
+            </span>
+                                        <div className="icon-container">
+                                            <img
+                                                src={edit}
+                                                alt="edit"
+                                                className="edit"
+                                                onClick={() => navigate(`/editIntern/${intern.InternID}`)}
+                                            />
+                                            <img src={del} alt="delete" className="delete"/>
+                                        </div>
+                                    </li>
+                                ))
+                            ) : (
+                                <p>No interns found</p>
+                            )}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
