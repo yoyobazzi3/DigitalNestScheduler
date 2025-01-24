@@ -22,9 +22,9 @@ const updateInternCtrl = {
 
       // Update or insert skills dynamically
       const skills = [
-        { toolID: 0, skillLevel: frontend },
-        { toolID: 1, skillLevel: backend }, 
-        { toolID: 2, skillLevel: database }, 
+        { toolID: 0, skillLevel: frontendSkill },
+        { toolID: 1, skillLevel: backendSkill }, 
+        { toolID: 2, skillLevel: databaseSkill }, 
       ];
 
       for (const skill of skills) {

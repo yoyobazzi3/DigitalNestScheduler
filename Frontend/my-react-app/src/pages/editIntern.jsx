@@ -28,11 +28,13 @@ const EditIntern = () => {
         if (response.ok) {
           const data = await response.json();
   
+          // Map skills from the fetched data
           const skillsMap = data.skills.reduce((acc, skill) => {
-            acc[skill.toolID] = skill.skillLevel;
+            acc[skill.toolID] = skill.skillLevel || 0; // Default to 0 for missing values
             return acc;
           }, {});
   
+          // Set the formData state with the fetched data
           setFormData({
             firstName: data.firstName,
             lastName: data.lastName,
@@ -56,8 +58,7 @@ const EditIntern = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue = Math.max(0, Math.min(3, Number(value))); // Ensure value is between 0 and 3
-    setFormData({ ...formData, [name]: newValue });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleSubmit = async (e) => {
