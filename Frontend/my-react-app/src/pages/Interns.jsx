@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar';
 import SearchBar from '../components/SearchBar/SearchBar';
 import Filtering from '../components/Filtering/Filtering';
@@ -30,6 +31,8 @@ const Interns = () => {
         setFilteredInterns(results);
     };
 
+    const navigate = useNavigate();
+
     return (
         <div className="big-container">
             <NavBar/>
@@ -50,12 +53,12 @@ const Interns = () => {
                         {filteredInterns.length > 0 ? (
                             filteredInterns.map((intern) => (
                                 <li key={intern.InternID}>
-                                    <img src={profile} alt="profile" className="profile" />
+                                    <img src={profile} alt="proFfile" className="profile" />
                                     <span className="name">
                     {intern.firstName} {intern.lastName}
                   </span>
                                     <div className="icon-container">
-                                        <img src={edit} alt="edit" className="edit" />
+                                        <img src={edit} alt="edit" className="edit" onClick={() => navigate(`/editIntern/${intern.InternID}`)}/>
                                         <img src={del} alt="delete" className="delete" />
                                     </div>
                                 </li>

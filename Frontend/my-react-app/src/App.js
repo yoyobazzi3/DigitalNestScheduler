@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import ProtectedRoute from './components/ProtectedRoutes/ProtectedRoutes';
 import LoginSignup from './pages/LoginSignup';
 import Thankyou from './pages/Thankyou';
+import EditIntern from './pages/editIntern';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/interns" element={ <ProtectedRoute> <Interns /> </ProtectedRoute> }/>
         <Route path="/project/:projectID" element={ <ProtectedRoute> <ProjectInfoPage /> </ProtectedRoute> }/>
         <Route path="/intern-signup" element={ <ProtectedRoute> <InternSignup /> </ProtectedRoute> }/>
+        <Route path="/editIntern/:internID" element={ <ProtectedRoute><EditIntern/></ProtectedRoute>}/>
       </Routes>
     </Router>
   );

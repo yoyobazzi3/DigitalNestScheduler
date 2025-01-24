@@ -7,6 +7,7 @@ import deleteProjectCtrl from '../controllers/deleteProjectCtrl.js';
 import internSignUpCtrl from '../controllers/internSignUpCtrl.js';
 import getInternsCtrl from '../controllers/getInternsCtrl.js';
 import loginCtrl from '../controllers/LogInCtrl.js';
+import updateInternCtrl from '../controllers/updateInternCtrl.js';
 
 
 const routes = (app) => {
@@ -39,6 +40,12 @@ const routes = (app) => {
 
     app.route('/getInterns')
     .get(getInternsCtrl.getInterns);
+
+    app.route('/getIntern/:internID')
+   .get(getInternsCtrl.getIntern);
+
+    app.route('/updateIntern/:internID')
+   .put(updateInternCtrl.updateIntern);
 };
 
 export default routes;
