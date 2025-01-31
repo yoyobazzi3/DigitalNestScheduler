@@ -1,0 +1,91 @@
+.formwrappaer{
+    text-align: center;
+    padding: 25px 25px;
+    background-color: #222;
+}
+
+.editInternContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #000;
+}
+
+.updateNameContainer, .updateLocationDepartmentContainer{
+    display: flex;
+    gap: 20px;
+}
+
+.updateNameContainer input{
+    width: 25vw;
+}
+
+select{
+    width: 25vw;
+}
+
+.updateSkillLevelContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+}
+
+.updateSkillWrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.updateFirstSkill label, .updateSecondSkill label, .updateThirdSkill label{
+    display: flex;
+    flex-direction: column;
+}
+
+.input[type="number"]{
+    font-size: 16px;
+}
+
+.overallScoreContainer p{
+    font-size: 16px;
+    margin: 0;
+}
+
+.overallScoreBox{
+    width: 5em;
+    height: 3em;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.buttonsContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.editInternForm button, .editInternForm .input[type="cancel"]{
+    background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+    border-radius: 5vw;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 23px;
+    cursor: pointer;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-self: center;
+}
+
+.editInternForm button:hover{
+    transform: scale(1.05);
+    transition: transform .15s linear;
+}

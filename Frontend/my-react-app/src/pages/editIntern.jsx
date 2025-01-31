@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import './EditInterns.css';
 
 const skillLabels = {
   0: ["Frontend", "Backend", "Database"],
@@ -61,6 +62,11 @@ const EditIntern = () => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const calculateAverage = () => {
+    const total = formData.frontendSkill + formData.backendSkill + formData.databaseSkill;
+    return (total / 3).toFixed(1); // Round to 1 decimal place
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -88,81 +94,104 @@ const EditIntern = () => {
   const departmentSkills = skillLabels[formData.departmentID] || ["Skill 1", "Skill 2", "Skill 3"];
 
   return (
-    <div className="edit-intern-container">
-      <h2>Edit Intern</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Location:
-          <select name="location" value={formData.location} onChange={handleChange}>
-            <option value="">Select a location</option>
-            <option value="Salinas">Salinas</option>
-            <option value="Gilroy">Gilroy</option>
-            <option value="Watsonville">Watsonville</option>
-            <option value="Stockton">Stockton</option>
-            <option value="Modesto">Modesto</option>
-          </select>
-        </label>
-        <label>
-          Department:
-          <select
-            name="departmentID"
-            value={formData.departmentID}
-            onChange={handleChange}
-          >
-            <option value="">Select a department</option>
-            <option value="0">Web Development</option>
-            <option value="1">Design</option>
-            <option value="2">Video</option>
-          </select>
-        </label>
-        <h3>Skill Levels</h3>
-        <label>
-          {departmentSkills[0]} Skill:
-          <input
-            type="number"
-            name="frontendSkill"
-            value={formData.frontendSkill}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          {departmentSkills[1]} Skill:
-          <input
-            type="number"
-            name="backendSkill"
-            value={formData.backendSkill}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          {departmentSkills[2]} Skill:
-          <input
-            type="number"
-            name="databaseSkill"
-            value={formData.databaseSkill}
-            onChange={handleChange}
-          />
-        </label>
-        <button type="submit">Update</button>
-      </form>
+    <div className="editInternContainer">
+        <div className="formwrappaer">
+            <h2>Edit Intern</h2>
+            <form onSubmit={handleSubmit} className="editInternForm">
+                <div className="updateNameContainer">
+                    <label>
+                    <input
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                    />
+                    </label>
+                    <label>
+                    <input
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                    />
+                    </label>
+                </div>
+                <div className="updateLocationDepartmentContainer">
+                    <label>
+                    <select name="location" value={formData.location} onChange={handleChange}>
+                        <option value="">Select a location</option>
+                        <option value="Salinas">Salinas</option>
+                        <option value="Gilroy">Gilroy</option>
+                        <option value="Watsonville">Watsonville</option>
+                        <option value="Stockton">Stockton</option>
+                        <option value="Modesto">Modesto</option>
+                    </select>
+                    </label>
+                    <label>
+                    <select
+                        name="departmentID"
+                        value={formData.departmentID}
+                        onChange={handleChange}
+                    >
+                        <option value="">Select a department</option>
+                        <option value="0">Web Development</option>
+                        <option value="1">Design</option>
+                        <option value="2">Video</option>
+                    </select>
+                    </label>
+                </div>
+                <div className="updateSkillLevelContainer">
+                    <h3>Skill Levels</h3>
+                    <div className="updateSkillWrapper">
+                        <div className="updateFirstSkill">
+                            <label>
+                            {departmentSkills[0]} Skill:
+                            <input
+                                type="number"
+                                name="frontendSkill"
+                                value={formData.frontendSkill}
+                                onChange={handleChange}
+                            />
+                            </label>
+                        </div>
+                        <div className="updateSecondSkill">
+                            <label>
+                            {departmentSkills[1]} Skill:
+                            <input
+                                type="number"
+                                name="backendSkill"
+                                value={formData.backendSkill}
+                                onChange={handleChange}
+                            />
+                            </label>
+                        </div>
+                        <div className="updateThirdSkill">
+                            <label>
+                            {departmentSkills[2]} Skill:
+                            <input
+                                type="number"
+                                name="databaseSkill"
+                                value={formData.databaseSkill}
+                                onChange={handleChange}
+                            />
+                            </label>
+                        </div>
+                        <div className="overallScoreContainer">
+                            <p>Overall Score</p>
+                            <div className="overallScoreBox">
+                                {calculateAverage()}
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div className="buttonsContainer">
+                    <button type="submit">Update</button>
+                    <button type="cancel" onClick={() => navigate('/interns')}>Cancel</button>
+                </div>
+                
+            </form>
+        </div>
+      
     </div>
   );
 };
