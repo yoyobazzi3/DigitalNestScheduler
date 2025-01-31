@@ -4,9 +4,7 @@ const getInternsCtrl = {
 
   getInterns: async (req, res) => {
     try {
-      const query = `
-         SELECT InternID, firstName, lastName FROM bizznestflow2.interns;
-      `;
+      const query = `SELECT InternID, firstName, lastName, departmentID, location FROM bizznestflow2.interns;`;
 
       const [result] = await promisePool.execute(query);
 
@@ -26,19 +24,14 @@ const getInternsCtrl = {
         return res.status(400).json({ message: 'InternID is required' });
       }
   
-      const query = `
-        SELECT 
-          i.InternID, 
-          i.firstName, 
-          i.lastName, 
+      const query = ` SELECT  i.InternID,  i.firstName,  i.lastName, 
           i.location, 
           i.departmentID, 
           s.toolID, 
           s.skillLevel
         FROM bizznestflow2.interns i
         LEFT JOIN bizznestflow2.skills s ON i.InternID = s.InternID
-        WHERE i.InternID = ?;
-      `;
+        WHERE i.InternID = ?; `;
   
       const [result] = await promisePool.execute(query, [internID]);
   
