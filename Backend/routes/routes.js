@@ -8,6 +8,7 @@ import internSignUpCtrl from '../controllers/internSignUpCtrl.js';
 import getInternsCtrl from '../controllers/getInternsCtrl.js';
 import loginCtrl from '../controllers/LogInCtrl.js';
 import updateInternCtrl from '../controllers/updateInternCtrl.js';
+import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 
 
 const routes = (app) => {
@@ -46,6 +47,9 @@ const routes = (app) => {
 
     app.route('/updateIntern/:internID')
    .put(updateInternCtrl.updateIntern);
+
+   app.route('/addSkills/:internID')
+   .post(addSkillsCtrl.addSkills);
 };
 
 export default routes;
