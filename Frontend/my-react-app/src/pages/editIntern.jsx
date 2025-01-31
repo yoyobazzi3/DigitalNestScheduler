@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import './EditInterns.css';
 
 const skillLabels = {
   0: ["Frontend", "Backend", "Wordpress"],
