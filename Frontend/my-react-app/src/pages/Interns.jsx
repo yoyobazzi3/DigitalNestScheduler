@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar';
 import SearchBar from '../components/SearchBar/SearchBar';
@@ -8,14 +8,25 @@ import del from '../assets/delete.svg';
 import profile from '../assets/profile.svg';
 import './Interns.css';
 
+const departmentMap = {
+    0: "Web Development",
+    1: "Design",
+    2: "Video"
+};
+
 const Interns = () => {
     const [interns, setInterns] = useState([]);
     const [filteredInterns, setFilteredInterns] = useState([]);
+    const [selectedDepartment, setSelectedDepartment] = useState(""); 
+    const [selectedLocation, setSelectedLocation] = useState(""); 
+
+    const filterInterns = useRef([]); // Holds the original intern list
 
     useEffect(() => {
         fetch('http://localhost:3360/getInterns')
             .then((response) => response.json())
             .then((data) => {
+                filterInterns.current = data; // Store original list
                 setInterns(data);
                 setFilteredInterns(data);
             })
@@ -24,10 +35,25 @@ const Interns = () => {
 
     const handleSearch = (query) => {
         const lowerQuery = query.toLowerCase().trim();
-        const results = interns.filter((intern) => {
+        const results = filterInterns.current.filter((intern) => {
             const fullName = `${intern.firstName} ${intern.lastName}`.toLowerCase();
             return fullName.includes(lowerQuery);
         });
+        setFilteredInterns(results);
+    };
+
+    const handleFilterApply = () => {
+        const results = filterInterns.current.filter((intern) => {
+            const matchesDepartment = selectedDepartment
+                ? departmentMap[intern.departmentID] === selectedDepartment
+                : true;
+            const matchesLocation = selectedLocation
+                ? intern.location === selectedLocation
+                : true;
+
+            return matchesDepartment && matchesLocation;
+        });
+
         setFilteredInterns(results);
     };
 
@@ -35,48 +61,54 @@ const Interns = () => {
 
     return (
         <div className="big-container">
-            <NavBar/>
-        <div className="container">
-
-            <div className="content">
-                <div className="filtering-wrapper">
-                    <h3>Filter Interns</h3>
-                    <div className="search-bar-wrapper">
-                        <SearchBar onSearch={handleSearch}/>
+            <NavBar />
+            <div className="container">
+                <div className="content">
+                    <div className="filtering-wrapper">
+                        <h3>Filter Interns</h3>
+                        <div className="search-bar-wrapper">
+                            <SearchBar onSearch={handleSearch} />
+                        </div>
+                        <Filtering
+                            selectedDepartment={selectedDepartment}
+                            setSelectedDepartment={setSelectedDepartment}
+                            selectedLocation={selectedLocation}
+                            setSelectedLocation={setSelectedLocation}
+                            onApplyFilters={handleFilterApply}
+                        />
                     </div>
-                    <Filtering/>
-                </div>
 
-                <div className="interns-wrapper">
-                    <h2>Interns:</h2> {/* Keep this outside the scrollable area */}
-                    <div className="intern-container"> {/* New container for scrolling */}
-                        <ul>
-                            {filteredInterns.length > 0 ? (
-                                filteredInterns.map((intern) => (
-                                    <li key={intern.InternID}>
-                                        <img src={profile} alt="profile" className="profile"/>
-                                        <span className="name">
-              {intern.firstName} {intern.lastName}
-            </span>
-                                        <div className="icon-container">
-                                            <img
-                                                src={edit}
-                                                alt="edit"
-                                                className="edit"
-                                                onClick={() => navigate(`/editIntern/${intern.InternID}`)}
-                                            />
-                                            <img src={del} alt="delete" className="delete"/>
-                                        </div>
-                                    </li>
-                                ))
-                            ) : (
-                                <p>No interns found</p>
-                            )}
-                        </ul>
+                    <div className="interns-wrapper">
+                        <h2>Interns:</h2>
+                        <div className="intern-container">
+                            <ul>
+                                {filteredInterns.length > 0 ? (
+                                    filteredInterns.map((intern) => (
+                                        <li key={intern.InternID}>
+                                            <img src={profile} alt="profile" className="profile" />
+                                            <span className="name">
+                                                {intern.firstName} {intern.lastName}
+                                            </span>
+                                           
+                                            <div className="icon-container">
+                                                <img
+                                                    src={edit}
+                                                    alt="edit"
+                                                    className="edit"
+                                                    onClick={() => navigate(`/editIntern/${intern.InternID}`)}
+                                                />
+                                                <img src={del} alt="delete" className="delete" />
+                                            </div>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <p>No interns found</p>
+                                )}
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     );
 };
