@@ -4,11 +4,20 @@ const updateInternCtrl = {
   updateIntern: async (req, res) => {
     try {
       const { internID } = req.params;
-      const { firstName, lastName, location, departmentID, frontendSkill, backendSkill, databaseSkill } = req.body;
+      const {
+        firstName,
+        lastName,
+        location,
+        departmentID,
+        webDevSkills = {},
+        designSkills = {},
+        filmSkills = {}
+      } = req.body;
 
       console.log('Received InternID:', internID);
       console.log('Received Body:', req.body);
 
+      // Validate required fields
       if (!internID || !firstName || !lastName || !location || departmentID === undefined) {
         return res.status(400).json({ message: 'All fields are required.' });
       }
@@ -22,13 +31,15 @@ const updateInternCtrl = {
 
       // Update or insert skills dynamically
       const skills = [
-        { toolID: 0, skillLevel: frontendSkill },
-        { toolID: 1, skillLevel: backendSkill }, 
-        { toolID: 2, skillLevel: databaseSkill }, 
+        ...Object.entries(webDevSkills).map(([toolID, skillLevel]) => ({ toolID: Number(toolID), skillLevel })),
+        ...Object.entries(designSkills).map(([toolID, skillLevel]) => ({ toolID: Number(toolID), skillLevel })), 
+        ...Object.entries(filmSkills).map(([toolID, skillLevel]) => ({ toolID: Number(toolID), skillLevel })),
       ];
 
       for (const skill of skills) {
         const { toolID, skillLevel } = skill;
+
+        if (toolID === undefined || skillLevel === undefined) continue;
 
         // Check if the skill already exists for the intern
         const [existingSkill] = await promisePool.execute(
@@ -41,9 +52,8 @@ const updateInternCtrl = {
             `UPDATE bizznestflow2.skills SET skillLevel = ? WHERE InternID = ? AND toolID = ?`,
             [skillLevel, internID, toolID]
           );
-        } 
+        }
       }
-
       res.status(200).json({ message: 'Intern updated successfully!' });
     } catch (error) {
       console.error('Error updating intern:', error.message);
