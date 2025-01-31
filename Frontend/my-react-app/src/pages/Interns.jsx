@@ -33,6 +33,8 @@ const Interns = () => {
             .catch((error) => console.error('Error fetching interns:', error));
     }, []);
 
+    
+
     const handleSearch = (query) => {
         const lowerQuery = query.toLowerCase().trim();
         const results = filterInterns.current.filter((intern) => {
@@ -55,6 +57,34 @@ const Interns = () => {
         });
 
         setFilteredInterns(results);
+    };
+
+    const handleDeleteInterns = async (internID) => {
+        try {
+            const response = await fetch(`http://localhost:3360/deleteIntern/${internID}`, {
+                method: 'DELETE',
+            });
+    
+            const data = await response.json();
+            if (response.ok) {
+                alert('Intern deleted successfully');
+    
+                // Update state by removing the deleted intern
+                setFilteredInterns((prevInterns) =>
+                    prevInterns.filter((intern) => intern.InternID !== internID)
+                );
+                
+                // Also update the main intern list if needed
+                setInterns((prevInterns) =>
+                    prevInterns.filter((intern) => intern.InternID !== internID)
+                );
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting intern:', error);
+            alert('Failed to delete intern');
+        }
     };
 
     const navigate = useNavigate();
@@ -97,7 +127,7 @@ const Interns = () => {
                                                     className="edit"
                                                     onClick={() => navigate(`/editIntern/${intern.InternID}`)}
                                                 />
-                                                <img src={del} alt="delete" className="delete" />
+                                                <img src={del} alt="delete" className="delete" onClick={() => handleDeleteInterns(intern.InternID)}/>
                                             </div>
                                         </li>
                                     ))
