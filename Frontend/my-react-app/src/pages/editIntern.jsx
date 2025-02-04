@@ -111,70 +111,92 @@ const EditIntern = () => {
     }
   };
 
+  const calculateAverageSkill = () => {
+    const skillValues = Object.values(formData.skills);
+    if (skillValues.length === 0) return 0;
+  
+    const total = skillValues.reduce((acc, skill) => acc + skill, 0);
+    return Math.round((total / skillValues.length) * 10) / 10;
+  };
+
   // Get the skill labels for the current department
   const departmentSkills = skillLabels[formData.departmentID] || [];
 
   return (
-    <div className="edit-intern-container">
-      <h2>Edit Intern</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-          />
-        </label>
-        <label>
-          Location:
-          <select name="location" value={formData.location} onChange={handleChange}>
-            <option value="">Select a location</option>
-            <option value="Salinas">Salinas</option>
-            <option value="Gilroy">Gilroy</option>
-            <option value="Watsonville">Watsonville</option>
-            <option value="Stockton">Stockton</option>
-            <option value="Modesto">Modesto</option>
-          </select>
-        </label>
-        <label>
-          Department:
-          <select name="departmentID" value={formData.departmentID} onChange={handleChange}>
-            <option value="">Select a department</option>
-            <option value="0">Web Development</option>
-            <option value="1">Design</option>
-            <option value="2">Film</option>
-          </select>
-        </label>
-        <h3>Skill Levels</h3>
-        {departmentSkills.map((label, index) => {
-          const toolID = Object.keys(skillLabels).find(
-            (key) => skillLabels[key].includes(label)
-          ) * 3 + index; // Derive toolID dynamically
-          return (
-            <label key={toolID}>
-              {label} Skill:
+    <div className="editInternContainer">
+      <div className="formWrapper">
+        <h2>Edit Intern</h2>
+        <form onSubmit={handleSubmit} className="editInternForm">
+          <div className="updateNameContainer">
+            <label>
               <input
-                type="number"
-                name={`skill_${toolID}`}
-                value={formData.skills[toolID] || 0}
+                type="text"
+                name="firstName"
+                value={formData.firstName}
                 onChange={handleChange}
               />
             </label>
-          );
-        })}
-        <button type="submit">Update</button>
-      </form>
+            <label>
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
+          <div className="updateLocationDepartmentContainer">
+            <label>
+              <select name="location" value={formData.location} onChange={handleChange}>
+                <option value="">Select a location</option>
+                <option value="Salinas">Salinas</option>
+                <option value="Gilroy">Gilroy</option>
+                <option value="Watsonville">Watsonville</option>
+                <option value="Stockton">Stockton</option>
+                <option value="Modesto">Modesto</option>
+              </select>
+            </label>
+            <label>
+              <select name="departmentID" value={formData.departmentID} onChange={handleChange}>
+                <option value="">Select a department</option>
+                <option value="0">Web Development</option>
+                <option value="1">Design</option>
+                <option value="2">Film</option>
+              </select>
+            </label>
+          </div>
+          <div className="updateSkillLevelContainer">
+            <h3>Skill Levels</h3>
+            <div className="departmentSkillLevelsContainer">
+              {departmentSkills.map((label, index) => {
+                const toolID = Object.keys(skillLabels).find(
+                  (key) => skillLabels[key].includes(label)
+                ) * 3 + index; // Derive toolID dynamically
+                return (
+                  <label key={toolID} className="skillItem">
+                        {label} Skill:
+                        <input
+                          type="number"
+                          name={`skill_${toolID}`}
+                          value={formData.skills[toolID] ? (Math.round(formData.skills[toolID] * 10) / 10) : 0}
+                          onChange={handleChange}
+                        />
+                  </label>
+                );
+              })}
+              <div className="averageSkillBlock">
+                Overall: 
+                <div className="averageValue">{calculateAverageSkill()}</div>
+              </div>
+            </div>    
+          </div>
+          <div className="buttonsContainer">
+              <button type="submit">Update</button>
+              <button type="cancel" onClick={() => navigate('/interns')}>Back</button>
+          </div>
+        </form>
+      </div>
+      
     </div>
   );
 };
