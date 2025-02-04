@@ -19,6 +19,7 @@ const Interns = () => {
     const [filteredInterns, setFilteredInterns] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState(""); 
     const [selectedLocation, setSelectedLocation] = useState(""); 
+    const [selectedInterns, setSelectedInterns] = useState([]); // Store selected interns
 
     const filterInterns = useRef([]); // Holds the original intern list
 
@@ -33,8 +34,16 @@ const Interns = () => {
             .catch((error) => console.error('Error fetching interns:', error));
     }, []);
 
-    
-
+    const handleSelectIntern = (internID) => {
+        setSelectedInterns((prevSelected) => {
+            if (prevSelected.includes(internID)) {
+                return prevSelected.filter((id) => id !== internID); // Remove if already selected
+            } else {
+                return [...prevSelected, internID]; // Add if not selected
+            }
+        });
+    };
+console.log(selectedInterns)
     const handleSearch = (query) => {
         const lowerQuery = query.toLowerCase().trim();
         const results = filterInterns.current.filter((intern) => {
@@ -68,13 +77,9 @@ const Interns = () => {
             const data = await response.json();
             if (response.ok) {
                 alert('Intern deleted successfully');
-    
-                // Update state by removing the deleted intern
                 setFilteredInterns((prevInterns) =>
                     prevInterns.filter((intern) => intern.InternID !== internID)
                 );
-                
-                // Also update the main intern list if needed
                 setInterns((prevInterns) =>
                     prevInterns.filter((intern) => intern.InternID !== internID)
                 );
@@ -114,7 +119,11 @@ const Interns = () => {
                             <ul>
                                 {filteredInterns.length > 0 ? (
                                     filteredInterns.map((intern) => (
-                                        <li key={intern.InternID}>
+                                        <li 
+                                            key={intern.InternID} 
+                                            onClick={() => handleSelectIntern(intern.InternID)}
+                                            className={selectedInterns.includes(intern.InternID) ? "selected" : ""}
+                                        >
                                             <img src={profile} alt="profile" className="profile" />
                                             <span className="name">
                                                 {intern.firstName} {intern.lastName}
@@ -125,9 +134,20 @@ const Interns = () => {
                                                     src={edit}
                                                     alt="edit"
                                                     className="edit"
-                                                    onClick={() => navigate(`/editIntern/${intern.InternID}`)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        navigate(`/editIntern/${intern.InternID}`);
+                                                    }}
                                                 />
-                                                <img src={del} alt="delete" className="delete" onClick={() => handleDeleteInterns(intern.InternID)}/>
+                                                <img 
+                                                    src={del} 
+                                                    alt="delete" 
+                                                    className="delete" 
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); 
+                                                        handleDeleteInterns(intern.InternID);
+                                                    }}
+                                                />
                                             </div>
                                         </li>
                                     ))
