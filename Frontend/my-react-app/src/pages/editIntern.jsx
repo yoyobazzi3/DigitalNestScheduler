@@ -69,7 +69,7 @@ const EditIntern = () => {
     e.preventDefault();
     try {
       // Organize skills by category
-      const departmentSkills = skillLabels[formData.departmentID];
+      //const departmentSkills = skillLabels[formData.departmentID];
       const webDevSkills = {};
       const designSkills = {};
       const filmSkills = {};
@@ -178,7 +178,7 @@ const EditIntern = () => {
                         <input
                           type="number"
                           name={`skill_${toolID}`}
-                          value={formData.skills[toolID] ? (Math.round(formData.skills[toolID] * 10) / 10) : 0}
+                          value={formData.skills[toolID] ? formData.skills[toolID].toFixed(1) : 0}
                           onChange={handleChange}
                         />
                   </label>

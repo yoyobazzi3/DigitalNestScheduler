@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProjectInfoPage.css';
+import NavBar from '../components/Navbar/NavBar';
 
 const ProjectInfoPage = () => {
   const { projectID } = useParams(); // Extract projectID from the URL
@@ -45,14 +46,42 @@ const ProjectInfoPage = () => {
     return <p>Loading project details...</p>;
   }
 
+  const toolNames = {
+    0: "Frontend",
+    1: "Backend",
+    2: "Wordpress",
+    3: "Photoshop",
+    4: "Illustrator",
+    5: "Figma",
+    6: "Premiere Pro",
+    7: "Camera Work"
+  };
+
   return (
-    <div className="project-info">
-      <h1>{project.projectTitle}</h1>
+    <div className="containerDisplayCompleteInfo">
+      <NavBar />
+      <div className="project-info">
+      <div className='projectDisplayContainer'>
+        <h1>{project.projectTitle}</h1>
+        {project.tools.length > 0 ? (
+          project.tools.map((tool, index) => (
+            <div key={index} className='projectToolInfoContainer'>
+              <h4 className='toolName'>{toolNames[tool.toolID]}</h4>
+               <p className='toolBox'>{tool.difficulty.toFixed(1)}</p>
+            </div>
+          ))
+        ) : (
+          <p>No skills assigned to this project.</p>
+        )}
+      </div>
       <p>{project.projectDescription}</p>
+
       <button onClick={deleteProject} className="delete-project">
         Delete Project
       </button>
     </div>
+    </div>
+    
   );
 };
 
