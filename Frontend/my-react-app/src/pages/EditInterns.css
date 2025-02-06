@@ -1,7 +1,8 @@
-.formwrappaer{
+.formWrapper{
     text-align: center;
-    padding: 25px 25px;
+    padding: 25px 35px;
     background-color: #222;
+    border-radius: 25px;
 }
 
 .editInternContainer{
@@ -19,11 +20,11 @@
 }
 
 .updateNameContainer input{
-    width: 25vw;
+    width: 20vw;
 }
 
 select{
-    width: 25vw;
+    width: 20vw;
 }
 
 .updateSkillLevelContainer{
@@ -32,6 +33,43 @@ select{
     justify-content: space-evenly;
     text-align: center;
 }
+
+.departmentSkillLevelsContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  
+  .skillItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .skillItem input {
+    margin-top: 5px;
+    text-align: center; 
+  }
+
+  .averageSkillBlock{
+    display: inherit;
+    gap: 5px;
+    flex-direction: column;
+  }
+
+ .averageValue{
+    background-color: white;
+    color: black;
+    height: 2.8em;
+    width: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+ }
 
 .updateSkillWrapper{
     display: flex;

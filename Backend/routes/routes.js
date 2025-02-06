@@ -9,7 +9,7 @@ import getInternsCtrl from '../controllers/getInternsCtrl.js';
 import loginCtrl from '../controllers/LogInCtrl.js';
 import updateInternCtrl from '../controllers/updateInternCtrl.js';
 import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
-
+import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
 
 const routes = (app) => {
     app.route('/basePage')
@@ -50,6 +50,9 @@ const routes = (app) => {
 
    app.route('/addSkills/:internID')
    .post(addSkillsCtrl.addSkills);
+
+   app.route('/deleteIntern/:internID')
+   .delete(deleteInternCtrl.deleteIntern);
 };
 
 export default routes;

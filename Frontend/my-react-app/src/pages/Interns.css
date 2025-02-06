@@ -19,13 +19,11 @@
   gap: 30px;
   width: 90%;
   max-width: 1200px;
-
 }
 
 .search-bar-wrapper {
   margin-bottom: 50px;
 }
-
 
 .interns-wrapper {
   flex: 2;
@@ -36,6 +34,7 @@
   height: 470px;
   display: flex;
   flex-direction: column;
+  align-items: center; /* Centers the ul */
 }
 
 .interns-wrapper h2 {
@@ -47,11 +46,18 @@
 
 .intern-container {
   flex: 1;
-  overflow-y: scroll; /* Makes the list scrollable */
-  padding: 0 10px; /* Optional: Add padding inside the scroll area */
+  overflow-y: auto; /* Scrollable list */
+  width: 100%; /* Ensure it spans full width */
+  display: flex;
+  justify-content: center; /* Centers ul inside */
+  padding: 0 10px;
 }
 
 .interns-wrapper ul {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers list items */
+  width: 100%;
   list-style-type: none;
   padding: 0;
   margin: 0;
@@ -63,25 +69,37 @@
   justify-content: space-between;
   font-size: 25px;
   font-weight: bold;
-  margin: 10px 5px;
-  width:95%;
-  height: 25px;
+  margin: 10px 0; /* Consistent spacing */
+  width: 90%; /* Makes each list item take 90% of its container */
+  height: 30px; /* Adjusted height */
   border-radius: 25px;
   padding: 15px;
   background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
   color: white;
+  transition: background 0.5s ease, transform 0.3s ease;
+  cursor: pointer;
 }
 
 .interns-wrapper ul li:hover {
   transform: scale(1.03);
   background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
-  transition: background 0.5s ease, transform 0.3s ease;
+}
+
+.interns-wrapper ul li.selected {
+  background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
+  transform: scale(1.03);
+}
+
+/* Prevent hover effect on already selected interns */
+.interns-wrapper ul li.selected:hover {
+  background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
 }
 
 .interns-wrapper ul li img.profile {
   height: 40px;
   width: 40px;
   border-radius: 50%;
+  filter: brightness(0) invert(1); /* Makes the image white */
 }
 
 .interns-wrapper ul li span.name {
@@ -93,11 +111,6 @@
 .interns-wrapper ul li .icon-container {
   display: flex;
   gap: 10px;
-
-}
-.interns-wrapper ul li img.profile{
-  filter: brightness(0) invert(1); /* Makes the image white */
-
 }
 
 .interns-wrapper ul li img.edit,
@@ -107,6 +120,7 @@
   cursor: pointer;
   filter: brightness(0) invert(1); /* Makes the image white */
 }
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .content {
@@ -121,5 +135,9 @@
 
   .interns-wrapper {
     max-width: 100%;
+  }
+
+  .interns-wrapper ul li {
+    width: 95%; /* Make list items wider for smaller screens */
   }
 }
