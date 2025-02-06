@@ -17,7 +17,7 @@ const EditIntern = () => {
     lastName: "",
     location: "",
     departmentID: "",
-    skills: {}, // skills are dynamically rendered based on department
+    skills: {}, // Skills are dynamically rendered based on department
   });
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const EditIntern = () => {
         console.error("Error fetching intern:", error);
       }
     };
-  
+
     fetchInternData();
   }, [internID]);
 
@@ -69,7 +69,6 @@ const EditIntern = () => {
     e.preventDefault();
     try {
       // Organize skills by category
-      const departmentSkills = skillLabels[formData.departmentID];
       const webDevSkills = {};
       const designSkills = {};
       const filmSkills = {};
@@ -86,28 +85,54 @@ const EditIntern = () => {
         lastName: formData.lastName,
         location: formData.location,
         departmentID: formData.departmentID,
-        webDevSkills,
-        designSkills,
-        filmSkills,
+        webDevSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 0 && Number(toolID) <= 2)
+        ),
+        designSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 3 && Number(toolID) <= 5)
+        ),
+        filmSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 6 && Number(toolID) <= 7)
+        )
       };
 
-      const response = await fetch(`http://localhost:3360/updateIntern/${internID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      // Check if the intern already has skill values assigned
+      const hasExistingSkills = Object.values(formData.skills).some(skillLevel => skillLevel > 0);
+      console.log("Checking existing skills:", hasExistingSkills);
+
+      console.log("Submitting skills:", payload);
+      console.log("Using endpoint:", hasExistingSkills ? "PUT /updateIntern" : "POST /addSkills");
+
+      let response;
+      if (hasExistingSkills) {
+        // Update existing skills (PUT request)
+        response = await fetch(`http://localhost:3360/updateIntern/${internID}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        // First submission - Insert into `initialSkills` (POST request)
+        response = await fetch(`http://localhost:3360/addSkills/${internID}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
 
       if (response.ok) {
-        alert("Intern updated successfully!");
+        alert(hasExistingSkills ? "Skills updated successfully!" : "Skills added successfully!");
         navigate("/interns");
       } else {
-        alert("Failed to update intern");
+        alert("Failed to update or add skills");
       }
     } catch (error) {
-      console.error("Error updating intern:", error);
-      alert("Error updating intern.");
+      console.error("Error updating or adding skills:", error);
+      alert("Error updating or adding skills.");
     }
   };
 
@@ -173,7 +198,7 @@ const EditIntern = () => {
             </label>
           );
         })}
-        <button type="submit">Update</button>
+        <button type="submit">Save Changes</button>
       </form>
     </div>
   );
