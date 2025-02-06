@@ -17,7 +17,7 @@ const EditIntern = () => {
     lastName: "",
     location: "",
     departmentID: "",
-    skills: {}, // skills are dynamically rendered based on department
+    skills: {}, // Skills are dynamically rendered based on department
   });
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const EditIntern = () => {
         console.error("Error fetching intern:", error);
       }
     };
-  
+
     fetchInternData();
   }, [internID]);
 
@@ -69,7 +69,6 @@ const EditIntern = () => {
     e.preventDefault();
     try {
       // Organize skills by category
-      const departmentSkills = skillLabels[formData.departmentID];
       const webDevSkills = {};
       const designSkills = {};
       const filmSkills = {};
@@ -86,117 +85,121 @@ const EditIntern = () => {
         lastName: formData.lastName,
         location: formData.location,
         departmentID: formData.departmentID,
-        webDevSkills,
-        designSkills,
-        filmSkills,
+        webDevSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 0 && Number(toolID) <= 2)
+        ),
+        designSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 3 && Number(toolID) <= 5)
+        ),
+        filmSkills: Object.fromEntries(
+          Object.entries(formData.skills).filter(([toolID]) => Number(toolID) >= 6 && Number(toolID) <= 7)
+        )
       };
 
-      const response = await fetch(`http://localhost:3360/updateIntern/${internID}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      // Check if the intern already has skill values assigned
+      const hasExistingSkills = Object.values(formData.skills).some(skillLevel => skillLevel > 0);
+      console.log("Checking existing skills:", hasExistingSkills);
+
+      console.log("Submitting skills:", payload);
+      console.log("Using endpoint:", hasExistingSkills ? "PUT /updateIntern" : "POST /addSkills");
+
+      let response;
+      if (hasExistingSkills) {
+        // Update existing skills (PUT request)
+        response = await fetch(`http://localhost:3360/updateIntern/${internID}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        // First submission - Insert into `initialSkills` (POST request)
+        response = await fetch(`http://localhost:3360/addSkills/${internID}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+      }
 
       if (response.ok) {
-        alert("Intern updated successfully!");
+        alert(hasExistingSkills ? "Skills updated successfully!" : "Skills added successfully!");
         navigate("/interns");
       } else {
-        alert("Failed to update intern");
+        alert("Failed to update or add skills");
       }
     } catch (error) {
-      console.error("Error updating intern:", error);
-      alert("Error updating intern.");
+      console.error("Error updating or adding skills:", error);
+      alert("Error updating or adding skills.");
     }
-  };
-
-  const calculateAverageSkill = () => {
-    const skillValues = Object.values(formData.skills);
-    if (skillValues.length === 0) return 0;
-  
-    const total = skillValues.reduce((acc, skill) => acc + skill, 0);
-    return Math.round((total / skillValues.length) * 10) / 10;
   };
 
   // Get the skill labels for the current department
   const departmentSkills = skillLabels[formData.departmentID] || [];
 
   return (
-    <div className="editInternContainer">
-      <div className="formWrapper">
-        <h2>Edit Intern</h2>
-        <form onSubmit={handleSubmit} className="editInternForm">
-          <div className="updateNameContainer">
-            <label>
+    <div className="edit-intern-container">
+      <h2>Edit Intern</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          First Name:
+          <input
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Last Name:
+          <input
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </label>
+        <label>
+          Location:
+          <select name="location" value={formData.location} onChange={handleChange}>
+            <option value="">Select a location</option>
+            <option value="Salinas">Salinas</option>
+            <option value="Gilroy">Gilroy</option>
+            <option value="Watsonville">Watsonville</option>
+            <option value="Stockton">Stockton</option>
+            <option value="Modesto">Modesto</option>
+          </select>
+        </label>
+        <label>
+          Department:
+          <select name="departmentID" value={formData.departmentID} onChange={handleChange}>
+            <option value="">Select a department</option>
+            <option value="0">Web Development</option>
+            <option value="1">Design</option>
+            <option value="2">Film</option>
+          </select>
+        </label>
+        <h3>Skill Levels</h3>
+        {departmentSkills.map((label, index) => {
+          const toolID = Object.keys(skillLabels).find(
+            (key) => skillLabels[key].includes(label)
+          ) * 3 + index; // Derive toolID dynamically
+          return (
+            <label key={toolID}>
+              {label} Skill:
               <input
-                type="text"
-                name="firstName"
-                value={formData.firstName}
+                type="number"
+                name={`skill_${toolID}`}
+                value={formData.skills[toolID] || 0}
                 onChange={handleChange}
               />
             </label>
-            <label>
-              <input
-                type="text"
-                name="lastName"
-                value={formData.lastName}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
-          <div className="updateLocationDepartmentContainer">
-            <label>
-              <select name="location" value={formData.location} onChange={handleChange}>
-                <option value="">Select a location</option>
-                <option value="Salinas">Salinas</option>
-                <option value="Gilroy">Gilroy</option>
-                <option value="Watsonville">Watsonville</option>
-                <option value="Stockton">Stockton</option>
-                <option value="Modesto">Modesto</option>
-              </select>
-            </label>
-            <label>
-              <select name="departmentID" value={formData.departmentID} onChange={handleChange}>
-                <option value="">Select a department</option>
-                <option value="0">Web Development</option>
-                <option value="1">Design</option>
-                <option value="2">Film</option>
-              </select>
-            </label>
-          </div>
-          <div className="updateSkillLevelContainer">
-            <h3>Skill Levels</h3>
-            <div className="departmentSkillLevelsContainer">
-              {departmentSkills.map((label, index) => {
-                const toolID = Object.keys(skillLabels).find(
-                  (key) => skillLabels[key].includes(label)
-                ) * 3 + index; // Derive toolID dynamically
-                return (
-                  <label key={toolID} className="skillItem">
-                        {label} Skill:
-                        <input
-                          type="number"
-                          name={`skill_${toolID}`}
-                          value={formData.skills[toolID] ? (Math.round(formData.skills[toolID] * 10) / 10) : 0}
-                          onChange={handleChange}
-                        />
-                  </label>
-                );
-              })}
-              <div className="averageSkillBlock">
-                Overall: 
-                <div className="averageValue">{calculateAverageSkill()}</div>
-              </div>
-            </div>    
-          </div>
-          <div className="buttonsContainer">
-              <button type="submit">Update</button>
-              <button type="cancel" onClick={() => navigate('/interns')}>Back</button>
-          </div>
-        </form>
-      </div>
-      
+          );
+        })}
+        <button type="submit">Save Changes</button>
+      </form>
     </div>
   );
 };
