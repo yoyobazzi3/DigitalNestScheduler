@@ -43,7 +43,15 @@ const Interns = () => {
             }
         });
     };
-console.log(selectedInterns)
+
+    const handleSelectAll = () => {
+        setSelectedInterns(filteredInterns.map(intern => intern.InternID));
+    };
+
+    const handleDeselectAll = () => {
+        setSelectedInterns([]);
+    };
+
     const handleSearch = (query) => {
         const lowerQuery = query.toLowerCase().trim();
         const results = filterInterns.current.filter((intern) => {
@@ -100,6 +108,7 @@ console.log(selectedInterns)
             <div className="container">
                 <div className="content">
                     <div className="filtering-wrapper">
+                    
                         <h3>Filter Interns</h3>
                         <div className="search-bar-wrapper">
                             <SearchBar onSearch={handleSearch} />
@@ -114,7 +123,12 @@ console.log(selectedInterns)
                     </div>
 
                     <div className="interns-wrapper">
+                    <div className='select-buttons'>
+                        <button className="select-btn" onClick={handleSelectAll}>Select All</button>
+                        <button className="deselect-btn" onClick={handleDeselectAll}>Deselect All</button>
+                    </div>
                         <h2>Interns:</h2>
+                       
                         <div className="intern-container">
                             <ul>
                                 {filteredInterns.length > 0 ? (
