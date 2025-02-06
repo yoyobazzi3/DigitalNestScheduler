@@ -2,48 +2,91 @@ import promisePool from '../config/database.js';
 
 const getProjectCtrl = {
   /**
-   * Adds a new project to the database
+   * Fetch all projects
    */
   getProjects: async (req, res) => {
     try {
-      // SELECT query
       const query = `
-         SELECT projectID, projectTitle FROM bizznestflow2.projects;
+        SELECT 
+          p.projectID, 
+          p.projectTitle,
+          p.projectDescription,
+          COALESCE(GROUP_CONCAT(pt.toolID ORDER BY pt.toolID ASC), '') AS projectTools, 
+          COALESCE(GROUP_CONCAT(pt.difficulty ORDER BY pt.toolID ASC), '') AS difficulties
+        FROM bizznestflow2.projects p
+        LEFT JOIN bizznestflow2.projectTools pt ON p.projectID = pt.projectID
+        GROUP BY p.projectID, p.projectTitle, p.projectDescription;
       `;
 
       const [result] = await promisePool.execute(query);
 
-    res.status(200).json(result);
-  } catch (error) {
-    console.error('Error getting projects: ', error.message);
-    res.status(500).json({ message: 'Error getting projects' })
+      const projects = result.map(project => ({
+        projectID: project.projectID,
+        projectTitle: project.projectTitle,
+        projectDescription: project.projectDescription,
+        tools: project.projectTools ? project.projectTools.split(",").map(Number) : [],
+        difficulties: project.difficulties ? project.difficulties.split(",").map(Number) : []
+      }));
+
+      res.status(200).json(projects);
+    } catch (error) {
+      console.error('Error getting projects:', error.message);
+      res.status(500).json({ message: 'Error getting projects' });
     }
   },
-  
-// Fetching specific project by ID
+
+  /**
+   * Fetch a specific project by ID
+   */
   getProject: async (req, res) => {
     try {
       const { projectID } = req.params;
 
-      // Validate projectID
       if (!projectID) {
-        return res.status(400).json({message: 'ProjectID is required'});
+        return res.status(400).json({ message: 'ProjectID is required' });
       }
+
       const query = `
-          SELECT * FROM bizznestflow2.projects WHERE projectID = ?;
+        SELECT 
+          p.projectID, 
+          p.projectTitle, 
+          p.projectDescription, 
+          p.departmentID, 
+          pt.toolID AS projectToolID, 
+          pt.difficulty
+        FROM bizznestflow2.projects p
+        LEFT JOIN bizznestflow2.projectTools pt ON p.projectID = pt.projectID
+        WHERE p.projectID = ?;
       `;
+
+      console.log("Executing SQL Query:", query, "with projectID:", projectID);
+
       const [result] = await promisePool.execute(query, [projectID]);
+
       if (result.length === 0) {
-        return res.status(404).json({ message : 'Project not found' })
+        return res.status(404).json({ message: 'Project not found' });
       }
-      res.status(200).json(result[0]);
+
+      // Convert tools into an array
+      const project = {
+        projectID: result[0].projectID,
+        projectTitle: result[0].projectTitle,
+        projectDescription: result[0].projectDescription,
+        departmentID: result[0].departmentID,
+        tools: result
+          .map(row => ({
+            toolID: row.projectToolID,
+            difficulty: row.difficulty
+          }))
+          .filter(tool => tool.toolID !== null) // Remove NULL tools
+      };
+
+      res.status(200).json(project);
     } catch (error) {
-      console.log('Error getting project: ', error.message);
-      res.status(500).json({ message: 'Error getting project' })
+      console.log('Error getting project:', error.message);
+      res.status(500).json({ message: 'Error getting project' });
     }
   }
-
 };
 
 export default getProjectCtrl;
-
