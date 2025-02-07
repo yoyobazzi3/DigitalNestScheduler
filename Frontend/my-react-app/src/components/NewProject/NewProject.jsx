@@ -131,7 +131,7 @@ const handleToolInputChange = (tool, value) => {
                   placeholder="Diff"
                   step="any"
                   min="0"
-                  max="3"
+                  max="10"
                   value={toolInputs[tool]}
                   onChange={(e) => handleToolInputChange(tool, e.target.value)}
                 />

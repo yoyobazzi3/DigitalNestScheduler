@@ -10,6 +10,7 @@ import loginCtrl from '../controllers/LogInCtrl.js';
 import updateInternCtrl from '../controllers/updateInternCtrl.js';
 import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
+import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
 
 const routes = (app) => {
     app.route('/basePage')
@@ -23,6 +24,9 @@ const routes = (app) => {
 
     app.route('/getProjects') 
     .get(getProjectCtrl.getProjects)
+
+    app.route('/getMetrics')
+    .get(getMetricsCtrl.overallGrowth)
 
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);

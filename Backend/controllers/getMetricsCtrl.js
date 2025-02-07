@@ -3,120 +3,41 @@ import promisePool from '../config/database.js';
 const getMetricsCtrl = {
   overallGrowth: async (req, res) => {
     try {
-      // Query to fetch all data without filtering by projectID or departmentID
-      const query = `
+      // Query to sum skill levels from skills and initialSkills tables
+      const skillQuery = `
         SELECT 
-          p.projectID,
-          p.projectTitle,
-          p.departmentID,
-          pt.toolID AS projectToolID,
-          pt.difficulty,
-          i.InternID,
-          i.firstName,
-          i.lastName,
-          s.toolID AS skillToolID,
-          s.skillLevel
+          COALESCE(SUM(s.skillLevel), 0) AS skillLevel_sum,
+          COALESCE(SUM(is.initialSkillLevel), 0) AS initialSkillLevel_sum
         FROM 
-          bizznestflow2.projects p
+          (SELECT InternID, toolID, skillLevel FROM bizznestflow2.skills) s
         LEFT JOIN 
-          bizznestflow2.projectTools pt ON p.projectID = pt.projectID
-        LEFT JOIN 
-          bizznestflow2.interns i ON i.departmentID = p.departmentID
-        LEFT JOIN 
-          bizznestflow2.skills s ON s.toolID = pt.toolID AND s.InternID = i.InternID;
+          (SELECT InternID, toolID, initialSkillLevel FROM bizznestflow2.initialSkills) is
+        ON s.InternID = is.InternID AND s.toolID = is.toolID;
       `;
 
       // Execute the query
-      const [result] = await promisePool.execute(query);
+      const [result] = await promisePool.execute(skillQuery);
 
-      // Aggregate intern skills
-      const internSkills = result.reduce((acc, row) => {
-        let intern = acc.find(i => i.InternID === row.InternID);
+      // Extract the aggregated values
+      const skillLevel_sum = parseFloat(result[0].skillLevel_sum.toFixed(2));
+      const initialSkillLevel_sum = parseFloat(result[0].initialSkillLevel_sum.toFixed(2));
 
-        if (!intern && row.InternID !== null && row.InternID !== undefined) {
-          intern = {
-            InternID: row.InternID,
-            firstName: row.firstName,
-            lastName: row.lastName,
-            tools: [],
-          };
-          acc.push(intern);
-        }
+      // Compute absolute increase
+      const abs_increase = parseFloat((skillLevel_sum - initialSkillLevel_sum).toFixed(2));
 
-        if (
-          intern &&
-          row.skillToolID !== null &&
-          row.skillToolID !== undefined &&
-          !intern.tools.some(t => t.toolID === row.skillToolID)
-        ) {
-          intern.tools.push({
-            toolID: row.skillToolID,
-            skillLevel: row.skillLevel,
-          });
-        }
-
-        return acc;
-      }, []);
-
-      // Aggregate project tools
-      const projects = result.reduce((acc, row) => {
-        const project = acc.find(p => p.projectID === row.projectID);
-
-        if (!project) {
-          acc.push({
-            projectID: row.projectID,
-            projectTitle: row.projectTitle,
-            departmentID: row.departmentID,
-            tools: [],
-          });
-        }
-
-        const currentProject = acc.find(p => p.projectID === row.projectID);
-
-        if (
-          row.projectToolID !== null &&
-          row.projectToolID !== undefined &&
-          !currentProject.tools.some(t => t.toolID === row.projectToolID)
-        ) {
-          currentProject.tools.push({
-            toolID: row.projectToolID,
-            difficulty: row.difficulty,
-          });
-        }
-
-        return acc;
-      }, []);
-
-      // Calculate total skill level and absolute increases
-      const totalSkillLevel = internSkills.reduce((sum, intern) => {
-        return sum + intern.tools.reduce((subSum, tool) => subSum + tool.skillLevel, 0);
-      }, 0);
-
-      const totalAbsIncrease = internSkills.reduce((sum, intern) => {
-        return (
-          sum +
-          intern.tools.reduce((subSum, internTool) => {
-            const matchingProjectTool = projects.find(project =>
-              project.tools.some(pt => pt.toolID === internTool.toolID)
-            )?.tools.find(t => t.toolID === internTool.toolID);
-
-            if (matchingProjectTool) {
-              const d = matchingProjectTool.difficulty;
-              const s = internTool.skillLevel;
-              const x = d - s;
-              const absoluteIncrease = x * Math.exp(-Math.pow(x, 2));
-              return subSum + absoluteIncrease;
-            }
-            return subSum;
-          }, 0)
-        );
-      }, 0);
+      // Compute percent increase (handling zero initial skill case)
+      const percent_increase = initialSkillLevel_sum > 0
+        ? parseFloat(((abs_increase / initialSkillLevel_sum) * 100).toFixed(2))
+        : 0;
 
       // Create response object
       const response = {
-        totalSkillLevel: parseFloat(totalSkillLevel.toFixed(2)),
-        totalAbsIncrease: parseFloat(totalAbsIncrease.toFixed(4)),
-        internCount: internSkills.length,
+        overallSkills: {
+          skillLevel_sum,
+          initialSkillLevel_sum,
+          abs_increase,
+          percent_increase,
+        },
       };
 
       res.status(200).json(response);
