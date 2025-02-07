@@ -10,6 +10,7 @@ import loginCtrl from '../controllers/LogInCtrl.js';
 import updateInternCtrl from '../controllers/updateInternCtrl.js';
 import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
+import deleteSelectedInternsCtrl from '../controllers/deleteSelectedInternsCtrl.js';
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
 
 const routes = (app) => {
@@ -57,6 +58,9 @@ const routes = (app) => {
 
    app.route('/deleteIntern/:internID')
    .delete(deleteInternCtrl.deleteIntern);
+
+   app.route('/deleteSelectedInterns') 
+   .post(deleteSelectedInternsCtrl.deleteSelectedInterns);
 };
 
 export default routes;
