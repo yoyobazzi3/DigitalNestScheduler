@@ -35,6 +35,7 @@
   display: flex;
   flex-direction: column;
   align-items: center; /* Centers the ul */
+  position: relative;
 }
 
 .interns-wrapper h2 {
@@ -42,6 +43,33 @@
   color: white;
   font-size: 28px;
   text-align: center;
+}
+
+.select-buttons {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  flex-direction: row; /* Stack buttons vertically */
+  gap: 10px;
+  align-items: flex-start; /* Ensure buttons align to the left */
+}
+
+.select-btn, .deselect-btn {
+  background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.select-btn:hover, .deselect-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
 }
 
 .intern-container {
@@ -71,7 +99,8 @@
   font-weight: bold;
   margin: 10px 0; /* Consistent spacing */
   width: 90%; /* Makes each list item take 90% of its container */
-  height: 30px; /* Adjusted height */
+  max-width: 600px; /* Optional: Prevents it from stretching too much */
+  height: 60px; /* Adjusted height */
   border-radius: 25px;
   padding: 15px;
   background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
