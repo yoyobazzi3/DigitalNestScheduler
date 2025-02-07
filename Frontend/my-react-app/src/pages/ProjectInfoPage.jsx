@@ -42,6 +42,14 @@ const ProjectInfoPage = () => {
     }
   };
 
+  const calculateAverageDifficulty = () => {
+    if (!project || !project.tools || project.tools.length === 0) {
+      return null;
+    }
+    const total = project.tools.reduce((sum, tool) => sum + (tool.difficulty || 0), 0);
+    return (total / project.tools.length).toFixed(1);
+  };
+
   if (!project) {
     return <p>Loading project details...</p>;
   }
@@ -61,25 +69,60 @@ const ProjectInfoPage = () => {
     <div className="containerDisplayCompleteInfo">
       <NavBar />
       <div className="project-info">
-      <div className='projectDisplayContainer'>
-        <h1>{project.projectTitle}</h1>
-        {project.tools.length > 0 ? (
-          project.tools.map((tool, index) => (
-            <div key={index} className='projectToolInfoContainer'>
-              <h4 className='toolName'>{toolNames[tool.toolID] || `Tool ${tool.toolID}`}</h4>
-              <p className='toolBox'>{tool.difficulty !== null ? tool.difficulty.toFixed(1) : "N/A"}</p>
+        <div className="projectInfoWrapper">
+        <div className='projectDisplayContainer'>
+          <h1>{project.projectTitle}</h1>
+          <div className="toolContainer">
+            {project.tools.length > 0 ? (
+              project.tools.map((tool, index) => (
+                <div key={index}>
+                  <h4 className='toolName'>{toolNames[tool.toolID] || `Tool ${tool.toolID}`}</h4>
+                  <p className='toolBox'>{tool.difficulty !== null ? tool.difficulty.toFixed(1) : "N/A"}</p>
+                </div>
+              ))
+            ) : (
+              <p>No skills assigned to this project.</p>
+            )}
+          </div>
+          <div className="toolAverageContainer">
+          <h4>Average</h4>
+          <p className='averageBox'>{calculateAverageDifficulty()}</p>
+        </div>
+        </div>
+        <div className="projectDescriptionContainer">
+          <h4>Project Description:</h4>
+          <p className='projectDescritionDetails'>{project.projectDescription ? project.projectDescription : "No description available."}</p>
+        </div>
+        <div className="assignedWrapper">
+          <div className="assignedInternContainer">
+            <h2>Assigned Interns</h2>
+            <div className="assignedInternNames">
+
             </div>
-          ))
-        ) : (
-          <p>No skills assigned to this project.</p>
-        )}
+          </div>
+          <div className="assignedLeaderContainer">
+            <h2>Assigned Leaders</h2>
+            <div className="assignedLeaderNames">
+              
+            </div>
+          </div>
+        </div>
+        <div className="projectInfoButtonContainer">
+          <button onClick={deleteProject} className="delete-project">
+            Delete Project
+          </button>
+          <button className='completeProject'>
+            Mark Complete
+          </button>
+          <button className='backToProjects' onClick={()=>navigate('/')}>
+          Return to Projects
+        </button>
+        </div>
       </div>
-      <p>{project.projectDescription ? project.projectDescription : "No description available."}</p>
-      <button onClick={deleteProject} className="delete-project">
-        Delete Project
-      </button>
     </div>
-    </div>
+    
+        </div>
+        
   );
 };
 

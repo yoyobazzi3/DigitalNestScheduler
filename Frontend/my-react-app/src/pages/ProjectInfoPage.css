@@ -2,32 +2,51 @@
   margin: 0 20px 0 20px;
 }
 
+.projectInfoWrapper{
+  margin: 10px;
+  background-color: #222;
+  padding: 20px 10%;
+  width: 65vw;
+  height: 80vh;
+  border-radius: 25px;
+}
+
 .project-info {
-    margin: 10px;
-  }
+  display: flex;
+  justify-content: center;    
+}
 
   .projectDisplayContainer{
     display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .projectDisplayContainer h1{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 300px;
-    height: 120px;
+    width: 250px;
+    height: 100px;
     background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
     background-size: 400% 400%;
     animation: waveEffect 4s ease infinite;
     border: none;
     border-radius: 10px;
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
+    text-align: center;
+  }
+
+  .toolContainer{
+    display: flex;
+    width: 35vw;
+    justify-content: space-evenly;
   }
 
   .toolName{
     text-align: center;
-    width: 100px;
+    font-size: 16px;
   }
 
   .toolBox{
@@ -35,12 +54,60 @@
     align-items: center;
     justify-content: center;
     width: 80px;
-    height: 50px;
+    height: 80px;
     border: none;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
     background: linear-gradient(to bottom right,#ef2bd2, #c333fd);
+  }
+
+  .toolAverageContainer h4{
+    font-size: 20px;
+  }
+
+  .averageBox{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 90px;
+    height:90px;
+    border: none;
+    border-radius: 10px;
+    font-size: 36px;
+    font-weight: bold;
+    background: linear-gradient(to bottom right,#ef2bd2, #c333fd);
+  }
+
+  .projectDescritionDetails{
+    background-color: white;
+    color: black;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .projectDescriptionContainer h4{
+    text-align: start;
+    font-size: 20px;
+    /*height: 5px;*/
+    padding-left: 0.5%;
+  }
+
+  .assignedWrapper{
+    display: flex;
+    justify-content: space-evenly;
+    text-align: center;
+  }
+
+  .assignedInternNames, .assignedLeaderNames{
+    background-color: #000;
+    /*height: 250px;
+    width: 300px;*/
+  }
+
+  .projectInfoButtonContainer{
+    display: flex;
+    justify-content: space-evenly;
   }
 
   .delete-project {
@@ -49,9 +116,35 @@
     font-size: 16px;
     font-weight: bold;
     border: none;
+
+    &:hover{
+      background-color: rgb(216, 216, 216);
+      cursor: pointer;
+    }
   }
 
-  .delete-project:hover {
-    background-color: rgb(216, 216, 216);
-    cursor: pointer;
+  .completeProject{
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+
+    &:hover{
+      background-color: rgb(216, 216, 216);
+      cursor: pointer;
+    }
+  }
+
+  .backToProjects{
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+
+    &:hover{
+      background-color: rgb(216, 216, 216);
+      cursor: pointer;
+    }
   }
