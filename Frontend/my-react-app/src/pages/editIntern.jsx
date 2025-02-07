@@ -178,7 +178,7 @@ const EditIntern = () => {
                         <input
                           type="number"
                           name={`skill_${toolID}`}
-                          value={formData.skills[toolID] ? formData.skills[toolID].toFixed(1) : 0}
+                          value={formData.skills[toolID] || 0}
                           onChange={handleChange}
                         />
                   </label>
