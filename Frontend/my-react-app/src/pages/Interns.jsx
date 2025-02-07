@@ -19,15 +19,15 @@ const Interns = () => {
     const [filteredInterns, setFilteredInterns] = useState([]);
     const [selectedDepartment, setSelectedDepartment] = useState(""); 
     const [selectedLocation, setSelectedLocation] = useState(""); 
-    const [selectedInterns, setSelectedInterns] = useState([]); // Store selected interns
+    const [selectedInterns, setSelectedInterns] = useState([]); 
 
-    const filterInterns = useRef([]); // Holds the original intern list
+    const filterInterns = useRef([]); 
 
     useEffect(() => {
         fetch('http://localhost:3360/getInterns')
             .then((response) => response.json())
             .then((data) => {
-                filterInterns.current = data; // Store original list
+                filterInterns.current = data; 
                 setInterns(data);
                 setFilteredInterns(data);
             })
@@ -37,9 +37,9 @@ const Interns = () => {
     const handleSelectIntern = (internID) => {
         setSelectedInterns((prevSelected) => {
             if (prevSelected.includes(internID)) {
-                return prevSelected.filter((id) => id !== internID); // Remove if already selected
+                return prevSelected.filter((id) => id !== internID);
             } else {
-                return [...prevSelected, internID]; // Add if not selected
+                return [...prevSelected, internID];
             }
         });
     };
@@ -91,12 +91,41 @@ const Interns = () => {
                 setInterns((prevInterns) =>
                     prevInterns.filter((intern) => intern.InternID !== internID)
                 );
+                setSelectedInterns((prev) => prev.filter(id => id !== internID));
             } else {
                 alert(data.message);
             }
         } catch (error) {
             console.error('Error deleting intern:', error);
             alert('Failed to delete intern');
+        }
+    };
+
+    const handleDeleteSelectedInterns = async () => {
+        if (selectedInterns.length === 0) {
+            alert("No interns selected for deletion.");
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3360/deleteSelectedInterns`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ internIDs: selectedInterns }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert('Selected interns deleted successfully');
+                setInterns((prevInterns) => prevInterns.filter((intern) => !selectedInterns.includes(intern.InternID)));
+                setFilteredInterns((prevInterns) => prevInterns.filter((intern) => !selectedInterns.includes(intern.InternID)));
+                setSelectedInterns([]);
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error deleting selected interns:', error);
+            alert('Failed to delete selected interns');
         }
     };
 
@@ -108,7 +137,6 @@ const Interns = () => {
             <div className="container">
                 <div className="content">
                     <div className="filtering-wrapper">
-                    
                         <h3>Filter Interns</h3>
                         <div className="search-bar-wrapper">
                             <SearchBar onSearch={handleSearch} />
@@ -123,12 +151,18 @@ const Interns = () => {
                     </div>
 
                     <div className="interns-wrapper">
-                    <div className='select-buttons'>
-                        <button className="select-btn" onClick={handleSelectAll}>Select All</button>
-                        <button className="deselect-btn" onClick={handleDeselectAll}>Deselect All</button>
+                    <div className="select-buttons">
+                    <div className="select-buttons">
+    <div className="select-left">
+        <button className="select-btn" onClick={handleSelectAll}>Select All</button>
+        <button className="deselect-btn" onClick={handleDeselectAll}>Deselect All</button>
+    </div>
+    <div className="delete-right">
+        <button className="delete-selected-btn" onClick={handleDeleteSelectedInterns}>Delete Selected</button>
+    </div>
+</div>
                     </div>
                         <h2>Interns:</h2>
-                       
                         <div className="intern-container">
                             <ul>
                                 {filteredInterns.length > 0 ? (
@@ -142,7 +176,6 @@ const Interns = () => {
                                             <span className="name">
                                                 {intern.firstName} {intern.lastName}
                                             </span>
-                                           
                                             <div className="icon-container">
                                                 <img
                                                     src={edit}
