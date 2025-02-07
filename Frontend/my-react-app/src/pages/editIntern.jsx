@@ -20,6 +20,8 @@ const EditIntern = () => {
     skills: {}, // Skills are dynamically rendered based on department
   });
 
+  const [originalData, setOriginalData] = useState(null);
+
   useEffect(() => {
     const fetchInternData = async () => {
       try {
@@ -33,14 +35,18 @@ const EditIntern = () => {
             return acc;
           }, {});
 
-          // Set the formData state with the fetched data
-          setFormData({
+
+          const internData = {
             firstName: data.firstName,
             lastName: data.lastName,
             location: data.location,
             departmentID: data.departmentID,
             skills: skillsMap,
-          });
+          };
+
+          // Set the formData state with the fetched data
+          setFormData(internData);
+          setOriginalData(internData);
         } else {
           console.error("Failed to fetch intern data");
         }
@@ -148,6 +154,13 @@ const EditIntern = () => {
   // Get the skill labels for the current department
   const departmentSkills = skillLabels[formData.departmentID] || [];
 
+  const handleBack = () => {
+    if (originalData) {
+      setFormData(originalData); // Restore original values
+    }
+    navigate('/interns'); // Go back
+  };
+
   return (
     <div className="editInternContainer">
       <div className="formWrapper">
@@ -218,7 +231,7 @@ const EditIntern = () => {
           </div>
           <div className="buttonsContainer">
               <button type="submit">Update</button>
-              <button type="cancel" onClick={() => navigate('/interns')}>Back</button>
+              <button type="cancel" onClick={handleBack}>Back</button>
           </div>
         </form>
       </div>
