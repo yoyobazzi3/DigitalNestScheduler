@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar';
 import SearchBar from '../components/SearchBar/SearchBar';
 import Filtering from '../components/Filtering/Filtering';
+import ConfirmPopup from '../components/ConfirmPopup/ConfirmPopup';
 import edit from '../assets/edit.svg';
 import del from '../assets/delete.svg';
 import profile from '../assets/profile.svg';
@@ -20,8 +21,12 @@ const Interns = () => {
     const [selectedDepartment, setSelectedDepartment] = useState(""); 
     const [selectedLocation, setSelectedLocation] = useState(""); 
     const [selectedInterns, setSelectedInterns] = useState([]); 
+    const [showPopup, setShowPopup] = useState(false);
+    const [deleteTarget, setDeleteTarget] = useState(null);
+    const [deleteType, setDeleteType] = useState(""); // "single" or "bulk"
 
     const filterInterns = useRef([]); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch('http://localhost:3360/getInterns')
@@ -34,6 +39,7 @@ const Interns = () => {
             .catch((error) => console.error('Error fetching interns:', error));
     }, []);
 
+    // Select or Deselect an Intern
     const handleSelectIntern = (internID) => {
         setSelectedInterns((prevSelected) => {
             if (prevSelected.includes(internID)) {
@@ -76,60 +82,52 @@ const Interns = () => {
         setFilteredInterns(results);
     };
 
-    const handleDeleteInterns = async (internID) => {
-        try {
-            const response = await fetch(`http://localhost:3360/deleteIntern/${internID}`, {
-                method: 'DELETE',
-            });
-    
-            const data = await response.json();
-            if (response.ok) {
-                alert('Intern deleted successfully');
-                setFilteredInterns((prevInterns) =>
-                    prevInterns.filter((intern) => intern.InternID !== internID)
-                );
-                setInterns((prevInterns) =>
-                    prevInterns.filter((intern) => intern.InternID !== internID)
-                );
-                setSelectedInterns((prev) => prev.filter(id => id !== internID));
-            } else {
-                alert(data.message);
-            }
-        } catch (error) {
-            console.error('Error deleting intern:', error);
-            alert('Failed to delete intern');
-        }
+    // Function to show the confirmation popup
+    const confirmDelete = (id, type) => {
+        setDeleteTarget(id);
+        setDeleteType(type);
+        setShowPopup(true);
     };
 
-    const handleDeleteSelectedInterns = async () => {
-        if (selectedInterns.length === 0) {
-            alert("No interns selected for deletion.");
-            return;
-        }
-
+    // Function to execute the confirmed delete
+    const handleDeleteConfirmed = async () => {
+        if (!deleteTarget && deleteType === "bulk" && selectedInterns.length === 0) return;
+        
         try {
-            const response = await fetch(`http://localhost:3360/deleteSelectedInterns`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ internIDs: selectedInterns }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                alert('Selected interns deleted successfully');
-                setInterns((prevInterns) => prevInterns.filter((intern) => !selectedInterns.includes(intern.InternID)));
-                setFilteredInterns((prevInterns) => prevInterns.filter((intern) => !selectedInterns.includes(intern.InternID)));
-                setSelectedInterns([]);
-            } else {
-                alert(data.message);
+            if (deleteType === "single") {
+                const response = await fetch(`http://localhost:3360/deleteIntern/${deleteTarget}`, { method: 'DELETE' });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Intern deleted successfully');
+                    setInterns(prev => prev.filter(intern => intern.InternID !== deleteTarget));
+                    setFilteredInterns(prev => prev.filter(intern => intern.InternID !== deleteTarget));
+                    setSelectedInterns(prev => prev.filter(id => id !== deleteTarget));
+                } else {
+                    alert(data.message);
+                }
+            } else if (deleteType === "bulk") {
+                const response = await fetch(`http://localhost:3360/deleteSelectedInterns`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ internIDs: selectedInterns }),
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    alert('Selected interns deleted successfully');
+                    setInterns(prev => prev.filter(intern => !selectedInterns.includes(intern.InternID)));
+                    setFilteredInterns(prev => prev.filter(intern => !selectedInterns.includes(intern.InternID)));
+                    setSelectedInterns([]);
+                } else {
+                    alert(data.message);
+                }
             }
         } catch (error) {
-            console.error('Error deleting selected interns:', error);
-            alert('Failed to delete selected interns');
+            console.error('Error deleting interns:', error);
+            alert('Failed to delete intern(s)');
+        } finally {
+            setShowPopup(false);
         }
     };
-
-    const navigate = useNavigate();
 
     return (
         <div className="big-container">
@@ -151,61 +149,42 @@ const Interns = () => {
                     </div>
 
                     <div className="interns-wrapper">
-                    <div className="select-buttons">
-                    <div className="select-buttons">
-    <div className="select-left">
-        <button className="select-btn" onClick={handleSelectAll}>Select All</button>
-        <button className="deselect-btn" onClick={handleDeselectAll}>Deselect All</button>
-    </div>
-    <div className="delete-right">
-        <button className="delete-selected-btn" onClick={handleDeleteSelectedInterns}>Delete Selected</button>
-    </div>
-</div>
-                    </div>
+                        <div className="select-buttons">
+                            <div className="select-left">
+                                <button className="select-btn" onClick={handleSelectAll}>Select All</button>
+                                <button className="deselect-btn" onClick={handleDeselectAll}>Deselect All</button>
+                            </div>
+                            <div className="delete-right">
+                                <button className="delete-selected-btn" onClick={() => confirmDelete(null, "bulk")}>Delete Selected</button>
+                            </div>
+                        </div>
+
                         <h2>Interns:</h2>
                         <div className="intern-container">
                             <ul>
-                                {filteredInterns.length > 0 ? (
-                                    filteredInterns.map((intern) => (
-                                        <li 
-                                            key={intern.InternID} 
-                                            onClick={() => handleSelectIntern(intern.InternID)}
-                                            className={selectedInterns.includes(intern.InternID) ? "selected" : ""}
-                                        >
-                                            <img src={profile} alt="profile" className="profile" />
-                                            <span className="name">
-                                                {intern.firstName} {intern.lastName}
-                                            </span>
-                                            <div className="icon-container">
-                                                <img
-                                                    src={edit}
-                                                    alt="edit"
-                                                    className="edit"
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); 
-                                                        navigate(`/editIntern/${intern.InternID}`);
-                                                    }}
-                                                />
-                                                <img 
-                                                    src={del} 
-                                                    alt="delete" 
-                                                    className="delete" 
-                                                    onClick={(e) => {
-                                                        e.stopPropagation(); 
-                                                        handleDeleteInterns(intern.InternID);
-                                                    }}
-                                                />
-                                            </div>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <p>No interns found</p>
-                                )}
+                                {filteredInterns.map((intern) => (
+                                    <li 
+                                        key={intern.InternID} 
+                                        onClick={() => handleSelectIntern(intern.InternID)}
+                                        className={selectedInterns.includes(intern.InternID) ? "selected" : ""}
+                                    >
+                                        <img src={profile} alt="profile" className="profile" />
+                                        <span className="name">
+                                            {intern.firstName} {intern.lastName}
+                                        </span>
+                                        <div className="icon-container">
+                                            <img src={edit} alt="edit" className="edit" onClick={(e) => { e.stopPropagation(); navigate(`/editIntern/${intern.InternID}`); }} />
+                                            <img src={del} alt="delete" className="delete" onClick={(e) => { e.stopPropagation(); confirmDelete(intern.InternID, "single"); }} />
+                                        </div>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {showPopup && <ConfirmPopup message="Are you sure you want to delete?" onConfirm={handleDeleteConfirmed} onCancel={() => setShowPopup(false)} />}
         </div>
     );
 };
