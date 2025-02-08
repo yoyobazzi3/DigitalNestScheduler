@@ -16,7 +16,7 @@ const deleteSelectedInternsCtrl = {
                 return res.status(400).json({ message: "No interns to delete after filtering" });
             }
 
-            const deleteQuery = `DELETE FROM bizznestflow2.Interns WHERE InternID IN (${filteredInternIDs.map(() => '?').join(', ')})`;
+            const deleteQuery = `DELETE FROM bizznestflow2.interns WHERE InternID IN (${filteredInternIDs.map(() => '?').join(', ')})`;
 
             const [result] = await promisePool.execute(deleteQuery, filteredInternIDs);
 
