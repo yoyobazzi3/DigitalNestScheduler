@@ -40,7 +40,7 @@
 
 /* Confirm Button */
 .confirm-btn {
-    background: #ff3b30;
+    background: #035a1d;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -51,13 +51,13 @@
 }
 
 .confirm-btn:hover {
-    background: #d32f2f;
+    background: #0ed64a;
     transform: scale(1.05);
 }
 
 /* Cancel Button */
 .cancel-btn {
-    background: #4CAF50;
+    background: #710202;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -68,7 +68,7 @@
 }
 
 .cancel-btn:hover {
-    background: #45a049;
+    background: #e71414;
     transform: scale(1.05);
 }
 
