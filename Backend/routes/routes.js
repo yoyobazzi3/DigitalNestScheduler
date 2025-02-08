@@ -26,12 +26,15 @@ const routes = (app) => {
     app.route('/getProjects') 
     .get(getProjectCtrl.getProjects)
 
-    app.route('/getMetrics')
+    app.route('/overallGrowth')
     .get(getMetricsCtrl.overallGrowth)
+
+    app.route('/departmentGrowth')
+    .get(getMetricsCtrl.departmentGrowth)
 
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
-    
+
     app.route('/addProject')
     .post(addProjectCtrl.addProject)
 
