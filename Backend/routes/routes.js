@@ -12,6 +12,8 @@ import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
 import deleteSelectedInternsCtrl from '../controllers/deleteSelectedInternsCtrl.js';
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
+import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
+
 
 const routes = (app) => {
     app.route('/basePage')
@@ -61,6 +63,9 @@ const routes = (app) => {
 
    app.route('/deleteSelectedInterns') 
    .post(deleteSelectedInternsCtrl.deleteSelectedInterns);
+   
+   app.route('/internGrowth/:internID')
+    .get(internGrowthCtrl.getInternGrowth);
 };
 
 export default routes;
