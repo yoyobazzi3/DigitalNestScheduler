@@ -54,6 +54,7 @@ const Recommendations = () => {
           grouped[toolID] = [];
         }
         grouped[toolID].push({
+          internID: intern.InternID,
           name: `${intern.firstName} ${intern.lastName}`,
           percentIncrease: calc.percentIncrease,
         });
@@ -79,6 +80,53 @@ const Recommendations = () => {
     // Increment animationKey to trigger re-render and re-animation
     setAnimationKey((prevKey) => prevKey + 1);
   };
+
+  const assignIntern = async (internID) => {
+    console.log("🧐 Debug: Received internID ->", internID); // Debugging
+    
+    try {
+      const queryParams = new URLSearchParams(location.search);
+      const projectID = queryParams.get('projectID');
+  
+      if (!internID) {
+        console.error("❌ InternID is undefined! Cannot assign intern.");
+        alert("Error: Intern ID is missing.");
+        return;
+      }
+  
+      if (!projectID) {
+        alert("Error: Project ID is missing.");
+        return;
+      }
+  
+      const payload = {
+        internID,
+        projectID,
+        role: "Intern",
+      };
+  
+      console.log("📤 Sending payload:", payload); // Debugging
+  
+      const response = await fetch("http://localhost:3360/assignIntern", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+  
+      if (response.ok) {
+        alert("✅ Intern assigned successfully!");
+      } else {
+        const errorText = await response.text();
+        console.error("❌ Failed to assign intern:", errorText);
+        alert("Failed to assign intern.");
+      }
+    } catch (error) {
+      console.error("❌ Error assigning intern:", error);
+    }
+  };
+  
 
   const toolNames = {
     0: "Frontend",
@@ -172,7 +220,9 @@ const Recommendations = () => {
                           : `${(intern.percentIncrease)}%` // Convert signs for optimized learning view
                         }
                       </div>
-                    <button className="assign-button">Assign</button>
+                      <button className="assign-button" onClick={() => assignIntern(intern.internID)}>
+                        Assign
+                      </button>
                   </div>
                 ))}
               </div>

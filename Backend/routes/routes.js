@@ -11,6 +11,7 @@ import updateInternCtrl from '../controllers/updateInternCtrl.js';
 import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
+import assignInternCtrl from '../controllers/assignInternCtrl.js';
 
 const routes = (app) => {
     app.route('/basePage')
@@ -27,6 +28,9 @@ const routes = (app) => {
 
     app.route('/getMetrics')
     .get(getMetricsCtrl.overallGrowth)
+
+    app.route('/assignIntern')
+    .post(assignInternCtrl.assignInternToProject);
 
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
