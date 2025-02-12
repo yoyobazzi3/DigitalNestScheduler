@@ -164,7 +164,7 @@ body::-webkit-scrollbar-thumb:hover {
     justify-content: center;
     width: 130px; /* Set a fixed width */
     min-width: 130px;
-    height: 80px;
+    height: 100px;
     font-size: 14px;
     text-align: center;
     overflow-y: hidden;
@@ -192,7 +192,7 @@ body::-webkit-scrollbar-thumb:hover {
     font-weight: bold;
   }
 
-  .assign-button {
+  .assign-button, .leader-button {
     background-color: #444;
     color:  #ffffff;
     border: none;

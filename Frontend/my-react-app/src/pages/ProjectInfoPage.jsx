@@ -97,7 +97,16 @@ const ProjectInfoPage = () => {
           <div className="assignedInternContainer">
             <h2>Assigned Interns</h2>
             <div className="assignedInternNames">
-
+              {project.assignedInterns && project.assignedInterns.length > 0 ? (
+                project.assignedInterns.map((intern, index) => (
+                  <div key={index} className="assignedIntern">
+                    <p>{`${intern.firstName} ${intern.lastName}`}</p>
+                    <p>{intern.role}</p>
+                  </div>
+                ))
+              ) : (
+                <p>No interns assigned to this project.</p>
+              )}
             </div>
           </div>
           <div className="assignedLeaderContainer">
