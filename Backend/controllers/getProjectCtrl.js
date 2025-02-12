@@ -9,26 +9,31 @@ const getProjectCtrl = {
       const query = `
         SELECT 
           p.projectID, 
-          p.projectTitle,
-          p.projectDescription,
-          COALESCE(GROUP_CONCAT(pt.toolID ORDER BY pt.toolID ASC), '') AS projectTools, 
-          COALESCE(GROUP_CONCAT(pt.difficulty ORDER BY pt.toolID ASC), '') AS difficulties
-        FROM bizznestflow2.projects p
-        LEFT JOIN bizznestflow2.projectTools pt ON p.projectID = pt.projectID
-        GROUP BY p.projectID, p.projectTitle, p.projectDescription;
+          p.projectTitle, 
+          p.projectDescription, 
+          p.departmentID, 
+
+          -- Group tools separately
+          COALESCE(
+            (SELECT JSON_ARRAYAGG(
+              JSON_OBJECT('toolID', pt.toolID, 'difficulty', pt.difficulty)
+            ) 
+            FROM bizznestflow2.projectTools pt 
+            WHERE pt.projectID = p.projectID), '[]') AS tools
+
+        FROM bizznestflow2.projects p;
       `;
 
       const [result] = await promisePool.execute(query);
 
-      const projects = result.map(project => ({
+      res.status(200).json(result.map(project => ({
         projectID: project.projectID,
         projectTitle: project.projectTitle,
         projectDescription: project.projectDescription,
-        tools: project.projectTools ? project.projectTools.split(",").map(Number) : [],
-        difficulties: project.difficulties ? project.difficulties.split(",").map(Number) : []
-      }));
+        departmentID: project.departmentID,
+        tools: typeof project.tools === "string" ? JSON.parse(project.tools) : [] // Ensure proper parsing
+      })));
 
-      res.status(200).json(projects);
     } catch (error) {
       console.error('Error getting projects:', error.message);
       res.status(500).json({ message: 'Error getting projects' });
@@ -52,10 +57,26 @@ const getProjectCtrl = {
           p.projectTitle, 
           p.projectDescription, 
           p.departmentID, 
-          pt.toolID AS projectToolID, 
-          pt.difficulty
+
+          -- Group tools separately
+          COALESCE(
+            (SELECT JSON_ARRAYAGG(
+              JSON_OBJECT('toolID', pt.toolID, 'difficulty', pt.difficulty)
+            ) 
+            FROM bizznestflow2.projectTools pt 
+            WHERE pt.projectID = p.projectID), '[]') AS tools,
+
+          -- Group assigned interns separately
+          COALESCE(
+            (SELECT JSON_ARRAYAGG(
+              JSON_OBJECT('InternID', i.InternID, 'firstName', i.firstName, 'lastName', i.lastName, 'role', ip.role)
+            ) 
+            FROM bizznestflow2.internProjects ip 
+            LEFT JOIN bizznestflow2.interns i ON ip.InternID = i.InternID
+            WHERE ip.ProjectID = p.projectID), '[]') AS assignedInterns
+
         FROM bizznestflow2.projects p
-        LEFT JOIN bizznestflow2.projectTools pt ON p.projectID = pt.projectID
+
         WHERE p.projectID = ?;
       `;
 
@@ -67,18 +88,14 @@ const getProjectCtrl = {
         return res.status(404).json({ message: 'Project not found' });
       }
 
-      // Convert tools into an array
+      // Convert JSON strings into usable JavaScript objects
       const project = {
         projectID: result[0].projectID,
         projectTitle: result[0].projectTitle,
         projectDescription: result[0].projectDescription,
         departmentID: result[0].departmentID,
-        tools: result
-          .map(row => ({
-            toolID: row.projectToolID,
-            difficulty: row.difficulty
-          }))
-          .filter(tool => tool.toolID !== null) // Remove NULL tools
+        tools: typeof result[0].tools === "string" ? JSON.parse(result[0].tools) : [],
+        assignedInterns: typeof result[0].assignedInterns === "string" ? JSON.parse(result[0].assignedInterns) : []
       };
 
       res.status(200).json(project);
