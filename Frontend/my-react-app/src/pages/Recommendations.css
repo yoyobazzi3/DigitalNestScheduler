@@ -63,7 +63,8 @@ body::-webkit-scrollbar-thumb:hover {
     border-radius: 10px;
     font-size: 28px;
     font-weight: bold;
-    
+    word-break: break-word;
+    text-align: center;
   }
 
 .tool-boxes {

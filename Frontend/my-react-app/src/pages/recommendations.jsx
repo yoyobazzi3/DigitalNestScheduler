@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar.jsx';
 import './Recommendations.css';
 
@@ -12,6 +13,8 @@ const Recommendations = () => {
   const [selectedInterns, setSelectedInterns] = useState([]);
   const [selectedLeaders, setSelectedLeaders] = useState([]); // Leaders
   const location = useLocation();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -147,6 +150,7 @@ const Recommendations = () => {
         alert("Interns assigned successfully!");
         setSelectedInterns([]); // Clear selected interns after submitting
         setSelectedLeaders([]); // Clear selected leaders after submitting
+        navigate("/");
       } else {
         const errorText = await response.text();
         console.error("Failed to assign interns/leaders:", errorText);

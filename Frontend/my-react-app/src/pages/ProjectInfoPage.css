@@ -2,6 +2,22 @@
   margin: 0 20px 0 20px;
 }
 
+.returnToProjects{
+  cursor: pointer;
+  background-color: #222;
+  border: none;
+  margin-left: -10%;
+  &:hover{
+    scale: 1.2;
+  }
+}
+
+.returnArrow{
+  width: 40px;
+  height: 40px;
+
+}
+
 .projectInfoWrapper{
   margin: 10px;
   background-color: #222;
@@ -20,6 +36,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: -5%;
   }
 
   .projectDisplayContainer h1{
@@ -36,6 +53,7 @@
     font-size: 24px;
     font-weight: bold;
     text-align: center;
+    word-break: break-word;
   }
 
   .toolContainer{
@@ -89,20 +107,35 @@
   .projectDescriptionContainer h4{
     text-align: start;
     font-size: 20px;
-    /*height: 5px;*/
     padding-left: 0.5%;
+  }
+
+  .projectDescriptionContainer{
+    margin-top: -3%;
   }
 
   .assignedWrapper{
     display: flex;
     justify-content: space-evenly;
     text-align: center;
+    margin-bottom: 25px;
   }
 
   .assignedInternNames, .assignedLeaderNames{
-    background-color: #000;
-    /*height: 250px;
-    width: 300px;*/
+    height: 15vh;
+    overflow: auto;
+    scrollbar-width: none;
+  }
+
+  .assignedIntern, .assignedLeader{
+    background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+    border-radius: 25px;
+    height: 3.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 900;
   }
 
   .projectInfoButtonContainer{
@@ -116,9 +149,9 @@
     font-size: 16px;
     font-weight: bold;
     border: none;
-
+    background: linear-gradient(rgb(174, 40, 40), rgb(239, 43, 210));
+    color: white;
     &:hover{
-      background-color: rgb(216, 216, 216);
       cursor: pointer;
     }
   }
@@ -129,22 +162,10 @@
     font-size: 16px;
     font-weight: bold;
     border: none;
+    background: linear-gradient(rgb(53, 96, 134), rgb(37, 255, 193));
+    color: white;
 
     &:hover{
-      background-color: rgb(216, 216, 216);
-      cursor: pointer;
-    }
-  }
-
-  .backToProjects{
-    padding: 10px;
-    border-radius: 10px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-
-    &:hover{
-      background-color: rgb(216, 216, 216);
       cursor: pointer;
     }
   }
