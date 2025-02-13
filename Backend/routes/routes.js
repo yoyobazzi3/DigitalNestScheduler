@@ -14,6 +14,7 @@ import deleteSelectedInternsCtrl from '../controllers/deleteSelectedInternsCtrl.
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
 import assignInternCtrl from '../controllers/assignInternCtrl.js';
 import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
+import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
 
 
 const routes = (app) => {
@@ -49,6 +50,9 @@ const routes = (app) => {
 
     app.route('/deleteProject/:projectID') // Delete a specific project
     .delete(deleteProjectCtrl.deleteProject)
+
+    app.route('/completeProject/:projectID') // Mark a specific project as completed
+    .put(completeProjectCtrl.completeProject)
   
     app.route('/internSignUp')
     .post(internSignUpCtrl.internSignUp);

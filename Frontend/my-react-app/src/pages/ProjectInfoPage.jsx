@@ -43,6 +43,23 @@ const ProjectInfoPage = () => {
     }
   };
 
+  const completeProject = async () => {
+    try{
+      const response = await fetch(`http://localhost:3360/completeProject/${projectID}`, {
+        method: 'PUT',
+      });
+      if(response.ok){
+        alert('Project marked as complete');
+        navigate('/');
+    }else{
+      alert('Failed to mark project as complete');
+    }
+  }catch(error){
+    console.error('Error marking project as complete:', error);
+    alert('Error marking project as complete');
+  }
+};
+
   const calculateAverageDifficulty = () => {
     if (!project || !project.tools || project.tools.length === 0) {
       return null;
@@ -136,7 +153,7 @@ const ProjectInfoPage = () => {
           <button onClick={deleteProject} className="delete-project">
             Delete Project
           </button>
-          <button className='completeProject'>
+          <button onClick={completeProject} className='completeProject'>
             Mark Complete
           </button>
         </div>
