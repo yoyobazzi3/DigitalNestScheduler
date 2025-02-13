@@ -9,7 +9,7 @@ const deleteInternCtrl = {
             }
 
             const deleteInternQuery = `
-            DELETE FROM bizznestflow2.Interns WHERE InternID = ?`;
+            DELETE FROM bizznestflow2.interns WHERE InternID = ?`;
             const [result] = await promisePool.execute(deleteInternQuery, [internID]);
 
             if(result.affectedRows === 0){

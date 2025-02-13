@@ -10,8 +10,11 @@ import loginCtrl from '../controllers/LogInCtrl.js';
 import updateInternCtrl from '../controllers/updateInternCtrl.js';
 import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
+import deleteSelectedInternsCtrl from '../controllers/deleteSelectedInternsCtrl.js';
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
 import assignInternCtrl from '../controllers/assignInternCtrl.js';
+import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
+
 
 const routes = (app) => {
     app.route('/basePage')
@@ -26,15 +29,18 @@ const routes = (app) => {
     app.route('/getProjects') 
     .get(getProjectCtrl.getProjects)
 
-    app.route('/getMetrics')
+    app.route('/overallGrowth')
     .get(getMetricsCtrl.overallGrowth)
 
     app.route('/assignIntern')
     .post(assignInternCtrl.assignInternToProject);
 
+    app.route('/departmentGrowth')
+    .get(getMetricsCtrl.departmentGrowth)
+
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
-    
+
     app.route('/addProject')
     .post(addProjectCtrl.addProject)
 
@@ -61,6 +67,12 @@ const routes = (app) => {
 
    app.route('/deleteIntern/:internID')
    .delete(deleteInternCtrl.deleteIntern);
+
+   app.route('/deleteSelectedInterns') 
+   .post(deleteSelectedInternsCtrl.deleteSelectedInterns);
+   
+   app.route('/internGrowth/:internID')
+   .get(internGrowthCtrl.getInternGrowth);
 };
 
 export default routes;
