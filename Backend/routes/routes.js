@@ -68,7 +68,7 @@ const routes = (app) => {
    .post(deleteSelectedInternsCtrl.deleteSelectedInterns);
    
    app.route('/internGrowth/:internID')
-    .get(internGrowthCtrl.getInternGrowth);
+   .get(internGrowthCtrl.getInternGrowth);
 };
 
 export default routes;
