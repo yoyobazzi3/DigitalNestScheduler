@@ -12,6 +12,7 @@ import addSkillsCtrl from '../controllers/addSkillsCtrl.js';
 import deleteInternCtrl from '../controllers/deleteInternCtrl.js';
 import deleteSelectedInternsCtrl from '../controllers/deleteSelectedInternsCtrl.js';
 import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
+import assignInternCtrl from '../controllers/assignInternCtrl.js';
 import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
 
 
@@ -30,6 +31,9 @@ const routes = (app) => {
 
     app.route('/overallGrowth')
     .get(getMetricsCtrl.overallGrowth)
+
+    app.route('/assignIntern')
+    .post(assignInternCtrl.assignInternToProject);
 
     app.route('/departmentGrowth')
     .get(getMetricsCtrl.departmentGrowth)

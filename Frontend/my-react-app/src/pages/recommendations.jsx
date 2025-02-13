@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar.jsx';
 import './Recommendations.css';
 
@@ -9,7 +10,11 @@ const Recommendations = () => {
   const [groupedInterns, setGroupedInterns] = useState({});
   const [isAscending, setIsAscending] = useState(false); // Track toggle state
   const [animationKey, setAnimationKey] = useState(0);
+  const [selectedInterns, setSelectedInterns] = useState([]);
+  const [selectedLeaders, setSelectedLeaders] = useState([]); // Leaders
   const location = useLocation();
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -54,6 +59,7 @@ const Recommendations = () => {
           grouped[toolID] = [];
         }
         grouped[toolID].push({
+          internID: intern.InternID,
           name: `${intern.firstName} ${intern.lastName}`,
           percentIncrease: calc.percentIncrease,
         });
@@ -72,6 +78,33 @@ const Recommendations = () => {
     setGroupedInterns(grouped);
   };
 
+  const toggleSelectIntern = (internID) => {
+    if (selectedInterns.includes(internID)) {
+      // If already in interns, remove it
+      setSelectedInterns(selectedInterns.filter(id => id !== internID));
+    } else if (selectedLeaders.includes(internID)) {
+      // If already in leaders, remove it
+      setSelectedLeaders(selectedLeaders.filter(id => id !== internID));
+    } else {
+      // If not in either, default to intern
+      setSelectedInterns([...selectedInterns, internID]);
+    }
+  };
+  
+  const toggleLeader = (internID) => {
+    if (selectedLeaders.includes(internID)) {
+      // If already a leader, remove them
+      setSelectedLeaders(selectedLeaders.filter(id => id !== internID));
+      // Add them back to interns
+      setSelectedInterns([...selectedInterns, internID]);
+    } else {
+      // Remove from interns if becoming leader
+      setSelectedInterns(selectedInterns.filter(id => id !== internID));
+      // Add to leaders
+      setSelectedLeaders([...selectedLeaders, internID]);
+    }
+  };
+
   const toggleOrder = () => {
     const newOrder = !isAscending; // Toggle state
     setIsAscending(newOrder);
@@ -79,6 +112,55 @@ const Recommendations = () => {
     // Increment animationKey to trigger re-render and re-animation
     setAnimationKey((prevKey) => prevKey + 1);
   };
+
+  const submitInterns = async () => {
+    try {
+      const queryParams = new URLSearchParams(location.search);
+      const projectID = queryParams.get("projectID");
+
+      if (!selectedInterns.length && !selectedLeaders.length) {
+        alert("No interns or leaders selected!");
+        return;
+      }
+
+      const payload = [
+        ...selectedInterns.map((internID) => ({
+          internID,
+          projectID,
+          role: "Intern",
+        })),
+        ...selectedLeaders.map((internID) => ({
+          internID,
+          projectID,
+          role: "Leader",
+        })),
+      ];
+
+      console.log("Submitting Interns & Leaders:", payload);
+
+      const response = await fetch("http://localhost:3360/assignIntern", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        alert("Interns assigned successfully!");
+        setSelectedInterns([]); // Clear selected interns after submitting
+        setSelectedLeaders([]); // Clear selected leaders after submitting
+        navigate("/");
+      } else {
+        const errorText = await response.text();
+        console.error("Failed to assign interns/leaders:", errorText);
+        alert("Failed to assign interns/leaders.");
+      }
+    } catch (error) {
+      console.error("Error assigning interns/leaders:", error);
+    }
+  };
+  
 
   const toolNames = {
     0: "Frontend",
@@ -155,15 +237,20 @@ const Recommendations = () => {
             <div className="tablet-rows">
               <div className="row-tablets">
                 {groupedInterns[tool.toolID]?.map((intern, idx) => (
-                  <div 
-                  key={`${animationKey}-${idx}`}
-                    className="tablet"
-                    style={{ 
-                      background: isAscending
-                      ? getBackgroundGradientForLeaders(intern.percentIncrease)
-                      : getBackgroundGradient(intern.percentIncrease),
-                      animationDelay: `${idx * 0.05}s`, // Stagger animations
-                     }}
+                  <div
+                    key={`${animationKey}-${idx}`}
+                      className={`tablet ${
+        selectedInterns.includes(intern.internID)
+          ? "selected"
+          : selectedLeaders.includes(intern.internID)
+          ? "leader-selected"
+          : ""
+      }`}
+                      style={{
+                        background: isAscending
+                          ? getBackgroundGradientForLeaders(intern.percentIncrease)
+                          : getBackgroundGradient(intern.percentIncrease),
+                      }}
                   >
                     <div className="tablet-name">{intern.name}</div>
                     <div className="tablet-percent">
@@ -172,7 +259,12 @@ const Recommendations = () => {
                           : `${(intern.percentIncrease)}%` // Convert signs for optimized learning view
                         }
                       </div>
-                    <button className="assign-button">Assign</button>
+                      <button className="assign-button" onClick={() => toggleSelectIntern(intern.internID)}>
+                        {selectedInterns.includes(intern.internID) ? "Intern ✔" : "Assign"}
+                      </button>
+                      <button className="leader-button" onClick={() => toggleLeader(intern.internID)}>
+                        {selectedLeaders.includes(intern.internID) ? "Leader ⭐" : "Make Leader"}
+                      </button>
                   </div>
                 ))}
               </div>
@@ -194,7 +286,7 @@ const Recommendations = () => {
           <p>Toggle to Potential Leaders</p>
         </div>
         <div className="submit-button">
-          <button className="submit">Submit</button>
+          <button className="submit" onClick={submitInterns}>Submit</button>
         </div>
       </div>
     </div>

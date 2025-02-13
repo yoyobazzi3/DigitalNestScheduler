@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ProjectInfoPage.css';
 import NavBar from '../components/Navbar/NavBar';
+import returnArrow from '../assets/returnArrow.svg';
 
 const ProjectInfoPage = () => {
   const { projectID } = useParams(); // Extract projectID from the URL
@@ -67,9 +68,13 @@ const ProjectInfoPage = () => {
 
   return (
     <div className="containerDisplayCompleteInfo">
-      <NavBar />
+        <NavBar />
+      
       <div className="project-info">
         <div className="projectInfoWrapper">
+        <button className='returnToProjects' onClick={() => navigate('/')}>
+          <img className='returnArrow' src={returnArrow} alt='returnToProjects'/>
+        </button>
         <div className='projectDisplayContainer'>
           <h1>{project.projectTitle}</h1>
           <div className="toolContainer">
@@ -97,13 +102,33 @@ const ProjectInfoPage = () => {
           <div className="assignedInternContainer">
             <h2>Assigned Interns</h2>
             <div className="assignedInternNames">
-
+              {project.assignedInterns && project.assignedInterns.length > 0 ? (
+                project.assignedInterns
+                  .filter(intern => intern.role === "Intern")
+                  .map((intern, index) => (
+                    <div key={index} className="assignedIntern">
+                      <p>{`${intern.firstName} ${intern.lastName}`}</p>
+                    </div>
+                  ))
+              ) : (
+                <p>No interns assigned to this project.</p>
+              )}
             </div>
           </div>
           <div className="assignedLeaderContainer">
-            <h2>Assigned Leaders</h2>
+          <h2>Assigned Leaders</h2>
             <div className="assignedLeaderNames">
-              
+              {project.assignedInterns && project.assignedInterns.length > 0 ? (
+                project.assignedInterns
+                  .filter(intern => intern.role === "Leader") // Filter only leaders
+                  .map((leader, index) => (
+                    <div key={index} className="assignedLeader">
+                      <p>{`${leader.firstName} ${leader.lastName}`}</p>
+                    </div>
+                  ))
+              ) : (
+                <p>No leaders assigned to this project.</p>
+              )}
             </div>
           </div>
         </div>
@@ -114,9 +139,6 @@ const ProjectInfoPage = () => {
           <button className='completeProject'>
             Mark Complete
           </button>
-          <button className='backToProjects' onClick={()=>navigate('/')}>
-          Return to Projects
-        </button>
         </div>
       </div>
     </div>
