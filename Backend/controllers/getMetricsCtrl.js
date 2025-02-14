@@ -99,6 +99,91 @@ const getMetricsCtrl = {
       res.status(500).json({ message: 'Error fetching department metrics' });
     }
   },
+  // TODO: Create Monthly growth metrics endpoint
+  monthlyGrowth: async (req, res) => {
+    try {
+      // Get monthly skill growth
+      const growthQuery = `
+        SELECT 
+            DATE_FORMAT(changeDate, '%Y-%m') AS monthYear,
+            SUM(skillIncrease) AS totalGrowth
+        FROM 
+            bizznestflow2.skillHistory
+        GROUP BY 
+            monthYear
+        ORDER BY 
+            monthYear ASC;
+      `;
+
+      const [growthResults] = await promisePool.execute(growthQuery);
+
+      // Get total initial skill level sum
+      const initialSkillQuery = `
+        SELECT COALESCE(SUM(initialSkillLevel), 0) AS totalInitialSkill
+        FROM bizznestflow2.initialSkills;
+      `;
+
+      const [initialSkillResult] = await promisePool.execute(initialSkillQuery);
+      const totalInitialSkill = parseFloat(initialSkillResult[0].totalInitialSkill);
+
+      // Compute cumulative program growth and percent growth
+      let cumulativeGrowth = 0;
+      const monthlyMetrics = growthResults.map(row => {
+        cumulativeGrowth += parseFloat(row.totalGrowth); // Add current month's growth
+
+        const percentGrowth = totalInitialSkill > 0
+          ? (cumulativeGrowth / totalInitialSkill) * 100
+          : 0;
+
+        return {
+          month: row.monthYear,
+          programGrowth: parseFloat(cumulativeGrowth.toFixed(2)),
+          percentGrowth: parseFloat(percentGrowth.toFixed(2))
+        };
+      });
+
+      res.status(200).json({ monthlyMetrics });
+
+    } catch (error) {
+      console.error('Error fetching monthly growth metrics:', error.message);
+      res.status(500).json({ message: 'Error fetching monthly growth metrics' });
+    }
+  },
+  workloads: async (req, res) => {
+      try {
+        // query to go through intern projects and return each intern and how many projects they are associated with
+        const query = `
+            SELECT
+                i.InternID,
+                i.firstName,
+                i.lastName,
+                i.departmentID,
+                COUNT(ip.projectID) AS activeProjects
+            FROM
+                bizznestflow2.interns i
+            LEFT JOIN
+                bizznestflow2.internProjects ip ON i.InternID = ip.InternID AND ip.status = 'In-Progress'
+            GROUP BY
+                i.InternID, i.firstName, i.lastName, i.departmentID
+            ORDER BY
+                activeProjects DESC;
+        `;
+
+        const [results] = await promisePool.execute(query);
+        const internWorkloads = results.map(row => ({
+            InternID: row.InternID,
+            firstName: row.firstName,
+            lastName: row.lastName,
+            departmentID: row.departmentID,
+            activeProjects: row.activeProjects
+        }));
+
+        res.status(200).json({ internWorkloads });
+      } catch (error) {
+          console.error('Error fetching interns project workloads:', error.message);
+          res.status(500).json({ message: 'Error fetching intern project workloads' });
+      }
+  },
 };
 
 export default getMetricsCtrl;

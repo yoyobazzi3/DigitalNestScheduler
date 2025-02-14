@@ -18,6 +18,7 @@ import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
 import getCompletedProjectsCtrl from '../controllers/getCompletedProjectsCtrl.js';
 import restoreProjectCtrl from '../controllers/restoreProjectCtrl.js';
 
+
 const routes = (app) => {
     app.route('/basePage')
     .get(baseCtrl.basePage);
@@ -34,14 +35,20 @@ const routes = (app) => {
     app.route('/getCompletedProjects')
     .get(getCompletedProjectsCtrl.getCompletedProjects);
 
-    app.route('/overallGrowth')
-    .get(getMetricsCtrl.overallGrowth)
-
     app.route('/assignIntern')
     .post(assignInternCtrl.assignInternToProject);
 
+    app.route('/overallGrowth')
+    .get(getMetricsCtrl.overallGrowth)
+
     app.route('/departmentGrowth')
     .get(getMetricsCtrl.departmentGrowth)
+
+    app.route('/monthlyGrowth')
+    .get(getMetricsCtrl.monthlyGrowth);
+
+    app.route("/internWorkloads")
+    .get(getMetricsCtrl.workloads);
 
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
