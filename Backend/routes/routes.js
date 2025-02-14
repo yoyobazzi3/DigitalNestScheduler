@@ -16,7 +16,7 @@ import assignInternCtrl from '../controllers/assignInternCtrl.js';
 import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
 import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
 import getCompletedProjectsCtrl from '../controllers/getCompletedProjectsCtrl.js';
-
+import restoreProjectCtrl from '../controllers/restoreProjectCtrl.js';
 
 const routes = (app) => {
     app.route('/basePage')
@@ -81,6 +81,9 @@ const routes = (app) => {
    
    app.route('/internGrowth/:internID')
    .get(internGrowthCtrl.getInternGrowth);
+
+   app.route('/restoreProject/:projectID')
+   .put(restoreProjectCtrl.restoreProject);
 };
 
 export default routes;

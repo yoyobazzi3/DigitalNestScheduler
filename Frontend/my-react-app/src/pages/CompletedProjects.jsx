@@ -21,7 +21,21 @@ const CompletedProjects = () => {
 
         fetchProjects();
     }, []);
-
+        const handleReactivate = async (projectID) => {
+        try {
+            const response = await fetch(`http://localhost:3360/restoreProject/${projectID}`, {
+                method: 'PUT',
+            });
+            if (response.ok) {
+                const updatedProjects = projects.filter((project) => project.projectID !== projectID);
+                setProjects(updatedProjects);
+            } else {
+                console.error('Failed to reactivate project');
+            }
+        } catch (error) {
+            console.error('Error reactivating project:', error);
+        }
+    }
     return (
         <div className='completedProjectsWrapper'>
             <h1>Completed Projects</h1>
@@ -29,7 +43,7 @@ const CompletedProjects = () => {
                 {projects.map((project) => (
                     <div className='compProjectDiv' key={project.projectID}>
                         <h2>{project.projectTitle}</h2>
-                        <button className='Reactivate'>Reactivate</button>
+                        <button className='Reactivate' onClick={() => handleReactivate(project.projectID)}>Reactivate</button>
                     </div>
                 ))}
             </div>

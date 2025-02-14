@@ -26,3 +26,10 @@
     color: white;
     font-weight: bold;
 }
+
+.Reactivate:hover{
+    background: linear-gradient(to right, #f679b5, #c333fd, #ef2bd2);
+    transform: scale(1.1);
+    transition: transform 0.5s;
+    cursor: pointer;
+}
