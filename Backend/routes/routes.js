@@ -16,7 +16,6 @@ import assignInternCtrl from '../controllers/assignInternCtrl.js';
 import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
 import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
 
-
 const routes = (app) => {
     app.route('/basePage')
     .get(baseCtrl.basePage);
@@ -38,6 +37,9 @@ const routes = (app) => {
 
     app.route('/departmentGrowth')
     .get(getMetricsCtrl.departmentGrowth)
+
+    app.route('/monthlyGrowth')
+    .get(getMetricsCtrl.monthlyGrowth)
 
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
