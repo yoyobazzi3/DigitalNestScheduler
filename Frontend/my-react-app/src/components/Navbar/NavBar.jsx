@@ -76,6 +76,11 @@ const NavBar = () => {
                 Interns
               </Link>
             </li>
+            <li>
+              <Link to="/CompletedProjects" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                Completed Projects
+              </Link>
+            </li>
           </ul>
         )}
         {/* {isMenuOpen && (
