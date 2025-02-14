@@ -99,6 +99,56 @@ const getMetricsCtrl = {
       res.status(500).json({ message: 'Error fetching department metrics' });
     }
   },
+  // TODO: Create Monthly growth metrics endpoint
+  monthlyGrowth: async (req, res) => {
+    try {
+      // Get monthly skill growth
+      const growthQuery = `
+        SELECT 
+            DATE_FORMAT(changeDate, '%Y-%m') AS monthYear,
+            SUM(skillIncrease) AS totalGrowth
+        FROM 
+            bizznestflow2.skillHistory
+        GROUP BY 
+            monthYear
+        ORDER BY 
+            monthYear ASC;
+      `;
+
+      const [growthResults] = await promisePool.execute(growthQuery);
+
+      // Get total initial skill level sum
+      const initialSkillQuery = `
+        SELECT COALESCE(SUM(initialSkillLevel), 0) AS totalInitialSkill
+        FROM bizznestflow2.initialSkills;
+      `;
+
+      const [initialSkillResult] = await promisePool.execute(initialSkillQuery);
+      const totalInitialSkill = parseFloat(initialSkillResult[0].totalInitialSkill);
+
+      // Compute cumulative program growth and percent growth
+      let cumulativeGrowth = 0;
+      const monthlyMetrics = growthResults.map(row => {
+        cumulativeGrowth += parseFloat(row.totalGrowth); // Add current month's growth
+
+        const percentGrowth = totalInitialSkill > 0
+          ? (cumulativeGrowth / totalInitialSkill) * 100
+          : 0;
+
+        return {
+          month: row.monthYear,
+          programGrowth: parseFloat(cumulativeGrowth.toFixed(2)),
+          percentGrowth: parseFloat(percentGrowth.toFixed(2))
+        };
+      });
+
+      res.status(200).json({ monthlyMetrics });
+
+    } catch (error) {
+      console.error('Error fetching monthly growth metrics:', error.message);
+      res.status(500).json({ message: 'Error fetching monthly growth metrics' });
+    }
+  },
 };
 
 export default getMetricsCtrl;
