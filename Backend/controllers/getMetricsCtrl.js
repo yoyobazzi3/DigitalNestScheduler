@@ -149,6 +149,41 @@ const getMetricsCtrl = {
       res.status(500).json({ message: 'Error fetching monthly growth metrics' });
     }
   },
+  workloads: async (req, res) => {
+      try {
+        // query to go through intern projects and return each intern and how many projects they are associated with
+        const query = `
+            SELECT
+                i.InternID,
+                i.firstName,
+                i.lastName,
+                i.departmentID,
+                COUNT(ip.projectID) AS activeProjects
+            FROM
+                bizznestflow2.interns i
+            LEFT JOIN
+                bizznestflow2.internProjects ip ON i.InternID = ip.InternID AND ip.status = 'In-Progress'
+            GROUP BY
+                i.InternID, i.firstName, i.lastName, i.departmentID
+            ORDER BY
+                activeProjects DESC;
+        `;
+
+        const [results] = await promisePool.execute(query);
+        const internWorkloads = results.map(row => ({
+            InternID: row.InternID,
+            firstName: row.firstName,
+            lastName: row.lastName,
+            departmentID: row.departmentID,
+            activeProjects: row.activeProjects
+        }));
+
+        res.status(200).json({ internWorkloads });
+      } catch (error) {
+          console.error('Error fetching interns project workloads:', error.message);
+          res.status(500).json({ message: 'Error fetching intern project workloads' });
+      }
+  },
 };
 
 export default getMetricsCtrl;
