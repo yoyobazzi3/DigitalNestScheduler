@@ -11,7 +11,8 @@ const getProjectCtrl = {
           p.projectID, 
           p.projectTitle, 
           p.projectDescription, 
-          p.departmentID, 
+          p.departmentID,
+          p.status,  -- Include project status
 
           -- Group tools separately
           COALESCE(
@@ -19,9 +20,11 @@ const getProjectCtrl = {
               JSON_OBJECT('toolID', pt.toolID, 'difficulty', pt.difficulty)
             ) 
             FROM bizznestflow2.projectTools pt 
-            WHERE pt.projectID = p.projectID), '[]') AS tools
+            WHERE pt.projectID = p.projectID), '[]'
+          ) AS tools
 
-        FROM bizznestflow2.projects p;
+        FROM bizznestflow2.projects p
+        WHERE p.status != 'Completed';  -- 🔥 Exclude completed projects
       `;
 
       const [result] = await promisePool.execute(query);
@@ -31,6 +34,7 @@ const getProjectCtrl = {
         projectTitle: project.projectTitle,
         projectDescription: project.projectDescription,
         departmentID: project.departmentID,
+        status: project.status,
         tools: typeof project.tools === "string" ? JSON.parse(project.tools) : [] // Ensure proper parsing
       })));
 
@@ -94,6 +98,7 @@ const getProjectCtrl = {
         projectTitle: result[0].projectTitle,
         projectDescription: result[0].projectDescription,
         departmentID: result[0].departmentID,
+        status: result[0].status,
         tools: typeof result[0].tools === "string" ? JSON.parse(result[0].tools) : [],
         assignedInterns: typeof result[0].assignedInterns === "string" ? JSON.parse(result[0].assignedInterns) : []
       };

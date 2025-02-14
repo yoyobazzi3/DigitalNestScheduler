@@ -12,6 +12,7 @@ import LoginSignup from './pages/LoginSignup';
 import Thankyou from './pages/Thankyou';
 import EditIntern from './pages/editIntern';
 import InternGrowthPage from './pages/internGrowthPage';
+import CompletedProjects from './pages/CompletedProjects';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
         <Route path="/intern-signup" element={ <ProtectedRoute> <InternSignup /> </ProtectedRoute> }/>
         <Route path="/editIntern/:internID" element={ <ProtectedRoute><EditIntern/></ProtectedRoute>}/>
         <Route path="/internGrowth/:internID" element={ <ProtectedRoute><InternGrowthPage/></ProtectedRoute>}/>
+        <Route path="/CompletedProjects" element={ <ProtectedRoute><CompletedProjects/></ProtectedRoute>}/>
       </Routes>
     </Router>
   );

@@ -15,6 +15,7 @@ import getMetricsCtrl from '../controllers/getMetricsCtrl.js';
 import assignInternCtrl from '../controllers/assignInternCtrl.js';
 import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
 import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
+import getCompletedProjectsCtrl from '../controllers/getCompletedProjectsCtrl.js';
 
 
 const routes = (app) => {
@@ -29,6 +30,9 @@ const routes = (app) => {
 
     app.route('/getProjects') 
     .get(getProjectCtrl.getProjects)
+
+    app.route('/getCompletedProjects')
+    .get(getCompletedProjectsCtrl.getCompletedProjects);
 
     app.route('/overallGrowth')
     .get(getMetricsCtrl.overallGrowth)
