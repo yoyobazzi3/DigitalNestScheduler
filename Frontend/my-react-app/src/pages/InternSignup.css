@@ -75,6 +75,10 @@
     align-self: center;
   }
 
+  .profile-upload-container img{
+    height: 200px;
+  }
+
   .internWaves{
     background-image: url('../assets/waves.png');
     width: 100%;

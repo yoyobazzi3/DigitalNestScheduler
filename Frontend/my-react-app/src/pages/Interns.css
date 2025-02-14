@@ -174,6 +174,13 @@
   filter: brightness(0) invert(1); /* Makes the image white */
 }
 
+.profile-pic {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .content {
