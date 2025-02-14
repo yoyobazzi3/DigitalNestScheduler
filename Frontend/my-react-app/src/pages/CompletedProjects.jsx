@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './CompletedProjects.css';
 
 const CompletedProjects = () => {
     const [projects, setProjects] = useState([]);
@@ -22,14 +23,16 @@ const CompletedProjects = () => {
     }, []);
 
     return (
-        <div>
+        <div className='completedProjectsWrapper'>
             <h1>Completed Projects</h1>
-            {projects.map((project) => (
-                <div key={project.projectID}>
-                    <h2>{project.projectTitle}</h2>
-                    <p>{project.projectDescription}</p>
-                </div>
-            ))}
+            <div className="completedProjectContainer">
+                {projects.map((project) => (
+                    <div className='compProjectDiv' key={project.projectID}>
+                        <h2>{project.projectTitle}</h2>
+                        <button className='Reactivate'>Reactivate</button>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 }

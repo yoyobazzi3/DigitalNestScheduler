@@ -1,0 +1,28 @@
+.compProjectDiv{
+    background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
+    text-align: center;
+    padding: 20px;
+    height: 15vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;   
+    border-radius: 25px;
+}
+
+.completedProjectContainer{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; /* Space between grid items */
+    padding: 10px;
+}
+
+.Reactivate{
+    background: linear-gradient(to right, #ef2bd2, #f679b5, #c333fd);
+    border: none;
+    padding: 4%;
+    border-radius: 50px;
+    width: 10vw;
+    color: white;
+    font-weight: bold;
+}
