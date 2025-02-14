@@ -13,6 +13,7 @@ const InternSignup = () => {
     confirmPassword: '',
     DepartmentID: '',
     location: '',
+    profilePic: null,
   });
 
   const navigate = useNavigate();
@@ -27,10 +28,10 @@ const InternSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { firstName, lastName, email, password, confirmPassword, DepartmentID, location } = formData;
+    const { firstName, lastName, email, password, confirmPassword, DepartmentID, location, profilePic } = formData;
 
     // Frontend validation
-    if (!firstName || !lastName || !email || !password || !confirmPassword || !DepartmentID || !location) {
+    if (!firstName || !lastName || !email || !password || !confirmPassword || !DepartmentID || !location, !profilePic) {
       alert('All fields are required');
       return;
     }
@@ -58,6 +59,7 @@ const InternSignup = () => {
         password,
         DepartmentID,
         location,
+        profilePic,
       });
 
       alert(response.data.message);
@@ -135,6 +137,8 @@ const InternSignup = () => {
           <option value="Stockton">Stockton</option>
           <option value="Modesto">Modesto</option>
         </select>
+        <input type="file" name="profilePic" accept="image/*" onChange={handleChange} className="internProfilePicUpload"/>
+
         <button className='internSignupBttn' type="submit">Signup</button>
       </form>
       <div className='internCircle'/>

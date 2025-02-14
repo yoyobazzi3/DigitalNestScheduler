@@ -161,24 +161,28 @@ const Interns = () => {
 
                         <h2>Interns:</h2>
                         <div className="intern-container">
-                            <ul>
-                                {filteredInterns.map((intern) => (
-                                    <li 
-                                        key={intern.InternID} 
-                                        onClick={() => handleSelectIntern(intern.InternID)}
-                                        className={selectedInterns.includes(intern.InternID) ? "selected" : ""}
-                                    >
-                                        <img src={profile} alt="profile" className="profile" />
-                                        <span className="name">
-                                            {intern.firstName} {intern.lastName}
-                                        </span>
-                                        <div className="icon-container">
-                                            <img src={edit} alt="edit" className="edit" onClick={(e) => { e.stopPropagation(); navigate(`/editIntern/${intern.InternID}`); }} />
-                                            <img src={del} alt="delete" className="delete" onClick={(e) => { e.stopPropagation(); confirmDelete(intern.InternID, "single"); }} />
-                                        </div>
-                                    </li>
-                                ))}
-                            </ul>
+                        <ul>
+  {filteredInterns.map((intern) => (
+    <li 
+      key={intern.InternID} 
+      onClick={() => handleSelectIntern(intern.InternID)}
+      className={selectedInterns.includes(intern.InternID) ? "selected" : ""}
+    >
+      <img 
+  src={intern.profilePic ? intern.profilePic : profile} 
+  alt="" 
+  className="profile-pic" 
+/>
+      <span className="name">
+        {intern.firstName} {intern.lastName}
+      </span>
+      <div className="icon-container">
+        <img src={edit} alt="edit" className="edit" onClick={(e) => { e.stopPropagation(); navigate(`/editIntern/${intern.InternID}`); }} />
+        <img src={del} alt="delete" className="delete" onClick={(e) => { e.stopPropagation(); confirmDelete(intern.InternID, "single"); }} />
+      </div>
+    </li>
+  ))}
+</ul>
                         </div>
                     </div>
                 </div>
