@@ -119,7 +119,7 @@ const InternSignup = () => {
           </>
         )}
       </form>
-      <div className="internCircle" />
+      {/*<div className="internCircle" />*/}
     </div>
   );
 };
