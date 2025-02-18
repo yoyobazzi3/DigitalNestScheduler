@@ -184,6 +184,17 @@ const getMetricsCtrl = {
           res.status(500).json({ message: 'Error fetching intern project workloads' });
       }
   },
+  projectSummaries: async (req, res) => {
+    try {
+        // TODO:
+        // Write your query
+        // Aggregate the data
+    } catch (error) {
+      console.error("Failed to fetch project summaries", error.message);
+      res.status(500).json({ message: 'Error fetching project summaries ' });
+    }
+  }
+
 };
 
 export default getMetricsCtrl;
