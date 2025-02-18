@@ -1,5 +1,6 @@
 import promisePool from '../config/database.js';
 
+
 const recommendationsCtrl = {
   getRecommendations: async (req, res) => {
     try {
