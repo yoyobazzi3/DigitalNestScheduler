@@ -196,7 +196,7 @@ const LoginSignup = () => {
         )}
       </div>
       {/* Updated Circle */}
-      <div className={`Circle ${isLogin ? 'login' : 'signup'}`} />
+      {/* <div className={`Circle ${isLogin ? 'login' : 'signup'}`} /> */}
     </div>
   </div>
   );
