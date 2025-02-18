@@ -102,9 +102,9 @@
   }
 
 @media (max-width: 768px) {
-  .internSignupWrapper{
-    height: 90vh;
-  }
+    .internSignupWrapper{
+      height: 90vh;
+    }
 
     .Intern-signup-form {
       width: 70%;
