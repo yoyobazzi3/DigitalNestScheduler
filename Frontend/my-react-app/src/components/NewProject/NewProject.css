@@ -117,6 +117,7 @@ h4 {
     select{
         width: 200px;
         box-sizing: border-box;
+        text-align: center;
     }
     input[type="number"] {
       box-sizing:border-box;
