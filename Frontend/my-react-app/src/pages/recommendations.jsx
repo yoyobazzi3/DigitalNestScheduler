@@ -283,7 +283,7 @@ const Recommendations = () => {
             />
             <span className="slider round"></span>
           </label>
-          <p>Toggle to Potential Leaders</p>
+          <p>Toggle For Potential Leaders</p>
         </div>
         <div className="submit-button">
           <button className="submit" onClick={submitInterns}>Submit</button>
