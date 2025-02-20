@@ -186,15 +186,50 @@ const getMetricsCtrl = {
   },
   projectSummaries: async (req, res) => {
     try {
-        // TODO:
-        // Write your query
-        // Aggregate the data
+      const query = `
+        SELECT 
+            p.projectID,
+            p.projectTitle,
+            p.departmentID,
+            p.status,
+            COALESCE(SUM(CASE WHEN pg.absoluteGrowth > 0 THEN pg.absoluteGrowth ELSE 0 END), 0) AS totalAbsoluteGrowth,
+            COALESCE(SUM(s.skillLevel), 0) AS totalSkillLevel
+        FROM 
+            bizznestflow2.projects p
+        LEFT JOIN 
+            bizznestflow2.projectedGrowth pg ON p.projectID = pg.projectID
+        LEFT JOIN 
+            bizznestflow2.skills s ON pg.InternID = s.InternID
+        WHERE 
+            p.status = 'In-Progress'
+        GROUP BY 
+            p.projectID, p.projectTitle, p.departmentID, p.status;
+      `;
+
+      const [results] = await promisePool.execute(query);
+
+      // Process and compute projected growth
+      const projectSummaries = results.map(row => {
+        const projectedGrowth = row.totalSkillLevel > 0 
+          ? parseFloat(((row.totalAbsoluteGrowth / row.totalSkillLevel) * 100).toFixed(2))
+          : 0;
+
+        return {
+          projectID: row.projectID,
+          projectTitle: row.projectTitle,
+          departmentID: row.departmentID,
+          status: row.status,
+          projectedGrowth
+        };
+      });
+
+      res.status(200).json({ projectSummaries });
+
     } catch (error) {
       console.error("Failed to fetch project summaries", error.message);
       res.status(500).json({ message: 'Error fetching project summaries ' });
     }
-  }
-
+  },
 };
 
 export default getMetricsCtrl;
