@@ -50,6 +50,9 @@ const routes = (app) => {
     app.route("/internWorkloads")
     .get(getMetricsCtrl.workloads);
 
+    app.route("/projectSummaries")
+    .get(getMetricsCtrl.projectSummaries);
+
     app.route('/getProject/:projectID') // Fetch a single project by ID
     .get(getProjectCtrl.getProject);
 
