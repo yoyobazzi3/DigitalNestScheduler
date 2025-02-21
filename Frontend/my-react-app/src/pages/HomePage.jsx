@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import NavBar from '../components/Navbar/NavBar.jsx';
 import Projects from '../components/Projects/Projects.jsx';
-import Carousel from '../components/Carousel/ImgCarousel.jsx';
+import Metrics from '../components/Metrics/Metrics.jsx';
 import NewProject from '../components/NewProject/NewProject.jsx';
 import './HomePage.css';
 
@@ -27,23 +27,22 @@ const HomePage = () => {
     <div className="nav-container">
       <NavBar setIsMenuOpen={setIsMenuOpen} isMenuOpen={isMenuOpen} />
     <div className="homepage-container">
-      <header>
-        <h1 className="homepage-title">BizzNest Flow</h1>
-      </header>
       <div className="content-container">
-        {/* Left Section */}
+        <div className="top-section">
+        {/* Projects Section - Top */}
         <Projects />
-        {/* Right Section */}
+        <button
+              className="create-project-button"
+              onClick={() => setShowNewProject(true)}>
+              New Project
+          </button>
+          </div>
+        {/* Dynamic component - Metrics / NewProject */}
         <div className="right-section">
           <div className="dynamic-component">
           {/* Conditionally render components */}
-          {showNewProject ? <NewProject /> : <Carousel />}
+          {showNewProject ? <NewProject /> : <Metrics />}
           </div>
-          <button
-              className="create-project-button"
-              onClick={() => setShowNewProject(true)}>
-              Create Project
-          </button>
         </div>
       </div>
     </div>

@@ -5,21 +5,27 @@
 } */
 .navbar {
   display: flex;
-  justify-content: end;
-  padding: 10px 20px;
+  justify-content: space-between; /* Ensure logo is on the left, menu on the right */
+  align-items: center;
+  padding: 0 20px 0px 20px;
   background-color: #191919;
+  border-bottom: 1px solid white;
+}
+
+#logo h1 {
+  font-weight: 150;
+  font-size: 40px;
+  margin: 10px;
+  padding: 10px;
 }
 
 
-
 .menu-items {
-  display: none;
-  flex-direction: row; /* Show items in a row */
-  gap: 20px; /* Add spacing between items */
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
   background-color: transparent;
   padding: 0;
-  transition: opacity 0.3s ease, display 0.3s ease;
-  
 }
 
 .menu-items.row {
