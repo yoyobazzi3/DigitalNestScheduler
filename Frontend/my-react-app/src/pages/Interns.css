@@ -1,16 +1,32 @@
-.big-container{
+/* Prevent scrolling on the entire page */
+html, body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fullscreen background */
+.big-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  overflow: hidden; /* Prevent scrolling */
   background: #191919;
 }
 
+/* Add padding at the top to push everything downward */
 .container {
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 20px;
-  height: 100vh;
+  padding: 70px 20px 20px; /* Added 40px padding at the top */
+  height: 100vh; /* Full screen height */
   background-color: #191919;
+  overflow: hidden; /* Prevent scrolling */
 }
 
+/* The content should fill the space without overflowing */
 .content {
   display: flex;
   flex-direction: row;
@@ -19,12 +35,33 @@
   gap: 30px;
   width: 90%;
   max-width: 1200px;
+  flex-grow: 1;
+  overflow: hidden; /* Prevent scrolling */
+  padding-top: 20px; /* Push content slightly downward */
 }
 
+/* Allow only the intern list to scroll */
+.intern-container {
+  flex-grow: 1;
+  overflow-y: auto; /* Enables scrolling inside the intern list */
+  width: 100%; /* Ensure it spans full width */
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  max-height: calc(100vh - 200px); /* Adjust based on layout */
+}
+
+/* Prevents filtering and buttons from shrinking */
+.filtering-wrapper, .select-buttons {
+  flex-shrink: 0;
+}
+
+/* Styling for the filtering and search */
 .search-bar-wrapper {
   margin-bottom: 50px;
 }
 
+/* Interns list wrapper */
 .interns-wrapper {
   flex: 2;
   padding: 20px;
@@ -38,6 +75,7 @@
   position: relative;
 }
 
+/* Interns list title */
 .interns-wrapper h2 {
   margin-bottom: 10px;
   color: white;
@@ -45,6 +83,7 @@
   text-align: center;
 }
 
+/* Select and delete buttons */
 .select-buttons {
   position: absolute;
   top: 10px;
@@ -82,7 +121,7 @@
 }
 
 .delete-selected-btn {
-  background: linear-gradient(to right,rgb(174, 40, 40), #d35555,rgb(174, 40, 40));
+  background: linear-gradient(to right, rgb(174, 40, 40), #d35555, rgb(174, 40, 40));
   color: white;
   font-size: 16px;
   font-weight: bold;
@@ -96,15 +135,8 @@
 .delete-selected-btn:hover {
   transform: scale(1.05);
 }
-.intern-container {
-  flex: 1;
-  overflow-y: auto; /* Scrollable list */
-  width: 100%; /* Ensure it spans full width */
-  display: flex;
-  justify-content: center; /* Centers ul inside */
-  padding: 0 10px;
-}
 
+/* List of interns */
 .interns-wrapper ul {
   display: flex;
   flex-direction: column;
@@ -115,6 +147,7 @@
   margin: 0;
 }
 
+/* Intern list items */
 .interns-wrapper ul li {
   display: flex;
   align-items: center;
@@ -148,6 +181,7 @@
   background: linear-gradient(to right, #43c6a1, #00bcd4, #25ffc1);
 }
 
+/* Profile images */
 .interns-wrapper ul li img.profile {
   height: 40px;
   width: 40px;
@@ -155,12 +189,14 @@
   filter: brightness(0) invert(1); /* Makes the image white */
 }
 
+/* Intern name */
 .interns-wrapper ul li span.name {
   flex: 1;
   text-align: center;
   color: white;
 }
 
+/* Icons */
 .interns-wrapper ul li .icon-container {
   display: flex;
   gap: 10px;
@@ -184,20 +220,20 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .content {
-    flex-direction: column; /* Stack filtering and interns list vertically */
-    align-items: center;
+      flex-direction: column; /* Stack filtering and interns list vertically */
+      align-items: center;
   }
 
   .filtering-wrapper {
-    max-width: 100%;
-    margin-bottom: 20px; /* Add spacing below filtering box */
+      max-width: 100%;
+      margin-bottom: 20px; /* Add spacing below filtering box */
   }
 
   .interns-wrapper {
-    max-width: 100%;
+      max-width: 100%;
   }
 
   .interns-wrapper ul li {
-    width: 95%; /* Make list items wider for smaller screens */
+      width: 95%; /* Make list items wider for smaller screens */
   }
 }
