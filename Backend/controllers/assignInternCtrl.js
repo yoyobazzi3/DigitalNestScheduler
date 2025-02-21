@@ -54,13 +54,24 @@ const assignInternCtrl = {
           INSERT INTO bizznestflow2.projectedGrowth (InternID, projectID, toolID, absoluteGrowth, percentGrowth)
           VALUES ${calculations.map(() => "(?, ?, ?, ?, ?)").join(", ")}
           ON DUPLICATE KEY UPDATE 
-            absoluteGrowth = VALUES(absoluteGrowth), 
-            percentGrowth = VALUES(percentGrowth);
+            absoluteGrowth = CASE 
+              WHEN VALUES(percentGrowth) < 0 THEN 0 
+              ELSE VALUES(absoluteGrowth) 
+            END,  
+            percentGrowth = CASE 
+              WHEN VALUES(percentGrowth) < 0 THEN 0 
+              ELSE VALUES(percentGrowth) 
+            END;
         `;
 
-        const growthValues = calculations.flatMap(({ InternID, toolID, absoluteGrowth, percentGrowth }) => [
-          InternID, projectID, toolID, parseFloat(absoluteGrowth.toFixed(4)), parseFloat(percentGrowth.toFixed(2))
-        ]);
+        const growthValues = calculations.flatMap(({ InternID, toolID, absoluteGrowth, percentGrowth }) => {
+          const adjustedAbsoluteGrowth = percentGrowth < 0 ? 0 : Math.abs(parseFloat(absoluteGrowth)) || 0;
+          const adjustedPercentGrowth = Math.max(0, parseFloat(percentGrowth.toFixed(2))); // Ensure percentGrowth is at least 0
+        
+          console.log(`InternID: ${InternID}, ToolID: ${toolID}, AbsoluteGrowth: ${adjustedAbsoluteGrowth}, PercentGrowth: ${adjustedPercentGrowth}`);
+        
+          return [InternID, projectID, toolID, adjustedAbsoluteGrowth, adjustedPercentGrowth];
+        });                
 
         await promisePool.execute(insertGrowthQuery, growthValues);
       }

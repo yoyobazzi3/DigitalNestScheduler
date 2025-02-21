@@ -47,6 +47,30 @@ const completeProjectCtrl = {
 
             console.log("Intern Projects Update Result:", internsResult); // Debugging log
 
+            const checkMatchQuery = `
+                SELECT s.skillID, s.InternID, s.toolID, s.skillLevel, pg.absoluteGrowth 
+                FROM bizznestflow2.skills s
+                JOIN bizznestflow2.projectedGrowth pg 
+                    ON s.InternID = pg.InternID 
+                    AND s.toolID = pg.toolID
+                WHERE pg.projectID = ?;
+            `;
+
+            const [matchCheck] = await connection.execute(checkMatchQuery, [projectID]);
+
+            const updateSkillsQuery = `
+                UPDATE bizznestflow2.skills s
+                JOIN bizznestflow2.projectedGrowth pg 
+                    ON s.InternID = pg.InternID 
+                    AND s.toolID = pg.toolID
+                SET s.skillLevel = s.skillLevel + ABS(pg.absoluteGrowth)
+                WHERE pg.projectID = ? 
+                AND pg.absoluteGrowth IS NOT NULL 
+                AND pg.absoluteGrowth > 0;
+            `;
+
+            await connection.execute(updateSkillsQuery, [projectID]);
+
             // Commit the transaction
             await connection.commit();
             connection.release();
