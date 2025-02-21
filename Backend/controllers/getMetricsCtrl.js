@@ -187,7 +187,7 @@ const getMetricsCtrl = {
   projectSummaries: async (req, res) => {
     try {
       const query = `
-        SELECT 
+        SELECT
             p.projectID,
             p.projectTitle,
             p.departmentID,
