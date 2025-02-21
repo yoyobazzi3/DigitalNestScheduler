@@ -100,4 +100,23 @@
     bottom: 0;
     left: 0;
   }
+
+@media (max-width: 768px) {
+    .internSignupWrapper{
+      height: 90vh;
+    }
+
+    .Intern-signup-form {
+      width: 70%;
+      height: 70vh;
+    }
+
+    .Intern-signup-form input[type="email"]{
+      width: 90%;
+    }
+
+    .internSignupLogo{
+      width: 20vw;
+    }
+  }
   

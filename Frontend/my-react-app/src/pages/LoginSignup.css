@@ -194,7 +194,8 @@
   z-index: 10;
 }
 
-.Circle {
+/*This is a piece of code i dont think we need for now*/
+/*.Circle {
   position: absolute;
   width: 50%; 
   height: 50%; 
@@ -202,7 +203,7 @@
   background-size: contain;
   transition: all 0.5s ease-in-out; 
   z-index: 10;
-}
+}*/
 
 .Circle.login {
   background-image: url('../assets/LoginCircle.png'); 
@@ -223,3 +224,34 @@
   left: 0; 
 }
 
+@media (max-width: 768px) {
+  .LoginSignup{
+    width: 85%;
+  }
+  
+  .LoginSignupWrapper{
+    height: 90vh;
+  }
+
+  .LoginSignup-container{
+    width: 75%;
+    min-height: 35vh;
+  }
+
+  .nameContainer, .passwordContainer{
+    flex-direction: column;
+  }
+
+  .nameContainer input{
+    width: 104%;
+    height: 5.5vh;
+  }
+  .passwordContainer input{
+    width: 92%;
+    height: 5.5vh;
+  }
+  
+  .LoginSignup-form button{
+    width: 50%;
+  }
+}
