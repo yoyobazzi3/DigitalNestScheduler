@@ -17,7 +17,7 @@ import internGrowthCtrl from '../controllers/internGrowthCtrl.js';
 import completeProjectCtrl from '../controllers/completeProjectCtrl.js';
 import getCompletedProjectsCtrl from '../controllers/getCompletedProjectsCtrl.js';
 import restoreProjectCtrl from '../controllers/restoreProjectCtrl.js';
-
+import internMonthlyGrowthCtrl from '../controllers/internMonthlyGrowthCtrl.js';
 
 const routes = (app) => {
     app.route('/basePage')
@@ -94,6 +94,9 @@ const routes = (app) => {
 
    app.route('/restoreProject/:projectID')
    .put(restoreProjectCtrl.restoreProject);
+
+   app.route('/getMonthlyGrowth/:internID')
+   .get(internMonthlyGrowthCtrl.getMonthlyGrowth);
 };
 
 export default routes;

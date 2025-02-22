@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, LabelList } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, LabelList, LineChart, Line } from "recharts";
 import "./InternGrowthChart.css"; // Import CSS for styling
 
 // Mapping toolID to tool names
@@ -18,6 +18,7 @@ const toolMap = {
 const InternGrowthChart = () => {
     const { internID } = useParams();
     const [growthData, setGrowthData] = useState([]);
+    const [monthlyGrowthData, setMonthlyGrowthData] = useState([]);
     const [internName, setInternName] = useState("");
 
     useEffect(() => {
@@ -38,7 +39,7 @@ const InternGrowthChart = () => {
                 }
 
                 const data = await response.json();
-                console.log("Fetched Intern Data:", data); // Debugging log
+                console.log("Fetched Intern Data:", data);
 
                 if (data) {
                     setInternName(`${data.firstName} ${data.lastName}`);
@@ -50,7 +51,7 @@ const InternGrowthChart = () => {
             }
         };
 
-        // Fetch Growth Data
+        // Fetch Skill Growth Data (Bar Graph)
         const fetchGrowthData = async () => {
             try {
                 const response = await fetch(`http://localhost:3360/internGrowth/${internID}`);
@@ -71,8 +72,30 @@ const InternGrowthChart = () => {
             }
         };
 
+        // Fetch Monthly Growth Data (Line Graph)
+        const fetchMonthlyGrowthData = async () => {
+            try {
+                const response = await fetch(`http://localhost:3360/getMonthlyGrowth/${internID}`);
+                const data = await response.json();
+                console.log("Fetched Monthly Growth Data:", data);
+
+                if (data.success) {
+                    // Sort by year and month for correct display order
+                    const sortedData = data.data.sort((a, b) => 
+                        new Date(`${a.month} 1, ${a.year}`) - new Date(`${b.month} 1, ${b.year}`)
+                    );
+                    setMonthlyGrowthData(sortedData);
+                } else {
+                    console.error("Failed to fetch monthly growth data:", data.message);
+                }
+            } catch (error) {
+                console.error("Error fetching monthly growth:", error);
+            }
+        };
+
         fetchInternDetails();
         fetchGrowthData();
+        fetchMonthlyGrowthData();
     }, [internID]);
 
     if (!internID) {
@@ -86,12 +109,12 @@ const InternGrowthChart = () => {
             </h1>
 
             <div className="charts-wrapper">
-                {/* First Graph (Skill Growth) */}
+                {/* First Graph (Bar Chart - Skill Growth) */}
                 <div className="chart-container">
                     <h2>Skill Growth</h2>
                     <ResponsiveContainer width="100%" height={400}>
                         <BarChart data={growthData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                            <XAxis dataKey="toolName" angle={-30} textAnchor="end" />
+                            <XAxis dataKey="toolName" angle={0} textAnchor="end" />
                             <YAxis label={{ value: "Growth %", angle: -90, position: "insideLeft" }} />
                             <Tooltip />
                             <Legend />
@@ -102,19 +125,17 @@ const InternGrowthChart = () => {
                     </ResponsiveContainer>
                 </div>
 
-                {/* Second Graph (Current Skill Levels) */}
+                {/* Second Graph (Line Chart - Monthly Growth Over Time) */}
                 <div className="chart-container">
-                    <h2>Current Skill Levels</h2>
+                    <h2>Monthly Growth Over Time</h2>
                     <ResponsiveContainer width="100%" height={400}>
-                        <BarChart data={growthData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
-                            <XAxis dataKey="toolName" angle={-30} textAnchor="end" />
-                            <YAxis label={{ value: "Skill Level", angle: -90, position: "insideLeft" }} />
+                        <LineChart data={monthlyGrowthData} margin={{ top: 20, right: 30, left: 20, bottom: 50 }}>
+                            <XAxis dataKey="month" />
+                            <YAxis label={{ value: "Growth %", angle: -90, position: "insideLeft" }} />
                             <Tooltip />
                             <Legend />
-                            <Bar dataKey="currentSkillLevel" fill="#82ca9d" name="Current Skill Level">
-                                <LabelList dataKey="currentSkillLevel" position="top" />
-                            </Bar>
-                        </BarChart>
+                            <Line type="monotone" dataKey="growthPercentage" stroke="#ff7300" name="Monthly Growth %" />
+                        </LineChart>
                     </ResponsiveContainer>
                 </div>
             </div>
